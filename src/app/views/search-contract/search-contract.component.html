@@ -1,0 +1,26 @@
+<div id="modalCard">
+  <div id="modalContent">
+    <div class="modalTitle">
+      <h3>Contrato BBP - Pesquisar</h3>
+    </div>
+    <div id="modalSearch">
+      <table *ngIf="contractList.length > 0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Código</th>
+            <th>Nome</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contract of contractList" (click)="onRowClick(contract.bbP_id)" style="cursor: pointer;">
+            <td>{{ contract.bbP_id }}</td>
+            <td>{{ contract.cardCode }}</td>
+            <td>{{ contract.cardName }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <span *ngIf="contractList.length === 0">Aguarde...</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div id="modalCard">
+    <form id="formSearchContract" [formGroup]="formSearchContract" (ngSubmit)="onSubmit()">
+        <div id="modalContent">
+            <div class="modalTitle">
+                <h3>Contrato BBP - Pesquisar</h3>
+                <button id="closeModal" (click)="toCloseModal()">
+                    &times;
+                </button>
+            </div>
+            <div id="modalSearch">
+                <div class="searchField">
+                    <label for="searchContract">
+                        Pesquisar:
+                    </label>
+                    <input type="text" id="searchContract" autocomplete="off" placeholder="Insira o código do contrato"
+                        formControlName="cardCode">
+                </div>
+
+                <span *ngIf="errorMessage" class="error-message">{{ errorMessage }}</span>
+                <div class="btnSearchField">
+                    <button class="btn">Pesquisar</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<header>
+    <nav>
+        <div>
+            <img src="g2-logo-branco.png" alt="" srcset="">
+            <span id="bbpDigitalTitle">BBP Digital</span>
+        </div>
+        <div>
+            <button (click)="showSearch()" id="headerSearch">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <button id="logout" (click)="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span class="logout-text">Logout</span>
+            </button>
+        </div>
+    </nav>
+</header>

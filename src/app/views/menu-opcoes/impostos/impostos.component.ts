@@ -1,0 +1,226 @@
+import { infoBasica } from './../../../models/infobasica/infobasica.model';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
+import { MenuNavigationComponent } from '../../../components/menu-navigation/menu-navigation.component';
+import { CustomerFieldComponent } from '../../../components/customer-field/customer-field.component';
+import { HeaderComponent } from '../../../components/header/header.component';
+// Models
+import { Tip } from '../../../models/infobasica/tip.model';
+import { configuracao_Imposto_Retido_Fonte } from '../../../models/configuracao_Imposto_Retido_Fonte/configuracao_Imposto_Retido_Fonte.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { FormInfoService } from '../../../services/infobasica/form-info.service';
+
+@Component({
+  selector: 'app-impostos',
+  standalone: true,
+  imports: [MenuNavigationComponent, CustomerFieldComponent, HeaderComponent, FormsModule, NgFor, NgIf, ReactiveFormsModule],
+  templateUrl: './impostos.component.html',
+  styleUrl: './impostos.component.css'
+})
+export class ImpostosComponent implements OnInit {
+  isLoading: boolean = true;
+  formImpostos: FormGroup;
+  infoBasica: infoBasica[] = [];
+
+  constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
+    this.formImpostos = this.fb.group({
+      configuracao_Imposto_Retido_Fonteid: ['', Validators.required],
+      nome_imposto: ['', Validators.required],
+      categoria: ['', Validators.required],
+      taxa: 0,
+      tipo_basico: ['', Validators.required],
+      perc_valor_base: 0,
+      codigo_oficial: ['', Validators.required],
+      conta: ['', Validators.required],
+      tipo: ['', Validators.required],
+    });
+  }
+
+  rows: configuracao_Imposto_Retido_Fonte[] = [
+    {
+      configuracao_Imposto_Retido_Fonteid: '1',
+      nome_imposto: '',
+      categoria: '',
+      taxa: 0,
+      tipo_basico: '',
+      perc_valor_base: 0,
+      codigo_oficial: '',
+      conta: '',
+      tipo: '',
+      selected: false,
+    }
+  ];
+
+  nextId = 2;
+
+  addRow() {
+    const newRow: configuracao_Imposto_Retido_Fonte = {
+      configuracao_Imposto_Retido_Fonteid: String(this.nextId++),
+      nome_imposto: '',
+      categoria: '',
+      taxa: 0,
+      tipo_basico: '',
+      perc_valor_base: 0,
+      codigo_oficial: '',
+      conta: '',
+      tipo: '',
+      selected: false,
+    };
+    this.rows = [...this.rows, newRow];
+  }
+
+  removeSelectedRows() {
+    // Mantém a primeira linha e remove as demais selecionadas
+    this.rows = this.rows.filter((row, index) => index === 0 || !row.selected);
+  }
+
+  toggleSelectAll(event: Event) {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.rows.forEach((row, index) => {
+      if (index !== 0) { // Não seleciona a primeira linha
+        row.selected = isChecked;
+      }
+    });
+  }
+
+  trackByFn(index: number, item: configuracao_Imposto_Retido_Fonte) {
+    return item.configuracao_Imposto_Retido_Fonteid;
+  }
+
+  // Dicas
+
+  tipsObj: Tip[] = [
+    {
+      id: 1,
+      nome: 'Nome do Imposto',
+      dica: 'Entre uma descrição para o nome do imposto retido na fonte.'
+    },
+    {
+      id: 2,
+      nome: 'Categoria',
+      dica: 'Selecione uma das seguintes opções na lista suspensa:<br><br>Nota fiscal: o cálculo do imposto retido na fonte é exibido na nota fiscal e registrado no lançamento contábil manual quando a nota fiscal é adicionada.<br><br>Pagamento: o cálculo do imposto retido na fonte é exibido na nota fiscal, mas registrado no lançamento contábil manual quando é criado por contas a receber com base nesta nota fiscal.'
+    },
+    {
+      id: 3,
+      nome: 'Taxa',
+      dica: 'Entre a taxa do imposto a ser calculada'
+    },
+    {
+      id: 4,
+      nome: 'Tipo Básico',
+      dica: 'Selecione:<br><br>Bruto (inclui IVA) ou Líquido.<br>Determina a partir de que valor o imposto retido na fonte será calculado.'
+    },
+    {
+      id: 5,
+      nome: '% valor Base',
+      dica: 'Especifique a porcentagem do valor base que está sujeito ao imposto retido na fonte. O valor padrão é 100%.'
+    },
+    {
+      id: 6,
+      nome: 'Código Oficial',
+      dica: 'Especifica o código oficial a ser reportado no relatório do imposto retido na fonte.'
+    },
+    {
+      id: 7,
+      nome: 'Conta',
+      dica: 'Informe o código da conta contábil a ser registrado em lançamentos contábeis manuais relevantes para este código do imposto retido na fonte.'
+    },
+    {
+      id: 8,
+      nome: 'Tipo',
+      dica: 'Especifique o tipo apropriado de imposto retido na fonte.'
+    },
+  ]
+
+  activeTipId: number | null = null;
+
+  toggleTip(id: number) {
+    this.activeTipId = this.activeTipId === id ? null : id;
+  }
+
+  getTip(id: number): string {
+    const tip = this.tipsObj.find(t => t.id === id);
+    return tip ? tip.dica : 'Dica não encontrada';
+  }
+
+  @HostListener('document:click', ['$event'])
+  handleClickOutside(event: Event) {
+    const clickedElement = event.target as HTMLElement;
+    if (!clickedElement.closest('.thActive')) {
+      this.activeTipId = null;
+    }
+  }
+
+  ngOnInit(): void {
+    const bbP_id = sessionStorage.getItem('bbP_id');
+    const token = sessionStorage.getItem('token');
+
+    setTimeout(() => {
+      if (!token || !bbP_id) {
+        // Se token ou bbP_id não estão disponíveis, recarregar a página
+        window.location.reload();
+      }
+    }, 2000);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }),
+    }
+
+    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+      (data: infoBasica[]) => {
+        this.infoBasica = data;
+        this.rows = this.infoBasica[0]?.configuracao_Imposto_Retido_Fonte;
+        this.formInfoService.patchInfoBasicaForm(this.formImpostos, this.infoBasica);
+        console.log('dados recuperados onInit: ', this.infoBasica);
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Erro ao recuperar dados', error);
+        this.isLoading = false;
+      }
+    )
+  }
+
+  onSubmit(): void {
+    this.isLoading = true;
+    // Resgatar o bbP_id + cardCode do sessionStorage
+    // const configsGerais = this.formInfoBanco.value;
+    const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
+    const token = sessionStorage.getItem('token');
+    // const cardCode = sessionStorage.getItem('cardCode');
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    if (!bbP_id) {
+      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      return; // Interrompe a execução se o bbP_id não estiver presente
+    }
+
+    const apiData = { ...this.infoBasica[0] };
+
+    apiData.configuracao_Imposto_Retido_Fonte = this.rows;
+
+    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+      response => {
+        console.log('Dados enviados com sucesso', response);
+        console.log('Dados enviados:', apiData);
+        console.log('bbp>', bbP_id)
+        this.isLoading = false;
+      },
+      error => {
+        console.error('Erro ao enviar dados', error);
+        this.isLoading = false;
+      }
+    );
+  }
+}

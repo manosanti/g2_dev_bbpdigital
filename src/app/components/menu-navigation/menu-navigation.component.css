@@ -1,0 +1,199 @@
+#menuWrapper {
+    /* margin: 1rem 0; */
+    max-width: max-content;
+}
+
+.menuContent {
+    justify-content: start;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    min-width: 13vw;
+    min-height: calc(100vh - 3.5625rem);
+    margin: 0 auto;
+    /* display: grid; */
+    gap: 0rem;
+    padding: .8rem;
+    /* border-right: 1px solid rgb(225, 225, 225); */
+    transition: all 0.3s ease;
+}
+
+.menuFilter>select {
+    background-color: #662E91;
+    padding: .3rem;
+    color: var(--white);
+    width: min-content;
+    border: transparent;
+}
+
+/* Menu de Navegação */
+
+.menuNavigation {
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.menuNavigation::-webkit-scrollbar {
+    display: none;
+}
+
+.menuNavigation>ul {
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    list-style-type: none;
+}
+
+.menuNavigation>ul>li:last-child {
+    border-width: 1px 1px 1px 1px;
+}
+
+.active {
+    font-weight: bold;
+    background-color: #fff;
+}
+
+a,
+span,
+.lowNumber {
+    text-decoration: none;
+    color: #150322;
+}
+
+/* Variação Cor dos Botões */
+
+li {
+    border-width: 1px 1px 0px 1px;
+    /* border-color: #662E91; */
+    border-style: solid;
+    background-color: #F2F2F2;
+    color: var(--gray-primary);
+    text-decoration: transparent;
+    /* padding: .5rem 1rem; */
+
+    &:focus-visible {
+        border: none;
+    }
+}
+
+.lowNumber {
+    font-weight: 600;
+    margin: 0 .3rem 0 0;
+    color: var(--gray-label);
+}
+
+/* Feature's Att */
+/* Menu inicial (expandido) */
+
+.menuToggle {
+    cursor: pointer;
+    background-color: var(--purple-primary);
+    color: white;
+    border: 1px solid white;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+    height: min-content;
+}
+
+.menuToggleInactive {
+    max-width: 50px;
+}
+
+.menuFilter {
+    margin-bottom: 10px;
+}
+
+.menuNavigation {
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.menuNavigation.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.menuNavigation ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* .menuNavigation li { */
+/* margin: 5px 0; */
+/* } */
+
+.menuNavigation a {
+    text-decoration: none;
+    color: #202020;
+    display: block;
+    padding: 5px;
+}
+
+.menuNavigation a.active {
+    background-color: #e9ecef;
+}
+
+.menu-no-bg {
+    background-color: transparent !important;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    .menuContent {
+        position: fixed;
+        top: -5px;
+        background: #0000007d;
+        width: 100%;
+        overflow-y: scroll;
+        max-height: 100vh;
+        transition: background 0.3s ease;
+    }
+
+    .menuContent.collapsed {
+        background: none;
+    }
+
+    .menuContent.collapsed .menuNavigation {
+        display: none;
+    }
+
+    .menuContent.collapsed .menuFilter {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .menuToggle {
+        display: none;
+    }
+
+    .menuNavigation {
+        max-height: none;
+        opacity: 1;
+    }
+
+    .menuContent.collapsed {
+        background: flex;
+    }
+
+    .menuContent.menu-open {
+        background: transparent;
+    }
+
+    .menuContent.collapsed .menuNavigation {
+        display: flex;
+    }
+
+    .menuContent.collapsed .menuFilter {
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .boxMenuContent {
+        display: grid;
+    }
+}

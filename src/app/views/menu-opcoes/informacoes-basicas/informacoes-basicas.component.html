@@ -1,0 +1,415 @@
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+  <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+  <app-header></app-header>
+  <div class="menuContent">
+    <app-menu-navigation></app-menu-navigation>
+    <div class="w-full">
+      <app-customer-field></app-customer-field>
+      <section id="informacoesBasicas">
+        <div class="boxMenuOptions">
+          <div class="text-center">
+            <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
+                básicas!</span></h2>
+            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
+              sua empresa. </p>
+          </div>
+          <div class="boxMenuContent">
+            <div class="boxMenuItem" *ngFor="let modal of modals">
+              <div class="imageAndText">
+                <div class="menuOptionImage">
+                  <i [class]="modal.icon"></i>
+                </div>
+                <div class="nameDescription">
+                  <h3>{{ modal.title }}</h3>
+                  <!-- <p>{{ modal.description }}</p> -->
+                </div>
+              </div>
+              <div class="answerField">
+                <button type="button" (click)="openModal(modal.id)"><i class="fa-solid fa-pen-to-square"></i>
+                  Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modals -->
+      <form [formGroup]="formInfoBasica" (ngSubmit)="onSubmit()">
+        <div *ngFor="let modal of modals">
+          <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+              <span class="close" (click)="closeModal(modal.id)">&times;</span>
+              <h2>{{ modal.title }}</h2>
+
+              <!-- Conteúdo específico do modal -->
+              <ng-container [ngSwitch]="modal.id">
+                <div *ngSwitchCase="'nomeEmpresa'">
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="cardName" class="required">Nome da Empresa:</label>
+                    <input type="text" id="cardName" formControlName="cardName" [ngModel]="infoBasica[0].cardName" placeholder="Informe o nome da empresa" required>
+                  </div>
+                  <button class="btn modal-save" type="button" (click)="closeModal('nomeEmpresa')">Fechar</button>
+                </div>
+
+                <!-- Dados Contábeis -->
+                <div *ngSwitchCase="'dadosContabeis'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllDadosCTB($event)" /></th>
+                          <th>Tipo FJ</th>
+                          <th>CNPJ</th>
+                          <th>CPF</th>
+                          <th>Código CNAE</th>
+                          <th>Inscrição Estadual</th>
+                          <th>Inscrição Estadual Sub. Tributário</th>
+                          <th>Inscrição Municipal</th>
+                          <th>Indicador Natureza PJ</th>
+                          <th>Tipo Atividade Preponderante</th>
+                          <th>Ind. Apuração Contribuições Créditos</th>
+                          <th>Indicador Apuração IPI</th>
+                          <th>Tipo Sociedade Cooperativa</th>
+                          <th>Tributação Lucro</th>
+                          <th>Qualificação Empresa</th>
+                          <th>Tipo Declarante</th>
+                          <th>Valor Acumulado Imposto Retido Fonte CR</th>
+                          <th>Valor Acumulado Imposto Retido Fonte CP</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of rowsDadosCTB; trackBy: trackByFnDadosCTB" class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.bbP_DadosCTBID}}" />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}"
+                              placeholder="F ou J" maxlength="1" required /></td>
+                          <td><input type="text" [(ngModel)]="row.cnpj" name="cnpj{{row.bbP_DadosCTBID}}"
+                              placeholder="Digite o CNPJ (somente números)" /></td>
+                          <td><input type="text" [(ngModel)]="row.cpf" name="cpf{{row.bbP_DadosCTBID}}"
+                              placeholder="Digite o CPF (somente números)" /></td>
+                          <td><input type="text" [(ngModel)]="row.codigoCNAE" name="codigoCNAE{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.inscricaoEstadual"
+                              name="inscricaoEstadual{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.inscricaoEstadual_Sub_Tributario"
+                              name="inscricaoEstadual_Sub_Tributario{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.inscricaoMunicipal"
+                              name="inscricaoMunicipal{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.indicador_natureza_pessoa_juridicial"
+                              name="indicador_natureza_pessoa_juridicial{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.indicador_Tipo_Atividade_Preponderante"
+                              name="indicador_Tipo_Atividade_Preponderante{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.ind_Apuracao_Contribuicoes_Creditos"
+                              name="ind_Apuracao_Contribuicoes_Creditos{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.indicador_Apuracao_IPI"
+                              name="indicador_Apuracao_IPI{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.indicador_Tipo_Sociedade_Cooperativa"
+                              name="indicador_Tipo_Sociedade_Cooperativa{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.tributacao_lucro"
+                              name="tributacao_lucro{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.qualificacao_Empresa"
+                              name="qualificacao_Empresa{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.tipo_declarante"
+                              name="tipo_declarante{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.valor_Acumulado_Imposto_Retido_Fonte_CR"
+                              name="valor_Acumulado_Imposto_Retido_Fonte_CR{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.valor_Acumulado_Imposto_Retido_Fonte_CP"
+                              name="valor_Acumulado_Imposto_Retido_Fonte_CP{{row.bbP_DadosCTBID}}"
+                              placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i> Adicionar
+                          Linha</button>
+                        <button type="button" (click)="removeSelectedRowDadosCTB()"><i class="fa-solid fa-trash"></i>
+                          Remover
+                          Selecionadas</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button" (click)="closeModal('dadosContabeis')">Fechar</button>
+                </div>
+
+                <!-- Endereço -->
+                <div *ngSwitchCase="'endereco'">
+                  <div class="grid-cols-2 gap-2">
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">Tipo Logradouro:</label>
+                      <input type="text" id="tipoLogradouro" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">Bairro:</label>
+                      <input type="text" id="bairro" formControlName="bairro" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">Rua:</label>
+                      <input type="text" id="logradouro" formControlName="logradouro" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">Distrito:</label>
+                      <input type="text" id="endereco" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">Estado:</label>
+                      <input type="text" id="uf" formControlName="uf" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">Complemento:</label>
+                      <input type="text" id="endereco" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">Município:</label>
+                      <input type="text" id="municipio" formControlName="municipio" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">CEP:</label>
+                      <input type="text" id="endereco" formControlName="cep" maxlength="8" required>
+                    </div>
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="endereco" class="required">País:</label>
+                      <input type="text" id="endereco" required>
+                    </div>
+                  </div>
+                  <button class="btn modal-save" type="button" (click)="closeModal('endereco')">Fechar</button>
+                </div>
+
+                <!-- Web -->
+                <div *ngSwitchCase="'web'">
+
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="site" class="required">Site:</label>
+                    <input type="text" id="site" formControlName="site" [value]="infoBasica[0]?.site" required>
+                  </div>
+
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="email" class="required">Email:</label>
+                    <input type="text" id="email" formControlName="email" [value]="infoBasica[0]?.email" required>
+                  </div>
+                  <button class="btn modal-save" type="button" (click)="closeModal('web')">Fechar</button>
+                </div>
+
+                <!-- Telefone -->
+                <div *ngSwitchCase="'telefone'">
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="telefone" class="required">Telefone:</label>
+                    <input type="text" id="telefone" formControlName="telefone" [value]="infoBasica[0]?.telefone"
+                      required>
+                  </div>
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="telefone2" class="required">Telefone 2:</label>
+                    <input type="text" id="telefone2" formControlName="telefone2" [value]="infoBasica[0]?.telefone2"
+                      required>
+                  </div>
+                  <button class="btn modal-save" type="button" (click)="closeModal('telefone')">Fechar</button>
+                </div>
+
+                <!-- Campos de Localização -->
+                <div *ngSwitchCase="'camposLocalizacao'">
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="campos_Loca_Registro_Comercial" class="required">Registro Comercial:</label>
+                    <input type="text" id="campos_Loca_Registro_Comercial"
+                      formControlName="campos_Loca_Registro_Comercial" required>
+                  </div>
+
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="campos_Loca_Data_Incorporacao" class="required">Data de Incorporação:</label>
+                    <input type="text" id="campos_Loca_Data_Incorporacao"
+                      formControlName="campos_Loca_Data_Incorporacao" required>
+                  </div>
+
+                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="campos_Loca_Perfil_Sped" class="required">Perfil do SPED:</label>
+                    <input type="text" id="campos_Loca_Perfil_Sped" formControlName="campos_Loca_Perfil_Sped" required>
+                  </div>
+
+                  <button class="btn modal-save" type="button" (click)="closeModal('camposLocalizacao')">Fechar</button>
+                </div>
+
+                <!-- Caminho para Pastas -->
+                <div *ngSwitchCase="'caminhoPastas'">
+                  <div class="grid-cols-3 gap-2">
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="caminho_Pasta_Word" class="required">Arquivos do Microsoft Word:
+                        <i class="fa-solid fa-circle-info" (click)="toggleTip(4)"></i>
+                        <p *ngIf="activeTipId === 4" class="tip">
+                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                          {{ getTip(4) }}
+                        </p>
+                      </label>
+                      <input type="text" id="caminho_Pasta_Word" formControlName="caminho_Pasta_Word"
+                        [value]="infoBasica[0]?.caminho_Pasta_Word" required>
+                    </div>
+
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="caminho_Pasta_Excel" class="required">Arquivos do Microsoft Excel:
+                        <i class="fa-solid fa-circle-info" (click)="toggleTip(5)"></i>
+                        <p *ngIf="activeTipId === 5" class="tip">
+                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                          {{ getTip(5) }}
+                        </p>
+                      </label>
+                      <input type="text" id="caminho_Pasta_Excel" formControlName="caminho_Pasta_Excel"
+                        [value]="infoBasica[0]?.caminho_Pasta_Excel" required>
+                    </div>
+
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="caminho_Pasta_Imagens" class="required">Arquivos de imagens:
+                        <i class="fa-solid fa-circle-info" (click)="toggleTip(6)"></i>
+                        <p *ngIf="activeTipId === 6" class="tip">
+                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                          {{ getTip(6) }}
+                        </p>
+                      </label>
+                      <input type="text" id="caminho_Pasta_Imagens" formControlName="caminho_Pasta_Imagens"
+                        [value]="infoBasica[0]?.caminho_Pasta_Imagens" required>
+                    </div>
+
+                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
+                <label for="pasta-de-anexos" class="required">Pasta de anexos:
+                  <i class="fa-solid fa-circle-info" (click)="toggleTip(7)"></i>
+                  <p *ngIf="activeTipId === 7" class="tip">
+                    <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                    {{ getTip(7) }}
+                  </p>
+                </label>
+                <input type="text" id="pasta-de-anexos" required>
+              </div> -->
+
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="caminho_Pasta_Licencas" class="required">Pasta p/ licenças dos add-ons
+                        (ampliações):
+                        <i class="fa-solid fa-circle-info" (click)="toggleTip(8)"></i>
+                        <p *ngIf="activeTipId === 8" class="tip">
+                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                          {{ getTip(8) }}
+                        </p>
+                      </label>
+                      <input type="text" id="caminho_Pasta_Licencas" formControlName="caminho_Pasta_Licencas"
+                        [value]="infoBasica[0]?.caminho_Pasta_Licencas" required>
+                    </div>
+
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="caminho_Pasta_XML" class="required">Pasta arquivo XML:
+                        <i class="fa-solid fa-circle-info" (click)="toggleTip(9)"></i>
+                        <p *ngIf="activeTipId === 9" class="tip">
+                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                          {{ getTip(9) }}
+                        </p>
+                      </label>
+                      <input type="text" id="caminho_Pasta_XML" formControlName="caminho_Pasta_XML"
+                        [value]="infoBasica[0]?.caminho_Pasta_XML" required>
+                    </div>
+
+                  </div>
+                  <button class="btn modal-save" type="button" (click)="closeModal('caminhoPastas')">Fechar</button>
+                </div>
+
+                <!-- Moedas -->
+                <div *ngSwitchCase="'moedas'">
+                  <div class="grid-cols-2 gap-2">
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="moeda_Corrente">Moeda Corrente:</label>
+                      <input type="text" id="moeda_Corrente" [value]="infoBasica[0]?.moeda_Corrente"
+                        formControlName="moeda_Corrente">
+                    </div>
+
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="moeda_Sistema">Moeda do Sistema:</label>
+                      <input type="text" id="moeda_Sistema" [value]="infoBasica[0]?.moeda_Sistema"
+                        formControlName="moeda_Sistema">
+                    </div>
+
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="seu_Negocio_necessita_sup_mult">Suporte Multilíngue?:</label>
+                      <input type="text" id="seu_Negocio_necessita_sup_mult"
+                        [value]="infoBasica[0]?.seu_Negocio_necessita_sup_mult"
+                        formControlName="seu_Negocio_necessita_sup_mult">
+                    </div>
+
+                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="metodo-de-avaliacao-de-grupos">Método de Avaliação de Grupos:</label>
+                    <input type="text" id="metodo-de-avaliacao-de-grupos">
+                  </div> -->
+
+                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <label for="liberacao-de-estoque-sem-custo-do-item">Liberação de Estoque sem Custo do Item:</label>
+                    <input type="text" id="liberacao-de-estoque-sem-custo-do-item">
+                  </div> -->
+
+                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                      <label for="qual_conta_corrente_negocio_padrao_sistema">Conta Corrente Padrão:</label>
+                      <input type="text" id="qual_conta_corrente_negocio_padrao_sistema"
+                        formControlName="qual_conta_corrente_negocio_padrao_sistema">
+                    </div>
+
+                  </div>
+                  <button class="btn modal-save" type="button" (click)="closeModal('moedas')">Fechar</button>
+                </div>
+
+                <!-- Listar Moedas -->
+                <div *ngSwitchCase="'listarMoedas'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllMoeda($event)" /></th>
+                          <th>Code</th>
+                          <th>Número</th>
+                          <th>Nome da Moeda</th>
+                          <th>Código Internacional</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of rowsMoedas; trackBy: trackByFnMoeda" class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.bbP_MoedasID}}" />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.bbP_MoedasID" name="tipoFJ{{row.bbP_MoedasID}}"
+                              placeholder="Insira o valor..." disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.numero" name="cnpj{{row.bbP_MoedasID}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.nomeMoeda" name="cpf{{row.bbP_MoedasID}}"
+                              placeholder="Insira o valor..." maxlength="3" /></td>
+                          <td><input type="text" [(ngModel)]="row.codigoInternacional"
+                              name="codigoCNAE{{row.bbP_MoedasID}}" placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowMoeda()"><i class="fa-solid fa-plus"></i> Adicionar
+                          Linha</button>
+                        <button type="button" (click)="removeSelectedRowMoeda()"><i class="fa-solid fa-trash"></i>
+                          Remover
+                          Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+
+                  <button class="btn modal-save" type="button" (click)="closeModal('listarMoedas')">Fechar</button>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="btnSave">
+          <button type="submit">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

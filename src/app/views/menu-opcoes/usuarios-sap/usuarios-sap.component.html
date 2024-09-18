@@ -1,0 +1,74 @@
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+  <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+  <app-header></app-header>
+  <div class="menuContent">
+    <app-menu-navigation></app-menu-navigation>
+    <div class="w-full">
+      <app-customer-field></app-customer-field>
+      <section id="configuracoesGerais" class="wrapper">
+        <form [formGroup]="formUsuariosSenhas" (submit)="onSubmit()" id="configuracoesGerais">
+          <div class="text-center">
+            <h2 class="menusTitle">Preencha os campos abaixo para criar os <span class="purple-primary">Usuários SAP!</span></h2>
+            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
+              funcionamento da sua empresa.</p>
+          </div>
+
+          <!-- Alerta de Atividade -->
+          <div class="atvClienteBox">
+            <form class="formComponent" (submit)="onSubmit()">
+              <table>
+                <thead class="tableHeader">
+                  <tr>
+                    <th><input type="checkbox" (change)="toggleSelectAllUsuariosSenhas($event)" /></th>
+                    <th>#</th>
+                    <th>super_usuario</th>
+                    <th>codusuario</th>
+                    <th>nome_usuario</th>
+                    <th>email</th>
+                    <th>celular</th>
+                    <th>filial_departamento</th>
+                    <th>senha</th>
+                  </tr>
+                </thead>
+                <tbody class="teste">
+                  <tr *ngFor="let row of rowsUsuariosSenhas; trackBy: trackByFnUsuariosSenhas" class="trow">
+                    <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.definir_usuario_senhasid}}" /></td>
+                    <td><input type="text" [(ngModel)]="row.definir_usuario_senhasid" name="id{{row.definir_usuario_senhasid}}" placeholder="#" disabled /></td>
+                    <td><input type="text" [(ngModel)]="row.super_usuario" name="superUsuario{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
+                    <td><input type="text" [(ngModel)]="row.codusuario" name="codUsuario{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
+                    <td><input type="text" [(ngModel)]="row.nome_usuario" name="nomeUsuario{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
+                    <td><input type="text" [(ngModel)]="row.email" name="email{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
+                    <td><input type="text" [(ngModel)]="row.celular" name="celular{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
+                    <td><input type="text" [(ngModel)]="row.filial_departamento" name="filialDepartamento{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
+                    <td><input type="text" [(ngModel)]="row.senha" name="senha{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
+                  </tr>
+                </tbody>
+                <div class="btnFuncionality">
+                  <button type="button" (click)="addRowsUsuariosSenhas()"><i class="fa-solid fa-plus"></i>
+                    Adicionar
+                    Linha</button>
+                  <button type="button" (click)="removeSelectedRowUsuariosSenhas()"><i class="fa-solid fa-trash"></i>
+                    Remover
+                    Selecionadas</button>
+                </div>
+                <div class="btnSave">
+                  <button type="submit">Salvar</button>
+                </div>
+              </table>
+
+              <div class="btnSave">
+                <button type="submit">Salvar</button>
+              </div>
+            </form>
+          </div>
+          <div class="btnSave">
+            <button type="submit">Salvar</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </div>
+</div>

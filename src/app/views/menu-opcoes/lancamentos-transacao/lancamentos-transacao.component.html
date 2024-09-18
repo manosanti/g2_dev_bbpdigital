@@ -1,0 +1,229 @@
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+  <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+  <app-header></app-header>
+  <div class="menuContent">
+    <app-menu-navigation></app-menu-navigation>
+    <div class="w-full">
+      <app-customer-field></app-customer-field>
+      <section id="informacoesBasicas">
+        <div class="boxMenuOptions">
+          <div class="text-center">
+            <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
+                básicas!</span></h2>
+            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
+              sua empresa. </p>
+          </div>
+          <div class="boxMenuContent">
+            <div class="boxMenuItem" *ngFor="let modal of modals">
+              <div class="imageAndText">
+                <div class="menuOptionImage">
+                  <i [class]="modal.icon"></i>
+                </div>
+                <div class="nameDescription">
+                  <h3>{{ modal.title }}</h3>
+                </div>
+              </div>
+              <div class="answerField">
+                <button type="button" (click)="openModal(modal.id)"><i class="fa-solid fa-pen-to-square"></i>
+                  Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modals -->
+      <form [formGroup]="formLancTransacao" (ngSubmit)="onSubmit()">
+        <div *ngFor="let modal of modals">
+          <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+              <span class="close" (click)="closeModal(modal.id)">&times;</span>
+              <h2>{{ modal.title }}</h2>
+
+              <ng-container [ngSwitch]="modal.id">
+                <!-- determinacao_contacontabil_vendas -->
+                <div *ngSwitchCase="'determinacao_contacontabil_vendas'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllVendas($event)" /></th>
+                          <th>#</th>
+                          <th>Tipo de Conta</th>
+                          <th>Conta Contábil</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of determinacao_contacontabil_vendasRows; trackBy: trackByFnVendas"
+                          class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                              name="selected{{row.determinacao_contacontabil_vendasid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_vendasid"
+                              name="tipoFJ{{row.determinacao_contacontabil_vendasid}}" placeholder="Insira o valor..."
+                              disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.tipodeconta_vendas"
+                              name="tipoConta{{row.determinacao_contacontabil_vendasid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.contacontabil_vendas"
+                              name="contaContabil{{row.determinacao_contacontabil_vendasid}}"
+                              placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowVendas()"><i class="fa-solid fa-plus"></i> Adicionar
+                          Linha</button>
+                        <button type="button" (click)="removeSelectedVendas()"><i class="fa-solid fa-trash"></i> Remover
+                          Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('determinacao_contacontabil_vendas')">Fechar</button>
+                </div>
+
+                <!-- determinacao_contacontabil_geral -->
+                <div *ngSwitchCase="'determinacao_contacontabil_geral'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllGeral($event)" /></th>
+                          <th>#</th>
+                          <th>Tipo de Conta</th>
+                          <th>Conta Contábil</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of determinacao_contacontabil_geralRows; trackBy: trackByFnGeral"
+                          class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                              name="selected{{row.determinacao_contacontabil_geralid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_geralid"
+                              name="tipoFJ{{row.determinacao_contacontabil_geralid}}" placeholder="Insira o valor..."
+                              disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.tipodeconta_geral"
+                              name="tipoConta{{row.determinacao_contacontabil_geralid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.contacontabil_geral"
+                              name="contaContabil{{row.determinacao_contacontabil_geralid}}"
+                              placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowGeral()"><i class="fa-solid fa-plus"></i> Adicionar
+                          Linha</button>
+                        <button type="button" (click)="removeSelectedGeral()"><i class="fa-solid fa-trash"></i> Remover
+                          Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('determinacao_contacontabil_geral')">Fechar</button>
+                </div>
+
+                <!-- determinacao_contacontabil_estoque -->
+                <div *ngSwitchCase="'determinacao_contacontabil_estoque'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllEstoque($event)" /></th>
+                          <th>#</th>
+                          <th>Tipo de Conta</th>
+                          <th>Conta Contábil</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of determinacao_contacontabil_estoqueRows; trackBy: trackByFnEstoque"
+                          class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                              name="selected{{row.determinacao_contacontabil_estoqueid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_estoqueid"
+                              name="tipoFJ{{row.determinacao_contacontabil_estoqueid}}" placeholder="Insira o valor..."
+                              disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.tipodeconta_estoque"
+                              name="tipoConta{{row.determinacao_contacontabil_estoqueid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.contacontabil_estoque"
+                              name="contaContabil{{row.determinacao_contacontabil_estoqueid}}"
+                              placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowEstoque()"><i class="fa-solid fa-plus"></i> Adicionar
+                          Linha</button>
+                        <button type="button" (click)="removeSelectedEstoque()"><i class="fa-solid fa-trash"></i>
+                          Remover Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('determinacao_contacontabil_estoque')">Fechar</button>
+                </div>
+
+                <!-- determinacao_contacontabil_compras -->
+                <div *ngSwitchCase="'determinacao_contacontabil_compras'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllCompras($event)" /></th>
+                          <th>#</th>
+                          <th>Tipo de Conta</th>
+                          <th>Conta Contábil</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of determinacao_contacontabil_comprasRows; trackBy: trackByFnCompras"
+                          class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                              name="selected{{row.determinacao_contacontabil_comprasid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_comprasid"
+                              name="tipoFJ{{row.determinacao_contacontabil_comprasid}}" placeholder="Insira o valor..."
+                              disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.tipodeconta_compras"
+                              name="tipoConta{{row.determinacao_contacontabil_comprasid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.contacontabil_compras"
+                              name="contaContabil{{row.determinacao_contacontabil_comprasid}}"
+                              placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowCompras()"><i class="fa-solid fa-plus"></i> Adicionar
+                          Linha</button>
+                        <button type="button" (click)="removeSelectedCompras()"><i class="fa-solid fa-trash"></i>
+                          Remover Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('determinacao_contacontabil_compras')">Fechar</button>
+                </div>
+
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="btnSave">
+          <button type="submit">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

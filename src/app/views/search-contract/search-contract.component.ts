@@ -1,0 +1,148 @@
+import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
+import { HeaderComponent } from '../../components/header/header.component';
+import { debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
+
+@Component({
+  selector: 'app-search-contract',
+  standalone: true,
+  imports: [NgIf, HeaderComponent, HttpClientModule, NgFor, ReactiveFormsModule],
+  templateUrl: './search-contract.component.html',
+  styleUrl: './search-contract.component.css'
+})
+export class SearchContractComponent implements OnInit {
+  public formSearchContract: FormGroup;
+  public errorMessage: string | null = null;
+  public contractList: any[] = [];
+  public showModal: boolean = false;
+
+  constructor(private http: HttpClient, private fb: FormBuilder, private router: Router) {
+    this.formSearchContract = this.fb.group({
+      cardCode: ['', Validators.required],
+    });
+  }
+
+  ngOnInit(): void {
+    const cardCode = sessionStorage.getItem('cardCode');
+    if (cardCode) {
+      this.fetchContracts(cardCode).subscribe({
+        next: (response) => {
+          this.contractList = response || [];
+          this.errorMessage = null;
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.errorMessage = 'Erro ao buscar os contratos.';
+        }
+      });
+    }
+
+    this.formSearchContract.get('cardCode')?.valueChanges
+      .pipe(
+        debounceTime(2000),
+        distinctUntilChanged(),
+        switchMap(value => this.fetchContracts(value))
+      )
+      .subscribe({
+        next: (response) => {
+          this.contractList = response || [];
+          this.errorMessage = null;
+        },
+        error: (err) => {
+          console.error('API Error:', err);
+          this.errorMessage = 'Erro ao buscar os contratos.';
+        }
+      });
+  }
+
+  fetchContracts(cardCode: string) {
+    if (!cardCode) {
+      return of([]);
+    }
+
+    const token = sessionStorage.getItem('token');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    return this.http.get<any[]>(`/api/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions);
+  }
+
+  fetchBBPDetails(bbP_id: number) {
+    const token = sessionStorage.getItem('token');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    // Faz a requisição GET para o ID específico
+    return this.http.get(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions);
+  }
+
+  onRowClick(bbP_id: number): void {
+    this.fetchBBPDetails(bbP_id).subscribe({
+      next: (response) => {
+        console.log('Detalhes do BBP:', response);
+        // Aqui você pode redirecionar ou manipular os dados recebidos
+        // Exemplo: this.router.navigate(['/detalhes-filial', bbP_id]);
+        this.router.navigate(['/informacoes-basicas']);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar detalhes do BBP:', err);
+      }
+    });
+  }
+
+  backToLogin(): void {
+    this.router.navigate(['/sign-in']);
+    sessionStorage.clear();
+  }
+
+  showList(): void {
+    this.showModal = true;
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  onSubmit(): void {
+    const cardCode = this.formSearchContract.get('cardCode')?.value;
+
+    if (!cardCode) {
+      this.errorMessage = 'Código é obrigatório.';
+      return;
+    }
+
+    const token = sessionStorage.getItem('token');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    this.http.get<any[]>(`/api/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions).subscribe({
+      next: (response: any[]) => {
+        if (response && response.length > 0) {
+          sessionStorage.setItem('cardCode', cardCode);
+          this.contractList = response;
+          this.errorMessage = null;
+        } else {
+          this.errorMessage = 'Código incorreto ou não permitido para este usuário.';
+        }
+      },
+      error: (err) => {
+        this.errorMessage = 'Erro ao verificar o código.';
+      }
+    });
+  }
+}

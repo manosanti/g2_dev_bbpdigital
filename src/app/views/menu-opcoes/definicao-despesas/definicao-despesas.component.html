@@ -1,0 +1,167 @@
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+  <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+  <app-header></app-header>
+  <div class="menuContent">
+    <app-menu-navigation></app-menu-navigation>
+    <div class="w-full">
+      <app-customer-field></app-customer-field>
+      <section id="informacoesBasicas">
+        <div class="boxMenuOptions">
+          <div class="text-center">
+            <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">Definição de Despesas</span></h2>
+            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
+              sua empresa. </p>
+          </div>
+          <div class="boxMenuContent">
+            <div class="boxMenuItem" *ngFor="let modal of modals">
+              <div class="imageAndText">
+                <div class="menuOptionImage">
+                  <i [class]="modal.icon"></i>
+                </div>
+                <div class="nameDescription">
+                  <h3>{{ modal.title }}</h3>
+                  <!-- <p>{{ modal.description }}</p> -->
+                </div>
+              </div>
+              <div class="answerField">
+                <button type="button" (click)="openModal(modal.id)"><i class="fa-solid fa-pen-to-square"></i>
+                  Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modals -->
+      <form [formGroup]="formDefinicaoDespesas" (ngSubmit)="onSubmit()">
+        <div *ngFor="let modal of modals">
+          <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+              <span class="close" (click)="closeModal(modal.id)">&times;</span>
+              <h2>{{ modal.title }}</h2>
+
+              <ng-container [ngSwitch]="modal.id">
+                <!-- despesas_Adicionais -->
+                <div *ngSwitchCase="'despesas_Adicionais'" class="switchCase">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllDespesasAdicionais($event)" /></th>
+                          <th>#</th>
+                          <th>nome_despesa</th>
+                          <th>conta_receita</th>
+                          <th>conta_despesa</th>
+                          <th>valor_fixo_receitas</th>
+                          <th>valor_fixo_despesas</th>
+                          <th>sujetio_irf</th>
+                          <th>metodo_distribuicao</th>
+                          <th>metodo_transferencia</th>
+                          <th>estoque</th>
+                          <th>ultimo_preco_compra</th>
+                          <th>tipo_despesas_adicionais</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of despesas_AdicionaisRows; trackBy: trackByFnDespesasAdicionais"
+                          class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                              name="selected{{row.despesas_Adicionaisid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.despesas_Adicionaisid" name="despesas_Adicionaisid{{row.despesas_Adicionaisid}}"
+                              placeholder="Insira o valor..." disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.nome_despesa" name="id{{row.despesas_Adicionaisid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.conta_receita"
+                              name="nome{{row.despesas_Adicionaisid}}" placeholder="Insira o valor..." />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.conta_despesa"
+                              name="dimensao{{row.despesas_Adicionaisid}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.valor_fixo_receitas"
+                              name="ativo{{row.despesas_Adicionaisid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.valor_fixo_despesas"
+                              name="descricao{{row.despesas_Adicionaisid}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.sujetio_irf" name="sujetio_irf{{row.despesas_Adicionaisid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.metodo_distribuicao"
+                              name="metodo_distribuicao{{row.despesas_Adicionaisid}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.metodo_transferencia"
+                              name="metodo_transferencia{{row.despesas_Adicionaisid}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.estoque" name="estoque{{row.despesas_Adicionaisid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.ultimo_preco_compra"
+                              name="ultimo_preco_compra{{row.despesas_Adicionaisid}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.tipo_despesas_adicionais"
+                              name="tipo_despesas_adicionais{{row.despesas_Adicionaisid}}" placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowDespesasAdicionais()"><i class="fa-solid fa-plus"></i>
+                          Adicionar Linha</button>
+                        <button type="button" (click)="removeSelectedDespesasAdicionais()"><i
+                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('despesas_Adicionais')">Fechar</button>
+                </div>
+
+                <!-- definicao_Despesas -->
+                <div *ngSwitchCase="'definicao_Despesas'" class="switchCase">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllDespesasAdicionais($event)" /></th>
+                          <th>#</th>
+                          <th>nome</th>
+                          <th>alocacao_por</th>
+                          <th>conta_alocacao_despesas_importacao</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of definicao_DespesasRows; trackBy: trackByFnDefinicaoDespesas"
+                          class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                            name="selected{{row.definicao_Despesasid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.definicao_Despesasid"
+                            name="definicao_Despesasid{{row.definicao_Despesasid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.nome"
+                            name="nome{{row.definicao_Despesasid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.alocacao_por"
+                            name="alocacao_por{{row.definicao_Despesasid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.conta_alocacao_despesas_importacao"
+                            name="conta_alocacao_despesas_importacao{{row.definicao_Despesasid}}" /></td>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowDefinicaoDespesas()"><i class="fa-solid fa-plus"></i>
+                          Adicionar Linha</button>
+                        <button type="button" (click)="removeSelectedDefinicaoDespesas()"><i
+                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('definicao_Despesas')">Fechar</button>
+                </div>
+
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="btnSave">
+          <button type="submit">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

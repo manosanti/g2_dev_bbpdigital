@@ -1,0 +1,128 @@
+.wrapperLogin {
+    background-color: var(--bg-login-color);
+    min-height: 100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Card Field do Login */
+.cardLogin {
+    background-color: var(--white);
+    min-width: 20vw;
+    padding: 4rem;
+    box-shadow: var(--shadow-card);
+    border-radius: var(--rounded-card);
+}
+
+.loginBtn {
+    background-color: var(--highlight) !important;
+    transition: .3s;
+
+    &:hover {
+        background-color: var(--highlight-hover) !important;
+    }
+}
+
+/* Estilo dentro do Form */
+form {
+    display: grid;
+    gap: 1rem;
+}
+
+form>div {
+    display: grid;
+}
+
+/* Login e Senha */
+.credentialsField>div>input {
+    padding-left: .5rem;
+    /* transition: .3s; */
+
+    &:focus-visible, &:hover {
+        border-radius: .2rem;
+        border: 2px solid var(--highlight);
+        outline: transparent;
+    }
+}
+
+#btnLogin a {
+    text-decoration: none;
+    transition: .3s;
+    color: var(--white);
+
+    &:hover {
+        color: var(--highlight-hover);
+        font-size: 1.03rem;
+    }
+}
+
+#forgotPassword>a {
+    color: var(--highlight);
+    text-decoration: none;
+    transition: .3s;
+
+    &:hover {
+        color: var(--highlight-hover);
+        font-size: 1.03rem;
+    }
+
+}
+
+
+
+#checkKeepMeSignin {
+    display: flex;
+    gap: .5rem;
+}
+
+#checkKeepMeSignin>label {
+    color: var(--gray-label);
+    transition: .3s;
+
+    &:hover {
+        font-size: 1.02rem;
+    }
+}
+
+.imgField {
+    display: flex;
+    justify-content: center;
+}
+
+#loginFailed {
+    color: var(--red-primary-hover);
+    font-size: .9rem;
+    display: none;
+}
+
+@media screen and (min-width: 320px) and (max-width: 374px) {
+    .cardLogin {
+        width: 100vw;
+        height: 100vh;
+        padding: 2rem;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 424px) {
+    .cardLogin {
+        height: 100vh;
+        width: 100vw;
+    }
+}
+
+@media screen and (min-width: 425px) and (max-width: 767px) {
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    .cardLogin {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+    .cardLogin {
+        width: 30vw;
+    }
+}

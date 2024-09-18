@@ -1,0 +1,152 @@
+header {
+    padding: 1rem;
+    background-color: #662E91;
+    /* background: rgb(0, 145, 179);
+    background: linear-gradient(90deg, rgba(0, 145, 179, 1) 0%, rgba(0, 20, 64, 1) 31%, rgba(9, 9, 121, 1) 47%, rgba(186, 5, 193, 1) 74%, rgba(102, 45, 145, 1) 100%); */
+}
+
+header>nav {
+    max-width: var(--max-width-desktop);
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+
+/* Lado Esquerdo Header */
+
+nav>div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sendContract {
+    background-color: var(--primary);
+}
+
+.modalTitle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalTitle h3 {
+    width: fit-content;
+    border-bottom: 1px solid var(--gray-primary);
+    color: var(--gray-primary);
+    font-weight: 500;
+    width: 100%;
+}
+
+#searchContract {
+    min-width: 13rem !important;
+    padding: 0 0 0 .5rem;
+    font-size: 0.9rem;
+}
+
+#formSearchContract input {
+    outline: transparent;
+    border: transparent;
+    width: 100%;
+    border-radius: var(--rounded-card);
+}
+
+#modalSearch {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#modalCard {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.219);
+}
+
+#modalContent {
+    border: 1px solid var(--gray-border);
+    padding: 1rem;
+    border-radius: var(--rounded-card);
+    display: grid;
+    gap: 1rem;
+    background-color: var(--white);
+}
+
+#bbpDigitalTitle {
+    color: var(--white);
+}
+
+#headerSearch {
+    background-color: transparent;
+    border: transparent;
+    color: #D1E8FF;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .3s;
+
+    &:hover {
+        transform: scale(1.04);
+    }
+}
+
+#logout {
+    z-index: 1;
+    background-color: transparent;
+    border: transparent;
+    color: #D1E8FF;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: .3s;
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+
+    &:hover {
+        transform: scale(1.04);
+    }
+}
+
+#formSearchContract {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    /* border: 1px solid var(--gray-border); */
+    border-radius: var(--rounded-card);
+    /* padding: .2rem .4rem; */
+}
+
+.searchField {
+    display: flex;
+    align-items: center;
+}
+
+.searchField label {
+    color: var(--gray-primary);
+}
+
+.btnSearchField {
+    display: flex;
+    justify-content: end;
+}
+
+.btnSearchField button {
+    width: fit-content;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    header {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        max-width: 100%;
+    }
+    nav {
+        gap: 2rem;
+    }
+}

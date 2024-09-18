@@ -1,0 +1,68 @@
+.customerSection {
+    max-width: var(--max-width-desktop);
+    margin: 0 auto;
+}
+
+/* Alinhar os Label em Grid */
+#customerForm > .companyField > div,
+#customerForm > .contractField > div {
+    display: grid;
+}
+
+/* Espaçamento entre cada div de campo */
+#customerForm > .companyField,
+#customerForm > .contractField {
+    gap: .5rem;
+    display: grid;
+}
+
+.companyField > div > input,
+.contractField > div > input {
+    padding: 0.2rem 0.4rem;
+}
+
+
+#customerForm {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+#customerWrapper {
+    border-bottom: 1px solid rgb(225, 225, 225);
+}
+
+label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gray-primary);
+}
+
+.menuFilter select {
+    &:focus-visible {
+        outline: transparent;
+        border: transparent;
+    }
+}
+
+#filial {
+    padding: 0.2rem;
+    border: 1px solid var(--gray-border);
+    border-radius: 3px;
+
+    &:focus-visible {
+        outline: transparent;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 374px) {
+    #customerForm {
+        flex-direction: column;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 424px) {
+    #customerForm {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,273 @@
+<div *ngIf="isLoading" class="loading-indicator">
+    <div class="spinner"></div>
+    <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+    <app-header></app-header>
+    <div class="menuContent">
+        <app-menu-navigation></app-menu-navigation>
+        <div class="w-full">
+            <app-customer-field></app-customer-field>
+            <section id="informacoesBasicas">
+                <div class="boxMenuOptions">
+                    <div class="text-center">
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar as <span
+                                class="purple-primary">Configurações Gerais!</span></h2>
+                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
+                            funcionamento da sua empresa. </p>
+                    </div>
+                    <div class="boxMenuContent">
+                        <div class="boxMenuItem" *ngFor="let modal of modals">
+                            <div class="imageAndText">
+                                <div class="menuOptionImage">
+                                    <i [class]="modal.icon"></i>
+                                </div>
+                                <div class="nameDescription">
+                                    <h3>{{ modal.title }}</h3>
+                                    <!-- <p>{{ modal.description }}</p> -->
+                                </div>
+                            </div>
+                            <div class="answerField">
+                                <button type="button" (click)="openModal(modal.id)"><i
+                                        class="fa-solid fa-pen-to-square"></i>
+                                    Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modals -->
+            <form [formGroup]="formConfigsGerais" (ngSubmit)="onSubmit()">
+                <div *ngFor="let modal of modals">
+                    <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
+                        <div class="modal-content" (click)="$event.stopPropagation()">
+                            <span class="close" (click)="closeModal(modal.id)">&times;</span>
+                            <h2>{{ modal.title }}</h2>
+
+                            <!-- Conteúdo específico do modal -->
+                            <ng-container [ngSwitch]="modal.id">
+                                <div *ngSwitchCase="'alerta_Atividade'">
+                                    <div class="atvClienteBox">
+                                        <form class="formComponent" (submit)="onSubmit()">
+                                            <table>
+                                                <thead class="tableHeader">
+                                                    <tr>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectAllAlertaAtividade($event)" />
+                                                        </th>
+                                                        <th>#</th>
+                                                        <th>Tipo de Atividade</th>
+                                                        <th>Descrição da Atividade</th>
+                                                        <th>Ativo (S/N)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="teste">
+                                                    <tr *ngFor="let row of alertaAtividadeRows; trackBy: trackByFnAlertaAtividade"
+                                                        class="trow">
+                                                        <td>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected{{row.bbP_Alerta_Atividadeid}}" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.bbP_Alerta_Atividadeid"
+                                                                name="bbP_Alerta_Atividadeid{{row.bbP_Alerta_Atividadeid}}"
+                                                                placeholder="Insira o código..." disabled />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.tipoAtividade_id"
+                                                                name="tipoAtividade_id{{row.bbP_Alerta_Atividadeid}}"
+                                                                placeholder="Insira um valor..." />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.descricaoAtividade"
+                                                                name="descricaoAtividade{{row.bbP_Alerta_Atividadeid}}"
+                                                                placeholder="Insira um valor..." />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.ativaSN"
+                                                                name="ativaSN{{row.bbP_Alerta_Atividadeid}}"
+                                                                placeholder="Insira se está ativa (S/N)..."
+                                                                maxlength="1" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+
+                                                <div class="btnFuncionality">
+                                                    <button type="button" (click)="addRowAlertaAtividade()"><i
+                                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
+                                                    <button type="button"
+                                                        (click)="removeSelectedRowsAlertaAtividade()"><i
+                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                                                </div>
+                                            </table>
+                                        </form>
+                                        <button class="btn modal-save" type="button"
+                                            (click)="closeModal('alerta_Atividade')">Fechar</button>
+                                    </div>
+                                </div>
+
+                                <!-- Taxa de Comissão -->
+                                <div *ngSwitchCase="'taxaComissao'">
+                                    <div class="atvClienteBox">
+                                        <div class="flex">
+                                            <p>Com base em que seu negócio define a taxa de comissão, se aplicada?
+                                            </p>
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(11)"></i>
+                                            <p *ngIf="activeTipId === 11" class="tip" [innerHTML]="getTip(11)"></p>
+                                        </div>
+                                        <form class="formComponent" (submit)="onSubmit()">
+                                            <table>
+                                                <thead class="tableHeader">
+                                                    <tr>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectAllAlertaAtividade($event)" />
+                                                        </th>
+                                                        <th>#</th>
+                                                        <th>tipo</th>
+                                                        <th>st_SN</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="teste">
+                                                    <tr *ngFor="let row of taxaComissaoRows; trackBy: trackByFnTaxaComissao"
+                                                        class="trow">
+                                                        <td>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected{{row.com_base_negocio_define_taxadecomissid}}" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text"
+                                                                [(ngModel)]="row.com_base_negocio_define_taxadecomissid"
+                                                                name="com_base_negocio_define_taxadecomissid{{row.com_base_negocio_define_taxadecomissid}}"
+                                                                placeholder="Insira o código..." disabled />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.tipo"
+                                                                name="tipo{{row.com_base_negocio_define_taxadecomissid}}"
+                                                                placeholder="Insira a descrição..." />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.st_SN"
+                                                                name="st_SN{{row.com_base_negocio_define_taxadecomissid}}"
+                                                                placeholder="Insira um valor..." />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <div class="btnFuncionality">
+                                                    <button type="button" (click)="addRowTaxaComissao()"><i
+                                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
+                                                    <button type="button" (click)="removeSelectedRowsTaxaComissao()"><i
+                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                                                </div>
+                                            </table>
+                                        </form>
+                                        <button class="btn modal-save" type="button"
+                                            (click)="closeModal('taxaComissao')">Fechar</button>
+                                    </div>
+                                </div>
+                                <!-- Casas Decimais -->
+                                <div *ngSwitchCase="'casasDecimais'">
+                                    <div class="atvClienteBox">
+                                        <h2 class="title">Condições de Pagamento
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(9)"></i>
+                                            <p *ngIf="activeTipId === 9" class="tip" [innerHTML]="getTip(9)"></p>
+                                        </h2>
+                                        <form class="formComponent" (submit)="onSubmit()">
+                                            <table>
+                                                <thead class="tableHeader">
+                                                    <tr>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectAllAlertaAtividade($event)" />
+                                                        </th>
+                                                        <th>#</th>
+                                                        <th>tipoCampo</th>
+                                                        <th>casas_decimais</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="teste">
+                                                    <tr *ngFor="let row of quantas_casas_decimais_utilizarRows; trackBy: trackByFnquantas_casas_decimais_utilizar"
+                                                        class="trow">
+                                                        <td>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected{{row.quantas_casas_decimais_utilizarid}}" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text"
+                                                                [(ngModel)]="row.quantas_casas_decimais_utilizarid"
+                                                                name="tipoAtividade{{row.quantas_casas_decimais_utilizarid}}"
+                                                                placeholder="Insira o código..." disabled />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.tipoCampo"
+                                                                name="descricaoAtividade{{row.quantas_casas_decimais_utilizarid}}"
+                                                                placeholder="Insira a descrição..." />
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" [(ngModel)]="row.casas_decimais"
+                                                                name="casas_decimais{{row.quantas_casas_decimais_utilizarid}}"
+                                                                placeholder="Insira um valor..." />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <div class="btnFuncionality">
+                                                    <button type="button"
+                                                        (click)="addRowquantas_casas_decimais_utilizar()"><i
+                                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
+                                                    <button type="button"
+                                                        (click)="removeSelectedRowsquantas_casas_decimais_utilizar()"><i
+                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                                                </div>
+                                            </table>
+                                        </form>
+                                        <button class="btn modal-save" type="button"
+                                            (click)="closeModal('casasDecimais')">Fechar</button>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="btnSave">
+                        <button>Salvar</button>
+                    </div>
+                </div>
+                <div class="boxMenuOptions">
+                    <div class="atvClienteBox">
+                        <div class="titleIcon">
+                            <h2>Formato de Data & Hora</h2>
+                            <i class="fa-solid fa-circle-info" (click)="toggleTip(6)"></i>
+                            <p *ngIf="activeTipId === 6" class="tip" [innerHTML]="getTip(6)"></p>
+                        </div>
+                        <p>Qual formato de hora você gostaria de utilizar na exibição na tela:</p>
+                        <div class="flex">
+                            <div class="inputField">
+                                <div class="title">
+                                    <label for="qual_formato_hora_uitlizar_tela" class="required" required>Formato de
+                                        Hora:</label>
+                                </div>
+                                <select formControlName="qual_formato_hora_uitlizar_tela"
+                                    [value]="'qual_formato_hora_uitlizar_tela'">
+                                    <option value="" disabled>Selecione uma opção...</option>
+                                    <option value="12h">12h</option>
+                                    <option value="24h">24h</option>
+                                </select>
+                            </div>
+                            <div class="inputField">
+                                <div class="title">
+                                    <label for="qual_formato_data_uitlizar_tela" class="required" required>Formato de
+                                        Data:</label>
+                                </div>
+                                <select formControlName="qual_formato_data_uitlizar_tela"
+                                    id="qual_formato_data_uitlizar_tela">
+                                    <option value="" disabled>Selecione uma opção...</option>
+                                    <option value="dd-mm-aaaa">DD/MM/AAAA</option>
+                                    <option value="mm-dd-aaaa">MM/DD/AAAA</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>

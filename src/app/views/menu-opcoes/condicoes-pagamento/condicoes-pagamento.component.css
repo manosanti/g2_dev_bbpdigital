@@ -1,0 +1,8 @@
+.wrapper {
+    margin: auto;
+    max-width: calc(100vw - 15.375rem);
+}
+
+.tableContainer {
+    overflow-x: scroll;
+}

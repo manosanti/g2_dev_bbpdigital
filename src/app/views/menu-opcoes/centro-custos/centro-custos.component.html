@@ -1,0 +1,156 @@
+<div *ngIf="isLoading" class="loading-indicator">
+  <div class="spinner"></div>
+  <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+  <app-header></app-header>
+  <div class="menuContent">
+    <app-menu-navigation></app-menu-navigation>
+    <div class="w-full">
+      <app-customer-field></app-customer-field>
+      <section id="informacoesBasicas">
+        <div class="boxMenuOptions">
+          <div class="text-center">
+            <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
+                básicas!</span></h2>
+            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
+              sua empresa. </p>
+          </div>
+          <div class="boxMenuContent">
+            <div class="boxMenuItem" *ngFor="let modal of modals">
+              <div class="imageAndText">
+                <div class="menuOptionImage">
+                  <i [class]="modal.icon"></i>
+                </div>
+                <div class="nameDescription">
+                  <h3>{{ modal.title }}</h3>
+                  <!-- <p>{{ modal.description }}</p> -->
+                </div>
+              </div>
+              <div class="answerField">
+                <button type="button" (click)="openModal(modal.id)"><i class="fa-solid fa-pen-to-square"></i>
+                  Editar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Modals -->
+      <form [formGroup]="formCentroCusto" (ngSubmit)="onSubmit()">
+        <div *ngFor="let modal of modals">
+          <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+              <span class="close" (click)="closeModal(modal.id)">&times;</span>
+              <h2>{{ modal.title }}</h2>
+
+              <ng-container [ngSwitch]="modal.id">
+                <!-- definir_Dimensoes_Centros_Custo -->
+                <div *ngSwitchCase="'definir_Dimensoes_Centros_Custo'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th>
+                          <th>#</th>
+                          <th>definir_Dimensoes_Centros_Custo_nome</th>
+                          <th>definir_Dimensoes_Centros_Custo_dimensao</th>
+                          <th>ativo</th>
+                          <th>Descrição</th>
+                          <th>CK</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of definir_Dimensoes_Centros_CustoRows; trackBy: trackByFnDimensoes"
+                          class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                              name="selected{{row.definir_Dimensoes_Centros_Custoid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.definir_Dimensoes_Centros_Custoid"
+                              name="id{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Insira o valor..."
+                              disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.nome_Definir_Dimensoes_Centros_Custo"
+                              name="nome{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Insira o valor..." />
+                          </td>
+                          <td><input type="text" [(ngModel)]="row.dimensao"
+                              name="dimensao{{row.definir_Dimensoes_Centros_Custoid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.ativo"
+                              name="ativo{{row.definir_Dimensoes_Centros_Custoid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.descricao"
+                              name="descricao{{row.definir_Dimensoes_Centros_Custoid}}"
+                              placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.ck" name="ck{{row.definir_Dimensoes_Centros_Custoid}}"
+                              placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowDimensaoCentroCustos()"><i class="fa-solid fa-plus"></i>
+                          Adicionar Linha</button>
+                        <button type="button" (click)="removeSelectedDimensaoCentroCustos()"><i
+                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('definir_Dimensoes_Centros_Custo')">Fechar</button>
+                </div>
+
+                <!-- definir_Centros_Custos -->
+                <div *ngSwitchCase="'definir_Centros_Custos'">
+                  <form class="formComponent" (submit)="onSubmit()">
+                    <table>
+                      <thead class="tableHeader">
+                        <tr>
+                          <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th>
+                          <th>#</th>
+                          <th>codigocentrocusto</th>
+                          <th>definir_Centros_Custo_nome</th>
+                          <th>codigoordenacao</th>
+                          <th>dimensao</th>
+                        </tr>
+                      </thead>
+                      <tbody class="teste">
+                        <tr *ngFor="let row of definir_Centros_CustoRows; trackBy: trackByFnCentroCustos" class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                              name="selected{{row.definir_Centros_Custoid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.definir_Centros_Custoid"
+                              name="id{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." disabled /></td>
+                          <td><input type="text" [(ngModel)]="row.codigocentrocusto"
+                              name="nome{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.nome_Definir_Centros_Custo"
+                              name="dimensao{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
+                          <td><input type="text" [(ngModel)]="row.codigoordenacao"
+                              name="ativo{{row.definir_Centros_Custoid}}" /></td>
+                          <td><input type="text" [(ngModel)]="row.dimensao"
+                              name="descricao{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
+                        </tr>
+                      </tbody>
+                      <div class="btnFuncionality">
+                        <button type="button" (click)="addRowCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar
+                          Linha</button>
+                        <button type="button" (click)="removeSelectedCentroCustos()"><i class="fa-solid fa-trash"></i>
+                          Remover Selecionadas</button>
+                      </div>
+                      <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                      </div>
+                    </table>
+                  </form>
+                  <button class="btn modal-save" type="button"
+                    (click)="closeModal('definir_Centros_Custos')">Fechar</button>
+                </div>
+
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="btnSave">
+          <button type="submit">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

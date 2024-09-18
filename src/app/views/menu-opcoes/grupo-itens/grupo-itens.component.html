@@ -1,0 +1,110 @@
+<div *ngIf="isLoading" class="loading-indicator">
+    <div class="spinner"></div>
+    <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+    <app-header></app-header>
+    <div class="menuContent">
+        <app-menu-navigation></app-menu-navigation>
+        <div class="w-full">
+            <app-customer-field></app-customer-field>
+            <section id="configuracoesGerais" class="wrapper">
+                <form [formGroup]="formGrupoItens" (submit)="onSubmit()" id="configuracoesGerais">
+                    <div class="text-center">
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar os <span
+                                class="purple-primary">Grupos de Itens!</span></h2>
+                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
+                            funcionamento da sua empresa.</p>
+                    </div>
+
+                    <!-- Alerta de Atividade -->
+                    <div class="atvClienteBox">
+                        <form class="formComponent" (submit)="onSubmit()">
+                            <table>
+                                <thead class="tableHeader">
+                                    <tr>
+                                        <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
+                                        <th>Nome do Grupo</th>
+                                        <th class="thActive">Método de Planejamento Padrão
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(1)"></i>
+                                            <p *ngIf="activeTipId === 1" class="tip" [innerHTML]="getTip(1)"></p>
+                                        </th>
+                                        <th class="thActive">Método de Suprimento Padrão
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(2)"></i>
+                                            <p *ngIf="activeTipId === 2" class="tip" [innerHTML]="getTip(2)"></p>
+                                        </th>
+                                        <th class="thActive">Solicitar Múltiplos
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(3)"></i>
+                                            <p *ngIf="activeTipId === 3" class="tip" [innerHTML]="getTip(3)"></p>
+                                        </th>
+                                        <th class="thActive">Qntd. Mínima Total
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(4)"></i>
+                                            <p *ngIf="activeTipId === 4" class="tip" [innerHTML]="getTip(4)"></p>
+                                        </th>
+                                        <th class="thActive">LeadTime em Dias Padrão
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(5)"></i>
+                                            <p *ngIf="activeTipId === 5" class="tip" [innerHTML]="getTip(5)"></p>
+                                        </th>
+                                        <th class="thActive">Método Avaliação Padrão
+                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(6)"></i>
+                                            <p *ngIf="activeTipId === 6" class="tip" [innerHTML]="getTip(6)"></p>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="teste">
+                                    <tr *ngFor="let row of rows; trackBy: trackByFn" class="trow">
+                                        <td>
+                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.defina_Grupo_Itemid}}" />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.nome_grupo" name="nome_grupo{{row.defina_Grupo_Itemid}}"
+                                                placeholder="Insira o valor..." />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.metodo_planjemento_padrao"
+                                                name="metodo_planjemento_padrao{{row.defina_Grupo_Itemid}}" placeholder="Insira o valor..." />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.metodo_suprimento_padrao"
+                                                name="metodo_suprimento_padrao{{row.defina_Grupo_Itemid}}" placeholder="Insira o valor..." />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.solicitar_nultiplos"
+                                                name="solicitar_nultiplos{{row.defina_Grupo_Itemid}}" placeholder="Insira o valor..." />
+                                        </td>
+                                        <td>
+                                            <input type="number" [(ngModel)]="row.qtde_minima_total"
+                                                name="qtde_minima_total{{row.defina_Grupo_Itemid}}" placeholder="Insira o valor..." />
+                                        </td>
+                                        <td>
+                                            <input type="number" [(ngModel)]="row.time_dias_padrao"
+                                                name="time_dias_padrao{{row.defina_Grupo_Itemid}}" placeholder="Insira o valor..." />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.metodo_avalizacao_padrao"
+                                                name="metodo_avalizacao_padrao{{row.defina_Grupo_Itemid}}" placeholder="Insira o valor..." />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <div class="btnFuncionality">
+                                    <button type="button" (click)="addRow()"><i class="fa-solid fa-plus"></i> Adicionar
+                                        Linha</button>
+                                    <button type="button" (click)="removeSelectedRows()"><i class="fa-solid fa-trash"></i>
+                                        Remover
+                                        Selecionadas</button>
+                                </div>
+                            </table>
+
+                            <div class="btnSave">
+                                <button type="submit">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="btnSave">
+                        <button type="submit">Salvar</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
