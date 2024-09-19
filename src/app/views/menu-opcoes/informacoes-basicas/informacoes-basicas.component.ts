@@ -171,9 +171,11 @@ export class InformacoesBasicasComponent implements OnInit {
     }
   ];
 
+  currentId: number = 0;
+
   addRowDadosCTB() {
     const newRow: tableDadosCTB = {
-      bbP_DadosCTBID: '',
+      bbP_DadosCTBID: (this.currentId++).toString(),
       tipoFJ: '',
       cnpj: '',
       cpf: '',
@@ -194,6 +196,7 @@ export class InformacoesBasicasComponent implements OnInit {
       selected: false,
     };
     this.rowsDadosCTB = [...this.rowsDadosCTB, newRow];
+    console.log(newRow)
   }
 
   removeSelectedRowDadosCTB() {
@@ -232,7 +235,7 @@ export class InformacoesBasicasComponent implements OnInit {
       codigoInternacional: '',
       selected: false
     };
-  
+
     this.rowsMoedas = [...this.rowsMoedas, newRow]; // Atualiza a lista com nova linha
     this.nextId++; // Incrementa o ID para a próxima linha
     console.log('Nova linha adicionada em Moedas:', newRow); // Log para conferir
@@ -315,6 +318,11 @@ export class InformacoesBasicasComponent implements OnInit {
     const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
+    const dadosCTB = this.rowsDadosCTB.map(row => ({
+      ...row,
+      bbP_DadosCTBID: '0',  // Converte para '0'
+    }));
+
     const newInfoBasica = {
       bbP_id: bbP_id,
       cardCode: cardCode,
@@ -327,7 +335,7 @@ export class InformacoesBasicasComponent implements OnInit {
       telefone: infoBasica.telefone,
       telefone2: infoBasica.telefone2,
       // Dados Contábeis
-      dadosCTB: this.rowsDadosCTB,
+      dadosCTB: dadosCTB,
       // Campos de Localização
       campos_Loca_Registro_Comercial: infoBasica.campos_Loca_Registro_Comercial,
       campos_Loca_Data_Incorporacao: infoBasica.campos_Loca_Data_Incorporacao,

@@ -38,9 +38,7 @@
                                                 name="descricao{{row.plano_Contas_Empresa_anexoid}}"
                                                 placeholder="Insira um Insira o valor..." /></td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.arquivo"
-                                                name="arquivo{{row.plano_Contas_Empresa_anexoid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
+                                            <a [href]="row.arquivo" target="_blank">Baixar Arquivo</a>
                                     </tr>
                                 </tbody>
                                 <div class="btnFuncionality">

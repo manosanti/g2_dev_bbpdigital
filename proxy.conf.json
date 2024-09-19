@@ -6,6 +6,14 @@
       "pathRewrite": {
         "^/api": ""
       }
+    },
+    "/file": {
+      "target": "http://localhost:3200",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/file": ""
+      }
     }
   }
   
