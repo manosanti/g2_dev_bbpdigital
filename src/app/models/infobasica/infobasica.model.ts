@@ -23,7 +23,10 @@ import { definir_Centros_Custo } from '../centro-custos/definir_Centros_Custo.mo
 import { defina_Depositos } from '../depositos/depositos.model';
 import { definir_condicoes_pagamentos } from '../condic-pagamento/condic-pagamento.model';
 import { definir_informacoes_cartoes } from '../definir_informacoes_cartoes/definir_informacoes_cartoes.model';
-import { definir_Territorios } from './../definir_Territorios/definir_Territorios.model';
+import { definir_Territorios } from '../Territorios/definir_Territorios.model';
+import { definir_grupo_comissoes } from '../Territorios/definir_grupo_comissoes.model';
+import { definir_controle_vendedor } from '../Territorios/definir_controle_vendedor.model';
+import { definir_Estagios_Niveis_Vendas } from '../Territorios/definir_Estagios_Niveis_Vendas.model';
 
 export interface infoBasica {
     cardName: string;
@@ -81,4 +84,7 @@ export interface infoBasica {
     definir_usuario_senhas: definir_usuario_senhas[];
     definir_Territorios: definir_Territorios[];
     plano_Contas_Empresa_anexo: plano_Contas_Empresa_anexo[];
+    definir_grupo_comissoes: definir_grupo_comissoes[];
+    definir_controle_vendedor: definir_controle_vendedor[];
+    definir_Estagios_Niveis_Vendas: definir_Estagios_Niveis_Vendas[];
 }

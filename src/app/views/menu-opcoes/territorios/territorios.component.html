@@ -8,64 +8,265 @@
         <app-menu-navigation></app-menu-navigation>
         <div class="w-full">
             <app-customer-field></app-customer-field>
-            <section id="configuracoesGerais" class="wrapper">
-                <form [formGroup]="formTerritorios" (submit)="onSubmit()" id="configuracoesGerais">
+            <section id="informacoesBasicas">
+                <div class="boxMenuOptions">
                     <div class="text-center">
-                        <h2 class="menusTitle">Preencha os campos abaixo para criar os <span
-                                class="purple-primary">Territórios!</span></h2>
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar as <span
+                                class="purple-primary">informações
+                                básicas!</span></h2>
                         <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
-                            funcionamento da sua empresa.</p>
+                            funcionamento da
+                            sua empresa. </p>
                     </div>
-
-                    <div class="atvClienteBox">
-                        <form class="formComponent" (submit)="onSubmit()">
-                            <table>
-                                <thead class="tableHeader">
-                                    <tr>
-                                        <th><input type="checkbox" (change)="toggleSelectedAllTerritorios($event)" />
-                                        </th>
-                                        <th>definir_Territoriosid</th>
-                                        <th>posicao</th>
-                                        <th>nome_territorio</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="teste">
-                                    <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios"
-                                        class="trow">
-                                        <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
-                                        </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.definir_Territoriosid" name="codigobanco{{row.definir_Territoriosid}}"
-                                                placeholder="Insira o código do banco..." disabled />
-                                        </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.posicao" name="agenciafilial{{row.definir_Territoriosid}}"
-                                                placeholder="Insira o código da agência..." />
-                                        </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.nome_territorio" name="digitoagencia{{row.definir_Territoriosid}}"
-                                                placeholder="Insira o dígito da agência..." />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <div class="btnFuncionality">
-                                    <button type="button" (click)="addRowsTerritorios()"><i
-                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                    <button type="button" (click)="removeSelectedRowsTerritorios()"><i
-                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                    <div class="boxMenuContent">
+                        <div class="boxMenuItem" *ngFor="let modal of modals">
+                            <div class="imageAndText">
+                                <div class="menuOptionImage">
+                                    <i [class]="modal.icon"></i>
                                 </div>
-                            </table>
+                                <div class="nameDescription">
+                                    <h3>{{ modal.title }}</h3>
+                                    <!-- <p>{{ modal.description }}</p> -->
+                                </div>
+                            </div>
+                            <div class="answerField">
+                                <button type="button" (click)="openModal(modal.id)"><i
+                                        class="fa-solid fa-pen-to-square"></i>
+                                    Editar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <form [formGroup]="formTerritorios" (submit)="onSubmit()" id="configuracoesGerais">
+                <div *ngFor="let modal of modals">
+                    <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
+                        <div class="modal-content" (click)="$event.stopPropagation()">
+                            <span class="close" (click)="closeModal(modal.id)">&times;</span>
+                            <h2>{{ modal.title }}</h2>
+
+                            <ng-container [ngSwitch]="modal.id">
+                                <!-- definir_Territorios -->
+                                <div *ngSwitchCase="'definir_Territorios'">
+                                    <div class="atvClienteBox">
+                                        <form class="formComponent" (submit)="onSubmit()">
+                                            <table>
+                                                <thead class="tableHeader">
+                                                    <tr>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectedAllTerritorios($event)" />
+                                                        </th>
+                                                        <th>definir_Territoriosid</th>
+                                                        <th>posicao</th>
+                                                        <th>nome_territorio</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="teste">
+                                                    <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios"
+                                                        class="trow">
+                                                        <td>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.definir_Territoriosid"
+                                                                name="codigobanco{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código do banco..." disabled />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.posicao"
+                                                                name="agenciafilial{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código da agência..." />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.nome_territorio"
+                                                                name="digitoagencia{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o dígito da agência..." />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <div class="btnFuncionality">
+                                                    <button type="button" (click)="addRowsTerritorios()"><i
+                                                            class="fa-solid fa-plus"></i>
+                                                        Adicionar Linha</button>
+                                                    <button type="button" (click)="removeSelectedRowsTerritorios()"><i
+                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                                                </div>
+                                            </table>
+
+                                            <div class="btnSave">
+                                                <button type="submit">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- definir_Estagios_Niveis_Vendas -->
+                                <div *ngSwitchCase="'definir_Estagios_Niveis_Vendas'">
+                                    <div class="atvClienteBox">
+                                        <form class="formComponent" (submit)="onSubmit()">
+                                            <table>
+                                                <thead class="tableHeader">
+                                                    <tr>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectedAllTerritorios($event)" />
+                                                        </th>
+                                                        <th>definir_Estagios_Niveis_Vendasid</th>
+                                                        <th>nivel</th>
+                                                        <th>nome</th>
+                                                        <th>perc_final</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="teste">
+                                                    <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios"
+                                                        class="trow">
+                                                        <td>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.definir_Territoriosid"
+                                                                name="codigobanco{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código do banco..." disabled />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.posicao"
+                                                                name="agenciafilial{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código da agência..." />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.nome_territorio"
+                                                                name="digitoagencia{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o dígito da agência..." />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <div class="btnFuncionality">
+                                                    <button type="button" (click)="addRowsTerritorios()"><i
+                                                            class="fa-solid fa-plus"></i>
+                                                        Adicionar Linha</button>
+                                                    <button type="button" (click)="removeSelectedRowsTerritorios()"><i
+                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                                                </div>
+                                            </table>
+
+                                            <div class="btnSave">
+                                                <button type="submit">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- definir_grupo_comissoes -->
+                                <div *ngSwitchCase="'definir_grupo_comissoes'">
+                                    <div class="atvClienteBox">
+                                        <form class="formComponent" (submit)="onSubmit()">
+                                            <table>
+                                                <thead class="tableHeader">
+                                                    <tr>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectedAllTerritorios($event)" />
+                                                        </th>
+                                                        <th>definir_grupo_comissoesid</th>
+                                                        <th>nome_grupo</th>
+                                                        <th>perc_comissao</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="teste">
+                                                    <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios"
+                                                        class="trow">
+                                                        <td>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.definir_Territoriosid"
+                                                                name="codigobanco{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código do banco..." disabled />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.posicao"
+                                                                name="agenciafilial{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código da agência..." />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <div class="btnFuncionality">
+                                                    <button type="button" (click)="addRowsTerritorios()"><i
+                                                            class="fa-solid fa-plus"></i>
+                                                        Adicionar Linha</button>
+                                                    <button type="button" (click)="removeSelectedRowsTerritorios()"><i
+                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                                                </div>
+                                            </table>
+
+                                            <div class="btnSave">
+                                                <button type="submit">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- definir_controle_vendedor -->
+                                <div *ngSwitchCase="'definir_controle_vendedor'">
+                                    <div class="atvClienteBox">
+                                        <form class="formComponent" (submit)="onSubmit()">
+                                            <table>
+                                                <thead class="tableHeader">
+                                                    <tr>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectedAllTerritorios($event)" />
+                                                        </th>
+                                                        <th>definir_controle_vendedorid</th>
+                                                        <th>nome_vendedor</th>
+                                                        <th>observacoes</th>
+                                                        <th>grupo_comissoes</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="teste">
+                                                    <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios"
+                                                        class="trow">
+                                                        <td>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.definir_Territoriosid"
+                                                                name="codigobanco{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código do banco..." disabled />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.posicao"
+                                                                name="agenciafilial{{row.definir_Territoriosid}}"
+                                                                placeholder="Insira o código da agência..." />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <div class="btnFuncionality">
+                                                    <button type="button" (click)="addRowsTerritorios()"><i
+                                                            class="fa-solid fa-plus"></i>
+                                                        Adicionar Linha</button>
+                                                    <button type="button" (click)="removeSelectedRowsTerritorios()"><i
+                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
+                                                </div>
+                                            </table>
+
+                                            <div class="btnSave">
+                                                <button type="submit">Salvar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+
+
 
                             <div class="btnSave">
                                 <button type="submit">Salvar</button>
                             </div>
-                        </form>
-                    </div>
-                    <div class="btnSave">
-                        <button type="submit">Salvar</button>
-                    </div>
-                </form>
+            </form>
             </section>
         </div>
     </div>
