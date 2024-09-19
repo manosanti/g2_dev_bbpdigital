@@ -215,6 +215,7 @@ b {
     bottom: 2%;
     right: 1%;
     cursor: pointer;
+    z-index: 1;
 
     &:hover {
         background-color: #01647a;

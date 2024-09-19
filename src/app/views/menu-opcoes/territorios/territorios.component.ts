@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { MenuNavigationComponent } from '../../../components/menu-navigation/menu-navigation.component';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
@@ -16,7 +16,7 @@ import { definir_Estagios_Niveis_Vendas } from '../../../models/Territorios/defi
 @Component({
   selector: 'app-territorios',
   standalone: true,
-  imports: [MenuNavigationComponent, HeaderComponent, FormsModule, NgFor, HttpClientModule, CustomerFieldComponent, ReactiveFormsModule, NgIf],
+  imports: [MenuNavigationComponent, HeaderComponent, FormsModule, NgFor, HttpClientModule, CustomerFieldComponent, ReactiveFormsModule, NgIf, NgSwitch, NgSwitchCase, NgClass],
   templateUrl: './territorios.component.html',
   styleUrl: './territorios.component.css'
 })
@@ -261,6 +261,9 @@ export class TerritoriosComponent implements OnInit {
     const apiData = { ...this.infoBasica[0] };
 
     apiData.definir_Territorios = this.rowsTerritorios;
+    apiData.definir_grupo_comissoes = this.rowsdefinir_grupo_comissoes;
+    apiData.definir_controle_vendedor = this.rowsdefinir_controle_vendedor;
+    apiData.definir_Estagios_Niveis_Vendas = this.rowsdefinir_Estagios_Niveis_Vendas;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
@@ -273,5 +276,27 @@ export class TerritoriosComponent implements OnInit {
         this.isLoading = false;
       }
     );
+  }
+
+  openModal(modalId: string) {
+    this.modals.forEach(modal => {
+      if (modal.id === modalId) {
+        modal.isVisible = true;
+      }
+    });
+  }
+
+  closeModal(modalId: string) {
+    this.modals.forEach(modal => {
+      if (modal.id === modalId) {
+        modal.isVisible = false;
+      }
+    });
+  }
+
+  onClickOutside(event: Event, modalId: string) {
+    if ((event.target as Element).classList.contains('modal')) {
+      this.closeModal(modalId);
+    }
   }
 }
