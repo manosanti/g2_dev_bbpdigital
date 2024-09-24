@@ -33,6 +33,19 @@ export class TerritoriosComponent implements OnInit {
 
   formTerritorios: FormGroup;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    // Adiciona o novo ID ao conjunto
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formTerritorios = this.fb.group({
       definir_Territoriosid: ['', Validators.required],
@@ -57,7 +70,7 @@ export class TerritoriosComponent implements OnInit {
   // Linhas da Tabela
   rowsTerritorios: definir_Territorios[] = [
     {
-      definir_Territoriosid: '1',
+      definir_Territoriosid: this.generateUniqueId(),
       posicao: '',
       nome_territorio: '',
       selected: false,
@@ -66,7 +79,7 @@ export class TerritoriosComponent implements OnInit {
 
   rowsdefinir_grupo_comissoes: definir_grupo_comissoes[] = [
     {
-      definir_grupo_comissoesid: '1',
+      definir_grupo_comissoesid: this.generateUniqueId(),
       nome_grupo: '',
       perc_comissao: 0,
       selected: false,
@@ -75,7 +88,7 @@ export class TerritoriosComponent implements OnInit {
 
   rowsdefinir_controle_vendedor: definir_controle_vendedor[] = [
     {
-      definir_controle_vendedorid: '1',
+      definir_controle_vendedorid: this.generateUniqueId(),
       nome_vendedor: '',
       observacoes: '',
       grupo_comissoes: 0,
@@ -84,7 +97,7 @@ export class TerritoriosComponent implements OnInit {
 
   rowsdefinir_Estagios_Niveis_Vendas: definir_Estagios_Niveis_Vendas[] = [
     {
-      definir_Estagios_Niveis_Vendasid: '1',
+      definir_Estagios_Niveis_Vendasid: this.generateUniqueId(),
       nivel: '',
       nome: '',
       perc_final: 0,
@@ -92,36 +105,42 @@ export class TerritoriosComponent implements OnInit {
     }
   ]
 
+  addNovaRowTerritorios: definir_Territorios[] = [];
   addRowsTerritorios() {
     const newRow: definir_Territorios = {
-      definir_Territoriosid: String(this.nextId),
+      definir_Territoriosid: this.generateUniqueId(),
       posicao: '',
       nome_territorio: '',
       selected: false,
     }
     this.rowsTerritorios = [...this.rowsTerritorios, newRow];
-    this.nextId++;
+    this.addNovaRowTerritorios.push(newRow);
   }
 
+  addNovaRowGrupoComissoes: definir_grupo_comissoes[] = [];
   addRowsdefinir_grupo_comissoes() {
     const newRow: definir_grupo_comissoes = {
-      definir_grupo_comissoesid: '1',
+      definir_grupo_comissoesid: this.generateUniqueId(),
       nome_grupo: '',
       perc_comissao: 0,
     }
     this.rowsdefinir_grupo_comissoes = [...this.rowsdefinir_grupo_comissoes, newRow];
+    this.addNovaRowGrupoComissoes.push(newRow)
   }
 
+  addNovaControleVendedor: definir_controle_vendedor[] = [];
   addRowsdefinir_controle_vendedor() {
     const newRow: definir_controle_vendedor = {
-      definir_controle_vendedorid: '1',
+      definir_controle_vendedorid: this.generateUniqueId(),
       nome_vendedor: '',
       observacoes: '',
       grupo_comissoes: 0,
     }
     this.rowsdefinir_controle_vendedor = [...this.rowsdefinir_controle_vendedor, newRow]
+    this.addNovaControleVendedor.push(newRow);
   }
 
+  addNovaEstagiosNiveisVendas: definir_Estagios_Niveis_Vendas[] = [];
   addRowsdefinir_Estagios_Niveis_Vendas() {
     const newRow: definir_Estagios_Niveis_Vendas = {
       definir_Estagios_Niveis_Vendasid: '1',
@@ -130,6 +149,7 @@ export class TerritoriosComponent implements OnInit {
       perc_final: 0,
     }
     this.rowsdefinir_Estagios_Niveis_Vendas = [...this.rowsdefinir_Estagios_Niveis_Vendas, newRow]
+    this.addNovaEstagiosNiveisVendas.push(newRow);
   }
 
   removeSelectedRowsTerritorios() {
@@ -200,8 +220,6 @@ export class TerritoriosComponent implements OnInit {
     return item.definir_Estagios_Niveis_Vendasid;
   }
 
-  nextId = 2;
-
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
@@ -243,7 +261,6 @@ export class TerritoriosComponent implements OnInit {
   onSubmit(): void {
     this.isLoading = true;
     const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -258,12 +275,32 @@ export class TerritoriosComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const apiData = { ...this.infoBasica[0] };
+    const territoriosPOST = this.addNovaRowTerritorios.map(row => ({
+      ...row,
+      definir_Territoriosid: '0'
+    }));
 
-    apiData.definir_Territorios = this.rowsTerritorios;
-    apiData.definir_grupo_comissoes = this.rowsdefinir_grupo_comissoes;
-    apiData.definir_controle_vendedor = this.rowsdefinir_controle_vendedor;
-    apiData.definir_Estagios_Niveis_Vendas = this.rowsdefinir_Estagios_Niveis_Vendas;
+    const grupoComissoesPOST = this.addNovaRowGrupoComissoes.map(row => ({
+      ...row,
+      definir_grupo_comissoesid: '0'
+    }));
+
+    const controleVendedorPOST = this.addNovaControleVendedor.map(row => ({
+      ...row,
+      definir_controle_vendedorid: '0'
+    }));
+    const estagioNiveisVendasPOST = this.addNovaEstagiosNiveisVendas.map(row => ({
+      ...row,
+      definir_Estagios_Niveis_Vendasid: '0'
+    }));
+
+    const apiData = {
+      ...this.infoBasica[0],
+      definir_Territorios: territoriosPOST,
+      definir_grupo_comissoes: grupoComissoesPOST,
+      definir_controle_vendedor: controleVendedorPOST,
+      definir_Estagios_Niveis_vendas: estagioNiveisVendasPOST,
+    };
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

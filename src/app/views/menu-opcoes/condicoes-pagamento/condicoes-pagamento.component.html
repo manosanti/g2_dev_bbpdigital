@@ -23,6 +23,7 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
+                                        <th></th>
                                         <th><input type="checkbox" (change)="toggleSelectAllAlertaAtividade($event)" />
                                         </th>
                                         <th>#</th>
@@ -36,6 +37,11 @@
                                 </thead>
                                 <tbody class="teste">
                                     <tr *ngFor="let row of alertaAtividadeRows; trackBy: trackByFnAlertaAtividade" class="trow">
+                                        <td>
+                                            <button type="button" (click)="deleteRow(row)">
+                                              <i class="fa-solid fa-trash"></i> Deletar
+                                            </button>
+                                          </td>
                                         <td>
                                             <input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.definir_condicoes_pagamentosid}}" />
                                         </td>

@@ -27,39 +27,60 @@ export class LancamentosTransacaoComponent implements OnInit {
 
   formLancTransacao: FormGroup;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      // Gera um ID aleatório
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    // Adiciona o novo ID ao conjunto
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   // Tabelas
+  novasRowsDeterminacaoContabil: determinacao_contacontabil_vendas[] = [];
   determinacao_contacontabil_vendasRows: determinacao_contacontabil_vendas[] = [
     {
-      determinacao_contacontabil_vendasid: '1',
+      determinacao_contacontabil_vendasid: this.generateUniqueId(),
       tipodeconta_vendas: '',
       contacontabil_vendas: '',
       selected: false,
     }
-  ]
+  ];
+
+  novasRowsGeral: determinacao_contacontabil_geral[] = [];
   determinacao_contacontabil_geralRows: determinacao_contacontabil_geral[] = [
     {
-      determinacao_contacontabil_geralid: '1',
+      determinacao_contacontabil_geralid: this.generateUniqueId(),
       tipodeconta_geral: '',
       contacontabil_geral: '',
       selected: false,
     }
   ]
+
+  novasRowsEstoque: determinacao_contacontabil_estoque[] = [];
   determinacao_contacontabil_estoqueRows: determinacao_contacontabil_estoque[] = [
     {
-      determinacao_contacontabil_estoqueid: '1',
+      determinacao_contacontabil_estoqueid: this.generateUniqueId(),
       tipodeconta_estoque: '',
       contacontabil_estoque: '',
       selected: false,
     }
-  ]
+  ];
+
+  novasRowsCompras: determinacao_contacontabil_compras[] = [];
   determinacao_contacontabil_comprasRows: determinacao_contacontabil_compras[] = [
     {
-      determinacao_contacontabil_comprasid: '1',
+      determinacao_contacontabil_comprasid: this.generateUniqueId(),
       tipodeconta_compras: '',
       contacontabil_compras: '',
       selected: false,
     }
-  ]
+  ];
 
   modals = [
     { id: 'determinacao_contacontabil_vendas', title: 'Determinação Contábil Vendas', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
@@ -94,12 +115,13 @@ export class LancamentosTransacaoComponent implements OnInit {
   // Funções para determinacao_contacontabil_vendas
   addRowVendas() {
     const newRow: determinacao_contacontabil_vendas = {
-      determinacao_contacontabil_vendasid: String(this.nextId),
+      determinacao_contacontabil_vendasid: this.generateUniqueId(),
       tipodeconta_vendas: '',
       contacontabil_vendas: '',
       selected: false
     };
     this.determinacao_contacontabil_vendasRows = [...this.determinacao_contacontabil_vendasRows, newRow];
+    this.novasRowsDeterminacaoContabil.push(newRow);
   }
 
   removeSelectedVendas() {
@@ -118,12 +140,13 @@ export class LancamentosTransacaoComponent implements OnInit {
   // Funções para determinacao_contacontabil_compras
   addRowCompras() {
     const newRow: determinacao_contacontabil_compras = {
-      determinacao_contacontabil_comprasid: (this.determinacao_contacontabil_comprasRows.length + 1).toString(),
+      determinacao_contacontabil_comprasid: this.generateUniqueId(),
       tipodeconta_compras: '',
       contacontabil_compras: '',
       selected: false
     };
     this.determinacao_contacontabil_comprasRows = [...this.determinacao_contacontabil_comprasRows, newRow];
+    this.novasRowsCompras.push(newRow)
   }
 
   removeSelectedCompras() {
@@ -142,12 +165,13 @@ export class LancamentosTransacaoComponent implements OnInit {
   // Funções para determinacao_contacontabil_estoque
   addRowEstoque() {
     const newRow: determinacao_contacontabil_estoque = {
-      determinacao_contacontabil_estoqueid: (this.determinacao_contacontabil_estoqueRows.length + 1).toString(),
+      determinacao_contacontabil_estoqueid: this.generateUniqueId(),
       tipodeconta_estoque: '',
       contacontabil_estoque: '',
       selected: false
     };
     this.determinacao_contacontabil_estoqueRows = [...this.determinacao_contacontabil_estoqueRows, newRow];
+    this.novasRowsEstoque.push(newRow);
   }
 
   removeSelectedEstoque() {
@@ -166,12 +190,13 @@ export class LancamentosTransacaoComponent implements OnInit {
   // Funções para determinacao_contacontabil_geral
   addRowGeral() {
     const newRow: determinacao_contacontabil_geral = {
-      determinacao_contacontabil_geralid: String(this.nextId),
+      determinacao_contacontabil_geralid: this.generateUniqueId(),
       tipodeconta_geral: '',
       contacontabil_geral: '',
       selected: false
     };
     this.determinacao_contacontabil_geralRows = [...this.determinacao_contacontabil_geralRows, newRow];
+    this.novasRowsGeral.push(newRow)
   }
 
   removeSelectedGeral() {
@@ -186,9 +211,6 @@ export class LancamentosTransacaoComponent implements OnInit {
   trackByFnGeral(index: number, item: determinacao_contacontabil_geral) {
     return item.determinacao_contacontabil_geralid;
   }
-
-  // Variável de controle de ID
-  nextId = 0;
 
   lancamentoTransacao: lancamentoTransacao[] = [];
 
@@ -234,13 +256,8 @@ export class LancamentosTransacaoComponent implements OnInit {
     );
   };
 
-
   onSubmit(): void {
     this.isLoading = true;
-
-    const infoBasica = this.formLancTransacao.value;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -250,12 +267,35 @@ export class LancamentosTransacaoComponent implements OnInit {
       }),
     };
 
-    const apiData = { ...this.infoBasica[0] };
+    const determinacaoGeralPOST = this.novasRowsGeral.map(row => ({
+      ...row,
+      determinacao_contacontabil_geralid: '0', // Ou o ID correto se necessário
+    }));
+    const determinacaoVendasPOST = this.novasRowsDeterminacaoContabil.map(row => ({
+      ...row,
+      determinacao_contacontabil_vendasid: '0', // Ou o ID correto se necessário
+    }));
+    const determinacaoComprasPOST = this.novasRowsCompras.map(row => ({
+      ...row,
+      determinacao_contacontabil_comprasid: '0', // Ou o ID correto se necessário
+    }));
+    const determinacaoEstoquePOST = this.novasRowsEstoque.map(row => ({
+      ...row,
+      determinacao_contacontabil_estoqueid: '0', // Ou o ID correto se necessário
+    }));
 
-    apiData.determinacao_contacontabil_geral = this.determinacao_contacontabil_geralRows;
-    apiData.determinacao_contacontabil_vendas = this.determinacao_contacontabil_vendasRows;
-    apiData.determinacao_contacontabil_estoque = this.determinacao_contacontabil_estoqueRows;
-    apiData.determinacao_contacontabil_compras = this.determinacao_contacontabil_comprasRows;
+    const apiData = {
+      ...this.infoBasica[0],
+      determinacao_contacontabil_geral: determinacaoGeralPOST,
+      determinacao_contacontabil_estoque: determinacaoEstoquePOST,
+      determinacao_contacontabil_compras: determinacaoComprasPOST,
+      determinacao_contacontabil_vendas: determinacaoVendasPOST,
+    };
+
+    // apiData.determinacao_contacontabil_geral = this.determinacao_contacontabil_geralRows;
+    // apiData.determinacao_contacontabil_vendas = this.determinacao_contacontabil_vendasRows;
+    // apiData.determinacao_contacontabil_estoque = this.determinacao_contacontabil_estoqueRows;
+    // apiData.determinacao_contacontabil_compras = this.determinacao_contacontabil_comprasRows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

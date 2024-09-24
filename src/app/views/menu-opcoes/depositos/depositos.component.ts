@@ -20,11 +20,26 @@ import { FormInfoService } from './../../../services/infobasica/form-info.servic
   styleUrl: './depositos.component.css'
 })
 export class DepositosComponent implements OnInit {
+  isLoading: boolean = true;
+
   infoBasica: infoBasica[] = [];
+
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    // Adiciona o novo ID ao conjunto
+    this.generatedIds.add(newId);
+    return newId;
+  }
 
   rows: defina_Depositos[] = [
     {
-      defina_Depositosid: '1',
+      defina_Depositosid: this.generateUniqueId(),
       codigodeposito: '',
       nome: '',
       conta_despesa: '',
@@ -35,11 +50,10 @@ export class DepositosComponent implements OnInit {
     }
   ];
 
-  nextId = 2;
-
+  addNovaRow: defina_Depositos[] = [];
   addRow() {
     const newRow: defina_Depositos = {
-      defina_Depositosid: '1',
+      defina_Depositosid: this.generateUniqueId(),
       codigodeposito: '',
       nome: '',
       conta_despesa: '',
@@ -48,10 +62,10 @@ export class DepositosComponent implements OnInit {
       utilizado_mrp: '',
     };
     this.rows = [...this.rows, newRow];
+    this.addNovaRow.push(newRow);
   }
 
   removeSelectedRows() {
-    // Mantém a primeira linha e remove as demais selecionadas
     this.rows = this.rows.filter((row, index) => index === 0 || !row.selected);
   }
 
@@ -121,8 +135,6 @@ export class DepositosComponent implements OnInit {
     }
   }
 
-  isLoading: boolean = true;
-
   ngOnInit(): void {
     const bbP_id = sessionStorage.getItem('bbP_id');
     const token = sessionStorage.getItem('token');
@@ -160,7 +172,6 @@ export class DepositosComponent implements OnInit {
     this.isLoading = true;
 
     const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -175,9 +186,16 @@ export class DepositosComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const apiData = { ...this.infoBasica[0] };
+    const depositosPOST = this.addNovaRow.map(row => ({
+      ...row,
+      defina_Depositosid: '0',
+    }))
 
-    apiData.defina_Depositos = this.rows;
+    const apiData = { ...this.infoBasica[0],
+      defina_depositos: depositosPOST,
+     };
+
+    // apiData.defina_Depositos = this.rows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

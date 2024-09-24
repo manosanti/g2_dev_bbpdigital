@@ -24,10 +24,23 @@ export class UsuariosSapComponent implements OnInit {
   isLoading: boolean = false;
   formUsuariosSenhas: FormGroup;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    // Adiciona o novo ID ao conjunto
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formUsuariosSenhas = this.fb.group({
       super_usuario: ['', Validators.required],
-      codusuario: ['', Validators.required],
+      // codusuario: ['', Validators.required],
       nome_usuario: ['', Validators.required],
       email: ['', Validators.required],
       celular: ['', Validators.required],
@@ -35,16 +48,15 @@ export class UsuariosSapComponent implements OnInit {
       senha: ['', Validators.required],
     });
   }
-  nextId = 2;
 
   infoBasica: infoBasica[] = [];
 
   // Tabela de Dados
   rowsUsuariosSenhas: definir_usuario_senhas[] = [
     {
-      definir_usuario_senhasid: '1',
+      definir_usuario_senhasid: this.generateUniqueId(),
       super_usuario: '',
-      codusuario: '',
+      // codusuario: '',
       nome_usuario: '',
       email: '',
       celular: '',
@@ -54,11 +66,12 @@ export class UsuariosSapComponent implements OnInit {
     }
   ]
 
+  addNovaRowUsuariosSenhas: definir_usuario_senhas[] = [];
   addRowsUsuariosSenhas() {
     const newRow: definir_usuario_senhas = {
-      definir_usuario_senhasid: String(this.nextId++),
+      definir_usuario_senhasid: this.generateUniqueId(),
       super_usuario: '',
-      codusuario: '',
+      // codusuario: '',
       nome_usuario: '',
       email: '',
       celular: '',
@@ -67,6 +80,7 @@ export class UsuariosSapComponent implements OnInit {
       selected: false,
     };
     this.rowsUsuariosSenhas = [...this.rowsUsuariosSenhas, newRow];
+    this.addNovaRowUsuariosSenhas.push(newRow)
   }
 
   removeSelectedRowUsuariosSenhas() {
@@ -165,7 +179,6 @@ export class UsuariosSapComponent implements OnInit {
   onSubmit(): void {
     this.isLoading = true;
     const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -180,9 +193,14 @@ export class UsuariosSapComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const apiData = { ...this.infoBasica[0] };
+    const usuariosSAP = this.addNovaRowUsuariosSenhas.map(row => ({
+      ...row,
+      definir_usuario_senhasid: '0',
+    }))
 
-    apiData.definir_usuario_senhas = this.rowsUsuariosSenhas;
+    const apiData = { ...this.infoBasica[0],
+      definir_usuario_senha: usuariosSAP,
+     };
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

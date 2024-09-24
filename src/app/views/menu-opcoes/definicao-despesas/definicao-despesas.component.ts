@@ -23,6 +23,20 @@ export class DefinicaoDespesasComponent implements OnInit {
 
   formDefinicaoDespesas: FormGroup;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      // Gera um ID aleatório
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    // Adiciona o novo ID ao conjunto
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   // Array de Tabelas
   definicao_DespesasRows: definicao_Despesas[] = [];
   despesas_AdicionaisRows: despesas_Adicionais[] = [];
@@ -54,9 +68,10 @@ export class DefinicaoDespesasComponent implements OnInit {
     })
   }
 
+  addNovasRowsAdicionais: despesas_Adicionais[] = [];
   addRowDespesasAdicionais() {
     const newRow: despesas_Adicionais = {
-      despesas_Adicionaisid: (this.despesas_AdicionaisRows.length + 1).toString(),
+      despesas_Adicionaisid: this.generateUniqueId(),
       nome_despesa: '',
       conta_receita: '',
       conta_despesa: '',
@@ -71,17 +86,20 @@ export class DefinicaoDespesasComponent implements OnInit {
       selected: false,
     }
     this.despesas_AdicionaisRows = [...this.despesas_AdicionaisRows, newRow];
+    this.addNovasRowsAdicionais.push(newRow);
   }
 
+  addNovasRowsDespesas: definicao_Despesas[] = [];
   addRowDefinicaoDespesas() {
     const newRow: definicao_Despesas = {
-      definicao_Despesasid: String(this.nextId++),
+      definicao_Despesasid: this.generateUniqueId(),
       nome: '',
       alocacao_por: '',
       conta_alocacao_despesas_importacao: '',
       selected: false,
     }
     this.definicao_DespesasRows = [...this.definicao_DespesasRows, newRow];
+    this.addNovasRowsDespesas.push(newRow);
   }
 
   removeSelectedDespesasAdicionais() {
@@ -157,9 +175,6 @@ export class DefinicaoDespesasComponent implements OnInit {
 
   onSubmit() {
     this.isLoading = true;
-
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -169,10 +184,23 @@ export class DefinicaoDespesasComponent implements OnInit {
       }),
     };
 
-    const apiData = { ...this.infoBasica[0] };
+    const despesasPOST = this.addNovasRowsDespesas.map(row => ({
+      ...row,
+      definicao_Despesasid: '0',
+    }));
 
-    apiData.definicao_Despesas = this.definicao_DespesasRows;
-    apiData.despesas_Adicionais = this.despesas_AdicionaisRows;
+    const adicionaisPOST = this.addNovasRowsAdicionais.map(row => ({
+      ...row,
+      despesas_Adicionaisid: '0',
+    }));
+
+    const apiData = { ...this.infoBasica[0],
+      definicao_Despesas: despesasPOST,
+      despesas_Adicionais: adicionaisPOST,
+     };
+
+    // apiData.definicao_Despesas = this.definicao_DespesasRows;
+    // apiData.despesas_Adicionais = this.despesas_AdicionaisRows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

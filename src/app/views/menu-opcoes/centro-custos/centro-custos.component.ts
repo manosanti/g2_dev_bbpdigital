@@ -25,10 +25,24 @@ export class CentroCustosComponent implements OnInit {
 
   formCentroCusto: FormGroup;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      // Gera um ID aleatório
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    // Adiciona o novo ID ao conjunto
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   // Array de Tabelas
   definir_Dimensoes_Centros_CustoRows: definir_Dimensoes_Centros_Custo[] = [
     {
-      definir_Dimensoes_Centros_Custoid: '1',
+      definir_Dimensoes_Centros_Custoid: this.generateUniqueId(),
       nome_Definir_Dimensoes_Centros_Custo: '',
       dimensao: '',
       ativo: '',
@@ -59,9 +73,10 @@ export class CentroCustosComponent implements OnInit {
     })
   }
 
+  novasRowsDimensoesCentroCusto: definir_Dimensoes_Centros_Custo[] = [];
   addRowDimensaoCentroCustos() {
     const newRow: definir_Dimensoes_Centros_Custo = {
-      definir_Dimensoes_Centros_Custoid: (this.definir_Dimensoes_Centros_CustoRows.length + 1).toString(),
+      definir_Dimensoes_Centros_Custoid: this.generateUniqueId(),
       nome_Definir_Dimensoes_Centros_Custo: '',
       dimensao: '',
       ativo: '',
@@ -70,11 +85,13 @@ export class CentroCustosComponent implements OnInit {
       selected: false,
     }
     this.definir_Dimensoes_Centros_CustoRows = [...this.definir_Dimensoes_Centros_CustoRows, newRow];
+    this.novasRowsDimensoesCentroCusto.push(newRow);
   }
 
+  novasRowsDefinirCentroCustos: definir_Centros_Custo[] = [];
   addRowCentroCustos() {
     const newRow: definir_Centros_Custo = {
-      definir_Centros_Custoid: (this.definir_Dimensoes_Centros_CustoRows.length + 1).toString(),
+      definir_Centros_Custoid: this.generateUniqueId(),
       codigocentrocusto: '',
       nome_Definir_Centros_Custo: '',
       codigoordenacao: '',
@@ -82,6 +99,7 @@ export class CentroCustosComponent implements OnInit {
       selected: false,
     }
     this.definir_Centros_CustoRows = [...this.definir_Centros_CustoRows, newRow];
+    this.novasRowsDefinirCentroCustos.push(newRow);
   }
 
   removeSelectedDimensaoCentroCustos() {
@@ -157,8 +175,6 @@ export class CentroCustosComponent implements OnInit {
   };
 
   onSubmit() {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -168,10 +184,24 @@ export class CentroCustosComponent implements OnInit {
       }),
     };
 
-    const apiData = { ...this.infoBasica[0] };
+    
+    const centroCustosPOST = this.novasRowsDefinirCentroCustos.map(row => ({
+      ...row,
+      definir_Centros_Custoid: '0',
+    }));
 
-    apiData.definir_Centros_Custo = this.definir_Centros_CustoRows;
-    apiData.definir_Dimensoes_Centros_Custo = this.definir_Dimensoes_Centros_CustoRows;
+    const dimensoesPOST = this.novasRowsDimensoesCentroCusto.map(row => ({
+      ...row,
+      definir_Dimensoes_Centros_Custoid: '0',
+    }));
+
+    const apiData = { ...this.infoBasica[0],
+      definir_Centros_Custo: centroCustosPOST,
+      definir_Dimensoes_Centros_Custo: dimensoesPOST,
+     };
+
+    // apiData.definir_Centros_Custo = this.definir_Centros_CustoRows;
+    // apiData. = this.definir_Dimensoes_Centros_CustoRows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

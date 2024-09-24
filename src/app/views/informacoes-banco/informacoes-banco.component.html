@@ -23,9 +23,13 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><input type="checkbox" (change)="toggleSelectAllAlertaAtividade($event)" />
-                                        </th>
-                                        <th>#</th>
+                                        <th><button type="button" (click)="addRowAlertaAtividade()"><i
+                                                    class="fa-solid fa-plus"></i> Adicionar
+                                                Linha</button></th>
+                                        <!-- <th><input type="checkbox" (change)="toggleSelectAllAlertaAtividade($event)" />
+                                        </th> -->
+                                        <!-- <th>#</th> -->
+                                        <!-- <th></th> -->
                                         <th>codigobanco</th>
                                         <th>agenciafilial</th>
                                         <th>digitoagencia</th>
@@ -35,49 +39,57 @@
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
-                                    <tr *ngFor="let row of rowsAlertaAtividade; trackBy: trackByFnAlertaAtividade"
+                                    <tr *ngFor="let row of alertaAtividadeRows; trackBy: trackByFnAlertaAtividade"
                                         class="trow">
-                                        <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
-                                        </td>
-                                        <td>
+                                        <!-- <td>
+                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                name="selected{{row.definir_Informacoes_bancoid}}" />
+                                        </td> -->
+                                        <!-- <td>
                                             <input type="text" [(ngModel)]="row.definir_Informacoes_bancoid"
-                                                name="definir_Informacoes_bancoid" placeholder="Insira o código..."
-                                                disabled />
+                                                name="definir_Informacoes_bancoid{{row.definir_Informacoes_bancoid}}"
+                                                placeholder="Insira o código..." disabled />
+                                        </td> -->
+                                        <td>
+                                            <button type="button" class="btnDelete" (click)="deleteRow(row)">
+                                                <i class="fa-solid fa-trash"></i></button>
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.codigobanco" name="codigobanco"
+                                            <input type="text" [(ngModel)]="row.codigobanco"
+                                                name="codigobanco{{row.definir_Informacoes_bancoid}}"
                                                 placeholder="Insira o código do banco..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.agenciafilial" name="agenciafilial"
+                                            <input type="text" [(ngModel)]="row.agenciafilial"
+                                                name="agenciafilial{{row.definir_Informacoes_bancoid}}"
                                                 placeholder="Insira o código da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.digitoagencia" name="digitoagencia"
+                                            <input type="text" [(ngModel)]="row.digitoagencia"
+                                                name="digitoagencia{{row.definir_Informacoes_bancoid}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.numerodaConta" name="numerodaConta"
+                                            <input type="text" [(ngModel)]="row.numerodaConta"
+                                                name="numerodaConta{{row.definir_Informacoes_bancoid}}"
                                                 placeholder="Insira o número da conta..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.contacontabil" name="contacontabil"
+                                            <input type="text" [(ngModel)]="row.contacontabil"
+                                                name="contacontabil{{row.definir_Informacoes_bancoid}}"
                                                 placeholder="Insira a conta contábil..." />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.contacontprovisoria"
-                                                name="contacontprovisoria"
+                                                name="contacontprovisoria{{row.definir_Informacoes_bancoid}}"
                                                 placeholder="Insira a conta contábil provisória..." />
                                         </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnFuncionality">
+                                <!-- <div class="btnFuncionality">
                                     <button type="button" (click)="addRowAlertaAtividade()"><i
                                             class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                    <button type="button" (click)="removeSelectedRowsAlertaAtividade()"><i
-                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                </div>
+                                </div> -->
                             </table>
 
                             <div class="btnSave">

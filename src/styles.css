@@ -134,6 +134,10 @@
     }
 }
 
+.modal-content {
+    max-height: 80vh;
+}
+
 .btn-border {
     cursor: pointer;
     background-color: transparent;
@@ -302,9 +306,9 @@ b {
     background-color: var(--highlight);
 }
 
-.btnFuncionality button:last-child {
+/* .btnFuncionality button:last-child {
     background-color: var(--red-primary);
-}
+} */
 
 .tableHeader {
     color: var(--gray-active);
@@ -639,6 +643,13 @@ td:first-child {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.btnDelete {
+    color: var(--red-primary);
+    background: none;
+    border: none;
+    outline: none;
 }
 
 @keyframes spin {

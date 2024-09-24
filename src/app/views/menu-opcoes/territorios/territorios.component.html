@@ -25,7 +25,6 @@
                                 </div>
                                 <div class="nameDescription">
                                     <h3>{{ modal.title }}</h3>
-                                    <!-- <p>{{ modal.description }}</p> -->
                                 </div>
                             </div>
                             <div class="answerField">
@@ -70,17 +69,17 @@
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.definir_Territoriosid"
-                                                                name="codigobanco{{row.definir_Territoriosid}}"
+                                                                name="definir_Territoriosid{{row.definir_Territoriosid}}"
                                                                 placeholder="Insira o código do banco..." disabled />
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.posicao"
-                                                                name="agenciafilial{{row.definir_Territoriosid}}"
+                                                                name="posicao{{row.definir_Territoriosid}}"
                                                                 placeholder="Insira o código da agência..." />
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.nome_territorio"
-                                                                name="digitoagencia{{row.definir_Territoriosid}}"
+                                                                name="nome_territorio{{row.definir_Territoriosid}}"
                                                                 placeholder="Insira o dígito da agência..." />
                                                         </td>
                                                     </tr>
@@ -94,7 +93,7 @@
                                                 </div>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_territorios')">Fechar</button>
+                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_Territorios')">Fechar</button>
                                     </div>
                                 </div>
 
@@ -155,7 +154,7 @@
                                                 </div>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_Estagios_Niveis_vendas')">Fechar</button>
+                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_Estagios_Niveis_Vendas')">Fechar</button>
                                     </div>
                                 </div>
 
