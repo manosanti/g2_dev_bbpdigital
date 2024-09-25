@@ -21,19 +21,6 @@ export class definir_informacoes_cartoesComponent implements OnInit {
 
   isLoading: boolean = false;
 
-  private generatedIds: Set<string> = new Set();
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    // Adiciona o novo ID ao conjunto
-    this.generatedIds.add(newId);
-    return newId;
-  }
-
   constructor(private http: HttpClient, private fb: FormBuilder, private FormInfoService: FormInfoService) {
     this.formdefinir_informacoes_cartoes = this.fb.group({
       definir_informacoes_cartoesid: [''],
@@ -45,11 +32,11 @@ export class definir_informacoes_cartoesComponent implements OnInit {
     });
   }
 
-  formdefinir_informacoes_cartoes: FormGroup;
+  public formdefinir_informacoes_cartoes: FormGroup;
 
   rows: definir_informacoes_cartoes[] = [
     {
-      definir_informacoes_cartoesid: this.generateUniqueId(),
+      definir_informacoes_cartoesid: '1',
       nome_cartao: '',
       tipo_cartao: '',
       conta_contabil_cartao: '',
@@ -59,10 +46,11 @@ export class definir_informacoes_cartoesComponent implements OnInit {
     }
   ];
 
-  addNovaRow: definir_informacoes_cartoes[] = [];
+  nextId = 2;
+
   addRow() {
     const newRow: definir_informacoes_cartoes = {
-      definir_informacoes_cartoesid: this.generateUniqueId(),
+      definir_informacoes_cartoesid: String(this.nextId++),
       nome_cartao: '',
       tipo_cartao: '',
       conta_contabil_cartao: '',
@@ -71,7 +59,6 @@ export class definir_informacoes_cartoesComponent implements OnInit {
       selected: false
     };
     this.rows = [...this.rows, newRow];
-    this.addNovaRow.push(newRow)
   }
 
   removeSelectedRows() {
@@ -91,7 +78,7 @@ export class definir_informacoes_cartoesComponent implements OnInit {
     return item.definir_informacoes_cartoesid;
   }
 
-  infoBasica: infoBasica[] = [];
+  infoBasica: infoBasica[] = []; 
 
   ngOnInit(): void {
     const bbP_id = sessionStorage.getItem('bbP_id');
@@ -129,8 +116,12 @@ export class definir_informacoes_cartoesComponent implements OnInit {
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
     this.isLoading = true;
+    // Resgatar o bbP_id + cardCode do sessionStorage
+    // const configsGerais = this.formInfoBanco.value;
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
+    // const cardCode = sessionStorage.getItem('cardCode');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -144,16 +135,9 @@ export class definir_informacoes_cartoesComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const infoCartoesPOST = this.addNovaRow.map(row => ({
-      ...row,
-      definir_informacoes_cartoesid: '0',
-    }))
+    const apiData = { ...this.infoBasica[0] };
 
-    const apiData = { ...this.infoBasica[0],
-      definir_informacoes_cartoes: infoCartoesPOST,
-     };
-
-    // apiData.definir_informacoes_cartoes = this.rows;
+    apiData.definir_informacoes_cartoes = this.rows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

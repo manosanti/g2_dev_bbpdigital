@@ -23,19 +23,6 @@ export class ImpostosComponent implements OnInit {
   formImpostos: FormGroup;
   infoBasica: infoBasica[] = [];
 
-  private generatedIds: Set<string> = new Set();
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    // Adiciona o novo ID ao conjunto
-    this.generatedIds.add(newId);
-    return newId;
-  }
-
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formImpostos = this.fb.group({
       configuracao_Imposto_Retido_Fonteid: ['', Validators.required],
@@ -52,7 +39,7 @@ export class ImpostosComponent implements OnInit {
 
   rows: configuracao_Imposto_Retido_Fonte[] = [
     {
-      configuracao_Imposto_Retido_Fonteid: this.generateUniqueId(),
+      configuracao_Imposto_Retido_Fonteid: '1',
       nome_imposto: '',
       categoria: '',
       taxa: 0,
@@ -65,10 +52,11 @@ export class ImpostosComponent implements OnInit {
     }
   ];
 
-  addRowConfigImposto: configuracao_Imposto_Retido_Fonte[] = [];
+  nextId = 2;
+
   addRow() {
     const newRow: configuracao_Imposto_Retido_Fonte = {
-      configuracao_Imposto_Retido_Fonteid: this.generateUniqueId(),
+      configuracao_Imposto_Retido_Fonteid: String(this.nextId++),
       nome_imposto: '',
       categoria: '',
       taxa: 0,
@@ -80,7 +68,6 @@ export class ImpostosComponent implements OnInit {
       selected: false,
     };
     this.rows = [...this.rows, newRow];
-    this.addRowConfigImposto.push(newRow);
   }
 
   removeSelectedRows() {
@@ -200,8 +187,12 @@ export class ImpostosComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
+    // Resgatar o bbP_id + cardCode do sessionStorage
+    // const configsGerais = this.formInfoBanco.value;
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
+    // const cardCode = sessionStorage.getItem('cardCode');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -215,16 +206,9 @@ export class ImpostosComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const configImpostoPOST = this.addRowConfigImposto.map(row => ({
-      ...row,
-      configuracao_Imposto_Retido_Fonteid: '0',
-    }))
+    const apiData = { ...this.infoBasica[0] };
 
-    const apiData = { ...this.infoBasica[0],
-      configuracao_Imposto_Retido_Fonte: configImpostoPOST,
-     };
-
-    // apiData.configuracao_Imposto_Retido_Fonte = this.rows;
+    apiData.configuracao_Imposto_Retido_Fonte = this.rows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

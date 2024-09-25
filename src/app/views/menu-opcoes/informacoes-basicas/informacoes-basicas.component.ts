@@ -93,8 +93,6 @@ export class InformacoesBasicasComponent implements OnInit {
 
   activeTipId: number | null = null;
 
-  private generatedIds: Set<string> = new Set();
-
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formInfoBasica = this.fb.group({
       cardName: ['', Validators.required],
@@ -151,7 +149,7 @@ export class InformacoesBasicasComponent implements OnInit {
   // Tabela tableDadosCTB
   rowsDadosCTB: tableDadosCTB[] = [
     {
-      bbP_DadosCTBID: this.generateUniqueId(),
+      bbP_DadosCTBID: '1',
       tipoFJ: '',
       cnpj: '',
       cpf: '',
@@ -173,10 +171,11 @@ export class InformacoesBasicasComponent implements OnInit {
     }
   ];
 
-  addNovaDadosCTB: tableDadosCTB[] = [];
+  currentId: number = 0;
+
   addRowDadosCTB() {
     const newRow: tableDadosCTB = {
-      bbP_DadosCTBID: this.generateUniqueId(),
+      bbP_DadosCTBID: (this.currentId++).toString(),
       tipoFJ: '',
       cnpj: '',
       cpf: '',
@@ -196,67 +195,12 @@ export class InformacoesBasicasComponent implements OnInit {
       valor_Acumulado_Imposto_Retido_Fonte_CP: '',
       selected: false,
     };
-
-    this.dadosCTBRows = [...this.dadosCTBRows, newRow];
-    this.addNovaDadosCTB.push(newRow)
-    console.log(newRow);
+    this.rowsDadosCTB = [...this.rowsDadosCTB, newRow];
+    console.log(newRow)
   }
 
-  deleteRow(row: tableDadosCTB) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
-    const vcode = row.bbP_DadosCTBID; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBPCTB'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
-      (response) => {
-        console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
-          // Remover a linha da tabela localmente após sucesso
-          this.dadosCTBRows = this.dadosCTBRows.filter(r => r !== row);
-        }
-      },
-      (error) => {
-        console.error('Erro ao deletar a linha', error);
-      }
-    );    
-  }
-
-  deleteRowMoedas(row: moedas) {
-    const bbpid = sessionStorage.getItem('bbP_id');
-    const vcode = row.bbP_MoedasID;
-    const vtabela = '%40G2_BBP_MOEDAS';
-    const token = sessionStorage.getItem('token')
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
-      (response) => {
-        console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
-          this.rowsMoedas = this.rowsMoedas.filter(r => row !== row);
-        }
-      },
-      (error) => {
-        console.error('Erro ao deletar a linha', error);
-      }
-    );    
+  removeSelectedRowDadosCTB() {
+    this.rowsDadosCTB = this.rowsDadosCTB.filter(row => !row.selected);
   }
 
   toggleSelectAllDadosCTB(event: Event) {
@@ -275,7 +219,7 @@ export class InformacoesBasicasComponent implements OnInit {
   // Tabela moedas
   rowsMoedas: moedas[] = [
     {
-      bbP_MoedasID: this.generateUniqueId(),
+      bbP_MoedasID: '1',
       numero: '',
       nomeMoeda: '',
       codigoInternacional: '',
@@ -283,18 +227,17 @@ export class InformacoesBasicasComponent implements OnInit {
     }
   ];
 
-  addNovaMoedas: moedas[] = [];
   addRowMoeda() {
     const newRow: moedas = {
-      bbP_MoedasID: this.generateUniqueId(), // Incrementa o ID
+      bbP_MoedasID: '1', // Incrementa o ID
       numero: '',
       nomeMoeda: '',
       codigoInternacional: '',
       selected: false
     };
 
-    this.moedasRows = [...this.moedasRows, newRow]; // Atualiza a lista com nova linha
-    this.addNovaMoedas.push(newRow);
+    this.rowsMoedas = [...this.rowsMoedas, newRow]; // Atualiza a lista com nova linha
+    this.nextId++; // Incrementa o ID para a próxima linha
     console.log('Nova linha adicionada em Moedas:', newRow); // Log para conferir
   }
 
@@ -315,19 +258,10 @@ export class InformacoesBasicasComponent implements OnInit {
     return item.bbP_MoedasID;
   }
 
+  // Variável de controle de ID
+  nextId = 2;
+
   infoBasica: infoBasica[] = [];
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      // Gera um ID aleatório
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    // Adiciona o novo ID ao conjunto
-    this.generatedIds.add(newId);
-    return newId;
-  }
 
   ngOnInit(): void {
     const token = sessionStorage.getItem('token');
@@ -362,9 +296,8 @@ export class InformacoesBasicasComponent implements OnInit {
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
-        this.dadosCTBRows = this.infoBasica[0]?.dadosCTB || [];
-        this.moedasRows = this.infoBasica[0]?.moedas || [];
-
+        this.rowsDadosCTB = this.infoBasica[0]?.dadosCTB || [];
+        this.rowsMoedas = this.infoBasica[0]?.moedas || [];
         // GET (isolado) dos campos a serem resgatados
         this.formInfoService.patchInfoBasicaForm(this.formInfoBasica, this.infoBasica);
         this.isLoading = false;
@@ -379,13 +312,46 @@ export class InformacoesBasicasComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
+
+    const infoBasica = this.formInfoBasica.value;
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
-    if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
-      return;
-    }
+    const dadosCTB = this.rowsDadosCTB.map(row => ({
+      ...row,
+      bbP_DadosCTBID: '0',  // Converte para '0'
+    }));
+
+    const newInfoBasica = {
+      bbP_id: bbP_id,
+      cardCode: cardCode,
+
+      cardName: infoBasica.cardName,
+      // Web
+      site: infoBasica.site,
+      email: infoBasica.email,
+      // Telefone
+      telefone: infoBasica.telefone,
+      telefone2: infoBasica.telefone2,
+      // Dados Contábeis
+      dadosCTB: dadosCTB,
+      // Campos de Localização
+      campos_Loca_Registro_Comercial: infoBasica.campos_Loca_Registro_Comercial,
+      campos_Loca_Data_Incorporacao: infoBasica.campos_Loca_Data_Incorporacao,
+      campos_Loca_Perfil_Sped: infoBasica.campos_Loca_Perfil_Sped,
+      // Caminho para Pastas
+      caminho_Pasta_Word: infoBasica.caminho_Pasta_Word,
+      caminho_Pasta_Excel: infoBasica.caminho_Pasta_Excel,
+      caminho_Pasta_Imagens: infoBasica.caminho_Pasta_Imagens,
+      caminho_Pasta_Licencas: infoBasica.caminho_Pasta_Licencas,
+      caminho_Pasta_XML: infoBasica.caminho_Pasta_XML,
+      // Moedas
+      moeda_Corrente: infoBasica.moeda_Corrente,
+      moeda_Sistema: infoBasica.moeda_Sistema,
+      // Moedas
+      moedas: this.rowsMoedas,
+    };
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -394,27 +360,12 @@ export class InformacoesBasicasComponent implements OnInit {
       }),
     };
 
-    const dadosCTBPOST = this.addNovaDadosCTB.map(row => ({
-      ...row,
-      bbP_DadosCTBID: '0',  // Converte para '0'
-    }));
+    console.log('Dados enviados:', newInfoBasica);
 
-    const moedasPOST = this.addNovaMoedas.map(row => ({
-      ...row,
-      bbP_MoedasID: '0',  // Converte para '0'
-    }));
-
-    const apiData = {...this.infoBasica[0],
-      dadosCTB: dadosCTBPOST,
-      moedas: moedasPOST,
-    }
-
-    console.log('Dados enviados:', apiData);
-
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('/api/BBP', newInfoBasica, httpOptions).subscribe(
       response => {
-        console.log('Dados atualizados com sucesso:', response);
-        console.log('Dados a serem enviados:', apiData);
+        // console.log('Dados atualizados com sucesso:', response);
+        console.log('Dados a serem enviados:', newInfoBasica);
         this.isLoading = false;
       },
       error => {
@@ -424,6 +375,7 @@ export class InformacoesBasicasComponent implements OnInit {
     );
   }
 
+  // 
   viaCEP(cep: string) {
 
     this.http.get(`https://viacep.com.br/ws/${cep}/json/`).subscribe(

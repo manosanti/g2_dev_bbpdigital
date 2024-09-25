@@ -27,19 +27,6 @@ export class CondicoesPagamentoComponent implements OnInit {
   // Arrays de Tabelas
   alertaAtividadeRows: definir_condicoes_pagamentos[] = [];
 
-  private generatedIds: Set<string> = new Set();
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    // Adiciona o novo ID ao conjunto
-    this.generatedIds.add(newId);
-    return newId;
-  }
-
   tipsObj: Tip[] = [
     {
       id: 1,
@@ -90,7 +77,7 @@ export class CondicoesPagamentoComponent implements OnInit {
 
   rowsAlertaAtividade: definir_condicoes_pagamentos[] = [
     {
-      definir_condicoes_pagamentosid: this.generateUniqueId(),
+      definir_condicoes_pagamentosid: '1',
       codigo_condicao: '',
       data_vencimento_baseada: '',
       prestacao: '',
@@ -100,10 +87,11 @@ export class CondicoesPagamentoComponent implements OnInit {
     }
   ];
 
-  addNovaCondicoesPagamento: definir_condicoes_pagamentos[] = [];
+  nextId = 2;
+
   addRowAlertaAtividade() {
     const newRow: definir_condicoes_pagamentos = {
-      definir_condicoes_pagamentosid: this.generateUniqueId(),
+      definir_condicoes_pagamentosid: '1',
       codigo_condicao: '',
       data_vencimento_baseada: '',
       prestacao: '',
@@ -113,7 +101,6 @@ export class CondicoesPagamentoComponent implements OnInit {
       selected: false,
     };
     this.alertaAtividadeRows = [...this.alertaAtividadeRows, newRow];
-    this.addNovaCondicoesPagamento.push(newRow);
   }  
 
   removeSelectedRowsAlertaAtividade() {
@@ -168,8 +155,12 @@ export class CondicoesPagamentoComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
+    // Resgatar o bbP_id + cardCode do sessionStorage
+    // const configsGerais = this.formInfoBanco.value;
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
+    // const cardCode = sessionStorage.getItem('cardCode');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -183,14 +174,9 @@ export class CondicoesPagamentoComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const condicoesPagamentoPOST = this.addNovaCondicoesPagamento.map(row => ({
-      ...row,
-      definir_condicoes_pagamentosid: '0',
-    }))
+    const apiData = { ...this.infoBasica[0] };
 
-    const apiData = { ...this.infoBasica[0],
-      definir_condicoes_pagamentos: condicoesPagamentoPOST,
-     };
+    apiData.definir_condicoes_pagamentos = this.alertaAtividadeRows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
@@ -204,34 +190,5 @@ export class CondicoesPagamentoComponent implements OnInit {
         this.isLoading = false;
       }
     );
-  }
-
-  deleteRow(row: definir_condicoes_pagamentos) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
-    const vcode = row.definir_condicoes_pagamentosid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_CONDPAG'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
-      (response) => {
-        console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
-          // Remover a linha da tabela localmente após sucesso
-          this.rowsAlertaAtividade = this.rowsAlertaAtividade.filter(r => r !== row);
-        }
-      },
-      (error) => {
-        console.error('Erro ao deletar a linha', error);
-      }
-    );    
   }
 }

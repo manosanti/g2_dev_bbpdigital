@@ -22,6 +22,35 @@ import { infoBasica } from '../../../models/infobasica/infobasica.model';
   styleUrls: ['./configuracoes-gerais.component.css']
 })
 export class ConfiguracoesGeraisComponent implements OnInit {
+  isLoading: boolean = true;
+
+  formConfigsGerais: FormGroup;
+
+  constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
+    this.formConfigsGerais = this.fb.group({
+      qual_formato_hora_uitlizar_tela: ['', Validators.required],
+      qual_formato_data_uitlizar_tela: ['', Validators.required],
+      // Alerta Atividade (Objeto)
+      bbP_Alerta_Atividadeid: ['', Validators.required],
+      tipoAtividade_id: ['', Validators.required],
+      descricaoAtividade: ['', Validators.required],
+      ativaSN: ['', Validators.required],
+      // Taxa de Comissão
+      com_base_negocio_define_taxadecomissid: ['', Validators.required],
+      tipo: ['', Validators.required],
+      st_SN: ['', Validators.required],
+      // quantas_casas_decimais_utilizar
+      quantas_casas_decimais_utilizarid: ['', Validators.required],
+      tipoCampo: ['', Validators.required],
+      casas_decimais: ['', Validators.required],
+    });
+  }
+
+  // Arrays de Tabelas
+  alertaAtividadeRows: alerta_Atividade[] = [];
+  taxaComissaoRows: com_base_negocio_define_taxadecomiss[] = [];
+  quantas_casas_decimais_utilizarRows: quantas_casas_decimais_utilizar[] = [];
+
   modals = [
     { id: 'alerta_Atividade', title: 'Alerta de Atividade', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
     { id: 'taxaComissao', title: 'Taxa de Comissão', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
@@ -91,48 +120,6 @@ export class ConfiguracoesGeraisComponent implements OnInit {
     }
   ];
 
-  isLoading: boolean = true;
-
-  formConfigsGerais: FormGroup;
-
-  private generatedIds: Set<string> = new Set();
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    // Adiciona o novo ID ao conjunto
-    this.generatedIds.add(newId);
-    return newId;
-  }
-
-  constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
-    this.formConfigsGerais = this.fb.group({
-      qual_formato_hora_uitlizar_tela: ['', Validators.required],
-      qual_formato_data_uitlizar_tela: ['', Validators.required],
-      // Alerta Atividade (Objeto)
-      bbP_Alerta_Atividadeid: ['', Validators.required],
-      tipoAtividade_id: ['', Validators.required],
-      descricaoAtividade: ['', Validators.required],
-      ativaSN: ['', Validators.required],
-      // Taxa de Comissão
-      com_base_negocio_define_taxadecomissid: ['', Validators.required],
-      tipo: ['', Validators.required],
-      st_SN: ['', Validators.required],
-      // quantas_casas_decimais_utilizar
-      quantas_casas_decimais_utilizarid: ['', Validators.required],
-      tipoCampo: ['', Validators.required],
-      casas_decimais: ['', Validators.required],
-    });
-  }
-
-  // Arrays de Tabelas
-  alertaAtividadeRows: alerta_Atividade[] = [];
-  taxaComissaoRows: com_base_negocio_define_taxadecomiss[] = [];
-  quantas_casas_decimais_utilizarRows: quantas_casas_decimais_utilizar[] = [];
-
   activeTipId: number | null = null;
 
   toggleTip(id: number) {
@@ -153,7 +140,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
   }
 
   trackByFnAlertaAtividade(index: number, item: alerta_Atividade) {
-    return item.bbP_Alerta_Atividadeid;
+    return item.tipoAtividade_id;
   }
 
   trackByFnTaxaComissao(index: number, item: com_base_negocio_define_taxadecomiss) {
@@ -166,7 +153,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
 
   rowsAlertaAtividade: alerta_Atividade[] = [
     {
-      bbP_Alerta_Atividadeid: this.generateUniqueId(),
+      bbP_Alerta_Atividadeid: '1',
       tipoAtividade_id: '',
       descricaoAtividade: '',
       ativaSN: '',
@@ -176,7 +163,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
 
   rowsTaxaComissao: com_base_negocio_define_taxadecomiss[] = [
     {
-      com_base_negocio_define_taxadecomissid: this.generateUniqueId(),
+      com_base_negocio_define_taxadecomissid: '1',
       tipo: '',
       st_SN: '',
       selected: false
@@ -185,48 +172,44 @@ export class ConfiguracoesGeraisComponent implements OnInit {
 
   rowsquantas_casas_decimais_utilizar: quantas_casas_decimais_utilizar[] = [
     {
-      quantas_casas_decimais_utilizarid: this.generateUniqueId(),
+      quantas_casas_decimais_utilizarid: '1',
       tipoCampo: '',
       casas_decimais: '',
       selected: false,
     }
   ]
 
-  addNovasAlertaAtividade: alerta_Atividade[] = [];
+  nextId = 0;
+
   addRowAlertaAtividade() {
     const newRow: alerta_Atividade = {
-      bbP_Alerta_Atividadeid: this.generateUniqueId(),
+      bbP_Alerta_Atividadeid: '1',
       tipoAtividade_id: '',
       descricaoAtividade: '',
       ativaSN: '',
       selected: false
     };
     this.alertaAtividadeRows = [...this.alertaAtividadeRows, newRow];
-    this.addNovasAlertaAtividade.push(newRow);
   }
 
-  addNovasTaxaComissao: com_base_negocio_define_taxadecomiss[] = [];
   addRowTaxaComissao() {
     const newRow: com_base_negocio_define_taxadecomiss = {
-      com_base_negocio_define_taxadecomissid: this.generateUniqueId(),
+      com_base_negocio_define_taxadecomissid: '1',
       tipo: '',
       st_SN: '',
       selected: false,
     };
     this.taxaComissaoRows = [...this.taxaComissaoRows, newRow];
-    this.addNovasTaxaComissao.push(newRow);
   }
 
-  addNovasCasasDecimais: quantas_casas_decimais_utilizar[] = [];
   addRowquantas_casas_decimais_utilizar() {
     const newRow: quantas_casas_decimais_utilizar = {
-      quantas_casas_decimais_utilizarid: this.generateUniqueId(),
+      quantas_casas_decimais_utilizarid: '1',
       tipoCampo: '',
       casas_decimais: '',
       selected: false,
     };
     this.quantas_casas_decimais_utilizarRows = [...this.quantas_casas_decimais_utilizarRows, newRow];
-    this.addNovasCasasDecimais.push(newRow);
   }
 
   removeSelectedRowsTaxaComissao() {
@@ -278,6 +261,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
 
   ngOnInit(): void {
     const bbP_id = sessionStorage.getItem('bbP_id');
+    console.log('bbP_id:', bbP_id)
     const token = sessionStorage.getItem('token');
 
     setTimeout(() => {
@@ -293,6 +277,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
         'Authorization': `Bearer ${token}`,
       }),
     }
+
 
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
@@ -314,11 +299,15 @@ export class ConfiguracoesGeraisComponent implements OnInit {
         this.isLoading = false;
       }
     );
+    console.log('hora:',)
+    console.log('data:',)
   };
 
   onSubmit(): void {
+    console.log('teste')
     this.isLoading = true;
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -333,29 +322,14 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const alerta_AtividadePOST = this.addNovasAlertaAtividade.map(row => ({
-      ...row,
-      bbP_Alerta_Atividadeid: '0',
-    }));
-
-    const taxaComissaoPOST = this.addNovasTaxaComissao.map(row => ({
-      ...row,
-      com_base_negocio_define_taxadecomissid: '0',
-    }));
-
-    const casasDecimaisPOST = this.addNovasCasasDecimais.map(row => ({
-      ...row,
-      quantas_casas_decimais_utilizarid: '0',
-    }));
-
     // Clonar o objeto recuperado do GET
-    const apiData = {
-      ...this.infoBasica[0],
-      alerta_Atividade: alerta_AtividadePOST,
-      com_base_negocio_define_taxadecomiss: taxaComissaoPOST,
-      quantas_casas_decimais_utilizar: casasDecimaisPOST
-    };
+    const apiData = { ...this.infoBasica[0] };
 
+    apiData.alerta_Atividade = this.alertaAtividadeRows;
+    apiData.com_base_negocio_define_taxadecomiss = this.taxaComissaoRows;
+    apiData.quantas_casas_decimais_utilizar = this.quantas_casas_decimais_utilizarRows;
+    console.log('hora:', this.formConfigsGerais.value.qual_formato_hora_uitlizar_tela)
+    console.log('data:', this.formConfigsGerais.value.qual_formato_data_uitlizar_tela)
     apiData.qual_formato_hora_uitlizar_tela = this.formConfigsGerais.value.qual_formato_hora_uitlizar_tela;
     apiData.qual_formato_data_uitlizar_tela = this.formConfigsGerais.value.qual_formato_data_uitlizar_tela;
 
@@ -363,6 +337,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       response => {
         console.log('Dados enviados com sucesso', response);
         console.log('Dados enviados:', apiData);
+        console.log('click')
         this.isLoading = false;
       },
       error => {
@@ -396,92 +371,5 @@ export class ConfiguracoesGeraisComponent implements OnInit {
     if ((event.target as Element).classList.contains('modal')) {
       this.closeModal(modalId);
     }
-  }
-
-  deleteRow(row: alerta_Atividade) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
-    const vcode = row.bbP_Alerta_Atividadeid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_ALERTAAT'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
-      (response) => {
-        console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
-          // Remover a linha da tabela localmente após sucesso
-          this.alertaAtividadeRows = this.alertaAtividadeRows.filter(r => r !== row);
-        }
-      },
-      (error) => {
-        console.error('Erro ao deletar a linha', error);
-      }
-    );    
-  }
-
-  deleteRowTaxaComissao(row: com_base_negocio_define_taxadecomiss) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
-    const vcode = row.com_base_negocio_define_taxadecomissid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_CBNDTAX'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
-      (response) => {
-        console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
-          // Remover a linha da tabela localmente após sucesso
-          this.taxaComissaoRows = this.taxaComissaoRows.filter(r => r !== row);
-        }
-      },
-      (error) => {
-        console.error('Erro ao deletar a linha', error);
-      }
-    );    
-  }
-
-  deleteRowCasasDecimais(row: quantas_casas_decimais_utilizar) {
-    const bbpid = sessionStorage.getItem('bbP_id');
-    const vcode = row.quantas_casas_decimais_utilizarid;
-    const vtabela = '%40G2_BBP_QCDU';
-    const token = sessionStorage.getItem('token')
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
-      (response) => {
-        console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
-          // Remover a linha da tabela localmente após sucesso
-          this.quantas_casas_decimais_utilizarRows = this.quantas_casas_decimais_utilizarRows.filter(r => r !== row);
-        }
-      },
-      (error) => {
-        console.error('Erro ao deletar a linha', error);
-      }
-    );    
   }
 }

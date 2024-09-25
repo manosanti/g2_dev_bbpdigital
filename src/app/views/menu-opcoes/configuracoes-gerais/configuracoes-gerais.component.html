@@ -53,7 +53,10 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th></th>
+                                                        <th><input type="checkbox"
+                                                                (change)="toggleSelectAllAlertaAtividade($event)" />
+                                                        </th>
+                                                        <th>#</th>
                                                         <th>Tipo de Atividade</th>
                                                         <th>Descrição da Atividade</th>
                                                         <th>Ativo (S/N)</th>
@@ -63,9 +66,13 @@
                                                     <tr *ngFor="let row of alertaAtividadeRows; trackBy: trackByFnAlertaAtividade"
                                                         class="trow">
                                                         <td>
-                                                            <button type="button" (click)="deleteRow(row)">
-                                                                <i class="fa-solid fa-trash"></i>
-                                                            </button>
+                                                            <input type="checkbox" [(ngModel)]="row.selected"
+                                                                name="selected{{row.bbP_Alerta_Atividadeid}}" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="text" [(ngModel)]="row.bbP_Alerta_Atividadeid"
+                                                                name="bbP_Alerta_Atividadeid{{row.bbP_Alerta_Atividadeid}}"
+                                                                placeholder="Insira o código..." disabled />
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.tipoAtividade_id"
@@ -113,11 +120,10 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <!-- <th><input type="checkbox"
+                                                        <th><input type="checkbox"
                                                                 (change)="toggleSelectAllAlertaAtividade($event)" />
-                                                        </th> -->
-                                                        <!-- <th>#</th> -->
-                                                         <th></th>
+                                                        </th>
+                                                        <th>#</th>
                                                         <th>tipo</th>
                                                         <th>st_SN</th>
                                                     </tr>
@@ -126,11 +132,6 @@
                                                     <tr *ngFor="let row of taxaComissaoRows; trackBy: trackByFnTaxaComissao"
                                                         class="trow">
                                                         <td>
-                                                            <button type="button" (click)="deleteRowTaxaComissao(row)">
-                                                                <i class="fa-solid fa-trash"></i>
-                                                            </button>
-                                                        </td>
-                                                        <!-- <td>
                                                             <input type="checkbox" [(ngModel)]="row.selected"
                                                                 name="selected{{row.com_base_negocio_define_taxadecomissid}}" />
                                                         </td>
@@ -139,7 +140,7 @@
                                                                 [(ngModel)]="row.com_base_negocio_define_taxadecomissid"
                                                                 name="com_base_negocio_define_taxadecomissid{{row.com_base_negocio_define_taxadecomissid}}"
                                                                 placeholder="Insira o código..." disabled />
-                                                        </td> -->
+                                                        </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.tipo"
                                                                 name="tipo{{row.com_base_negocio_define_taxadecomissid}}"
@@ -175,10 +176,10 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <!-- <th><input type="checkbox"
+                                                        <th><input type="checkbox"
                                                                 (change)="toggleSelectAllAlertaAtividade($event)" />
-                                                        </th> -->
-                                                        <th></th>
+                                                        </th>
+                                                        <th>#</th>
                                                         <th>tipoCampo</th>
                                                         <th>casas_decimais</th>
                                                     </tr>
@@ -186,20 +187,15 @@
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of quantas_casas_decimais_utilizarRows; trackBy: trackByFnquantas_casas_decimais_utilizar"
                                                         class="trow">
-                                                        <!-- <td>
+                                                        <td>
                                                             <input type="checkbox" [(ngModel)]="row.selected"
                                                                 name="selected{{row.quantas_casas_decimais_utilizarid}}" />
-                                                        </td> -->
-                                                        <!-- <td>
+                                                        </td>
+                                                        <td>
                                                             <input type="text"
                                                                 [(ngModel)]="row.quantas_casas_decimais_utilizarid"
                                                                 name="tipoAtividade{{row.quantas_casas_decimais_utilizarid}}"
                                                                 placeholder="Insira o código..." disabled />
-                                                        </td> -->
-                                                        <td>
-                                                            <button type="button" (click)="deleteRowCasasDecimais(row)">
-                                                                <i class="fa-solid fa-trash"></i>
-                                                            </button>
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.tipoCampo"

@@ -49,8 +49,7 @@
                 <div *ngSwitchCase="'nomeEmpresa'">
                   <div class="modalInputField">
                     <label for="cardName" class="required">Nome da Empresa:</label>
-                    <input type="text" id="cardName" formControlName="cardName" placeholder="Informe o nome da empresa"
-                      required>
+                    <input type="text" id="cardName" formControlName="cardName" placeholder="Informe o nome da empresa" required>
                   </div>
                   <button class="btn modal-save" type="button" (click)="closeModal('nomeEmpresa')">Fechar</button>
                 </div>
@@ -61,9 +60,7 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th><button type="button" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i> Adicionar
-                            Linha</button></th>
-                          <th></th>
+                          <th><input type="checkbox" (change)="toggleSelectAllDadosCTB($event)" /></th>
                           <th>Tipo FJ</th>
                           <th>CNPJ</th>
                           <th>CPF</th>
@@ -84,10 +81,8 @@
                         </tr>
                       </thead>
                       <tbody class="teste">
-                        <tr *ngFor="let row of dadosCTBRows; trackBy: trackByFnDadosCTB" class="trow">
-                          <td>
-                            <button type="button" class="btnDelete" (click)="deleteRow(row)">
-                              <i class="fa-solid fa-trash"></i></button>
+                        <tr *ngFor="let row of rowsDadosCTB; trackBy: trackByFnDadosCTB" class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.bbP_DadosCTBID}}" />
                           </td>
                           <td><input type="text" [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}"
                               placeholder="F ou J" maxlength="1" required /></td>
@@ -140,6 +135,9 @@
                       <div class="btnFuncionality">
                         <button type="button" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i> Adicionar
                           Linha</button>
+                        <button type="button" (click)="removeSelectedRowDadosCTB()"><i class="fa-solid fa-trash"></i>
+                          Remover
+                          Selecionadas</button>
                       </div>
                     </table>
                   </form>
@@ -208,11 +206,13 @@
                 <div *ngSwitchCase="'telefone'">
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="telefone" class="required">Telefone:</label>
-                    <input type="text" id="telefone" formControlName="telefone" required>
+                    <input type="text" id="telefone" formControlName="telefone"
+                      required>
                   </div>
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="telefone2" class="required">Telefone 2:</label>
-                    <input type="text" id="telefone2" formControlName="telefone2" required>
+                    <input type="text" id="telefone2" formControlName="telefone2"
+                      required>
                   </div>
                   <button class="btn modal-save" type="button" (click)="closeModal('telefone')">Fechar</button>
                 </div>
@@ -318,18 +318,19 @@
                   <div class="grid-cols-2 gap-2">
                     <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="moeda_Corrente">Moeda Corrente:</label>
-                      <input type="text" id="moeda_Corrente" formControlName="moeda_Corrente">
+                      <input type="text" id="moeda_Corrente"
+                        formControlName="moeda_Corrente">
                     </div>
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="moeda_Sistema">Moeda do Sistema:</label>
-                      <input type="text" id="moeda_Sistema" formControlName="moeda_Sistema">
+                      <input type="text" id="moeda_Sistema"
+                        formControlName="moeda_Sistema">
                     </div>
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="seu_Negocio_necessita_sup_mult">Suporte Multilíngue?:</label>
-                      <input type="text" id="seu_Negocio_necessita_sup_mult"
-                        formControlName="seu_Negocio_necessita_sup_mult">
+                      <input type="text" id="seu_Negocio_necessita_sup_mult" formControlName="seu_Negocio_necessita_sup_mult">
                     </div>
 
                     <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
@@ -358,24 +359,19 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th></th>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllMoeda($event)" /></th> -->
-                          <!-- <th>Code</th> -->
+                          <th><input type="checkbox" (change)="toggleSelectAllMoeda($event)" /></th>
+                          <th>Code</th>
                           <th>Número</th>
                           <th>Nome da Moeda</th>
                           <th>Código Internacional</th>
                         </tr>
                       </thead>
                       <tbody class="teste">
-                        <tr *ngFor="let row of moedasRows; trackBy: trackByFnMoeda" class="trow">
-                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.bbP_MoedasID}}" />
-                          </td> -->
-                          <!-- <td><input type="text" [(ngModel)]="row.bbP_MoedasID" name="tipoFJ{{row.bbP_MoedasID}}"
-                              placeholder="Insira o valor..." disabled /></td> -->
-                          <td>
-                            <button type="button" class="btnDelete" (click)="deleteRowMoedas(row)">
-                              <i class="fa-solid fa-trash"></i></button>
+                        <tr *ngFor="let row of rowsMoedas; trackBy: trackByFnMoeda" class="trow">
+                          <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.bbP_MoedasID}}" />
                           </td>
+                          <td><input type="text" [(ngModel)]="row.bbP_MoedasID" name="tipoFJ{{row.bbP_MoedasID}}"
+                              placeholder="Insira o valor..." disabled /></td>
                           <td><input type="text" [(ngModel)]="row.numero" name="cnpj{{row.bbP_MoedasID}}"
                               placeholder="Insira o valor..." /></td>
                           <td><input type="text" [(ngModel)]="row.nomeMoeda" name="cpf{{row.bbP_MoedasID}}"

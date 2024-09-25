@@ -25,19 +25,6 @@ export class InformacoesBancoComponent implements OnInit {
 
   formInfoBanco: FormGroup;
 
-  private generatedIds: Set<string> = new Set();
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      // Gera um ID aleatório
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    this.generatedIds.add(newId);
-    return newId;
-  }
-
   // Arrays de Tabelas
   alertaAtividadeRows: definir_Informacoes_banco[] = [];
 
@@ -93,7 +80,7 @@ export class InformacoesBancoComponent implements OnInit {
   rowsAlertaAtividade: definir_Informacoes_banco[] = [
     {
       // definir_Informacoes_banco
-      definir_Informacoes_bancoid: '',
+      definir_Informacoes_bancoid: '1',
       codigobanco: '',
       pais: '',
       agenciafilial: '',
@@ -104,11 +91,11 @@ export class InformacoesBancoComponent implements OnInit {
     }
   ];
 
-  // nextId = 2;
-  novasRowsAlertaAtividade: definir_Informacoes_banco[] = [];
+  nextId = 2;
+
   addRowAlertaAtividade() {
     const newRow: definir_Informacoes_banco = {
-      definir_Informacoes_bancoid: this.generateUniqueId(),
+      definir_Informacoes_bancoid: '1',
       codigobanco: '',
       pais: '',
       agenciafilial: '',
@@ -117,10 +104,8 @@ export class InformacoesBancoComponent implements OnInit {
       contacontabil: '',
       contacontprovisoria: ''
     };
-    this.alertaAtividadeRows = [...this.alertaAtividadeRows, newRow]
-    this.novasRowsAlertaAtividade.push(newRow);
-    console.log(newRow);
-  }
+    this.rowsAlertaAtividade = [...this.rowsAlertaAtividade, newRow];
+  }  
 
   removeSelectedRowsAlertaAtividade() {
     this.rowsAlertaAtividade = this.rowsAlertaAtividade.filter((row, index) => index === 0 || !row.selected);
@@ -137,7 +122,7 @@ export class InformacoesBancoComponent implements OnInit {
   }
 
   // Méotdo GET
-  // configsGerais: configsGerais[] = [];
+  configsGerais: configsGerais[] = [];
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
@@ -161,7 +146,7 @@ export class InformacoesBancoComponent implements OnInit {
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
-        this.alertaAtividadeRows = this.infoBasica[0]?.definir_Informacoes_banco;
+        this.rowsAlertaAtividade = this.infoBasica[0]?.definir_Informacoes_banco;
         this.formInfoService.patchInfoBasicaForm(this.formInfoBanco, this.infoBasica);
         console.log('dados recuperados onInit: ', this.infoBasica);
         this.isLoading = false;
@@ -175,8 +160,12 @@ export class InformacoesBancoComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
+    // Resgatar o bbP_id + cardCode do sessionStorage
+    // const configsGerais = this.formInfoBanco.value;
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
+    // const cardCode = sessionStorage.getItem('cardCode');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -187,16 +176,12 @@ export class InformacoesBancoComponent implements OnInit {
 
     if (!bbP_id) {
       console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
-      return;
+      return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    // Prepare apenas as novas linhas para envio
-    const definir_Informacoes_bancoPOST = this.novasRowsAlertaAtividade.map(row => ({
-      ...row,
-      definir_Informacoes_bancoid: '0',
-    }));
+    const apiData = { ...this.infoBasica[0] };
 
-    const apiData = { ...this.infoBasica[0], definir_Informacoes_banco: definir_Informacoes_bancoPOST };
+    apiData.definir_Informacoes_banco = this.rowsAlertaAtividade;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
@@ -208,34 +193,6 @@ export class InformacoesBancoComponent implements OnInit {
       error => {
         console.error('Erro ao enviar dados', error);
         this.isLoading = false;
-      }
-    );
-  }
-
-  deleteRow(row: definir_Informacoes_banco) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
-    const vcode = row.definir_Informacoes_bancoid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_DINFB'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
-      (response) => {
-        console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) {
-          this.alertaAtividadeRows = this.alertaAtividadeRows.filter(r => r !== row);
-        }
-      },
-      (error) => {
-        console.error('Erro ao deletar a linha', error);
       }
     );
   }

@@ -25,7 +25,7 @@
                     <th><input type="checkbox" (change)="toggleSelectAllUsuariosSenhas($event)" /></th>
                     <th>#</th>
                     <th>super_usuario</th>
-                    <!-- <th>codusuario</th> -->
+                    <th>codusuario</th>
                     <th>nome_usuario</th>
                     <th>email</th>
                     <th>celular</th>
@@ -38,7 +38,7 @@
                     <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.definir_usuario_senhasid}}" /></td>
                     <td><input type="text" [(ngModel)]="row.definir_usuario_senhasid" name="id{{row.definir_usuario_senhasid}}" placeholder="#" disabled /></td>
                     <td><input type="text" [(ngModel)]="row.super_usuario" name="superUsuario{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
-                    <!-- <td><input type="text" [(ngModel)]="row.codusuario" name="codUsuario{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td> -->
+                    <td><input type="text" [(ngModel)]="row.codusuario" name="codUsuario{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
                     <td><input type="text" [(ngModel)]="row.nome_usuario" name="nomeUsuario{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
                     <td><input type="text" [(ngModel)]="row.email" name="email{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>
                     <td><input type="text" [(ngModel)]="row.celular" name="celular{{row.definir_usuario_senhasid}}" placeholder="Insira o valor..." /></td>

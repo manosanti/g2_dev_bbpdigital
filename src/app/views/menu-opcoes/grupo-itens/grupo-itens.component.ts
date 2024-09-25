@@ -25,19 +25,6 @@ export class defina_Grupo_ItemComponent implements OnInit {
 
   formGrupoItens: FormGroup;
 
-  private generatedIds: Set<string> = new Set();
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    // Adiciona o novo ID ao conjunto
-    this.generatedIds.add(newId);
-    return newId;
-  }
-
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
@@ -88,7 +75,7 @@ export class defina_Grupo_ItemComponent implements OnInit {
 
   rows: defina_Grupo_Item[] = [
     {
-      defina_Grupo_Itemid: this.generateUniqueId(),
+      defina_Grupo_Itemid: '',
       nome_grupo: '',
       metodo_planjemento_padrao: '',
       metodo_suprimento_padrao: '',
@@ -100,10 +87,12 @@ export class defina_Grupo_ItemComponent implements OnInit {
     }
   ];
 
-  addNovaRow: defina_Grupo_Item[] = [];
+  nextId = 0;
+
+  // Adiciona uma nova linha para a tabela
   addRow() {
     const newRow: defina_Grupo_Item = {
-      defina_Grupo_Itemid: this.generateUniqueId(),
+      defina_Grupo_Itemid: String(this.nextId),
       nome_grupo: '',
       metodo_planjemento_padrao: '',
       metodo_suprimento_padrao: '',
@@ -114,7 +103,6 @@ export class defina_Grupo_ItemComponent implements OnInit {
       selected: false,
     };
     this.rows = [...this.rows, newRow];
-    this.addNovaRow.push(newRow);
   }
 
   removeSelectedRows() {
@@ -191,8 +179,12 @@ export class defina_Grupo_ItemComponent implements OnInit {
 
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
+
     this.isLoading = true;
+
+    // Obter Valores do Formulário + Valores do SessionStorage
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
     const httpOptions = {
@@ -207,16 +199,9 @@ export class defina_Grupo_ItemComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const grupoItensPOST = this.addNovaRow.map(row => ({
-      ...row,
-      defina_Grupo_Itemid: '0',
-    }))
+    const apiData = { ...this.infoBasica[0] };
 
-    const apiData = { ...this.infoBasica[0],
-      defina_Grupo_Item: grupoItensPOST,
-     };
-
-    // apiData.defina_Grupo_Item = this.rows;
+    apiData.defina_Grupo_Item = this.rows;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {

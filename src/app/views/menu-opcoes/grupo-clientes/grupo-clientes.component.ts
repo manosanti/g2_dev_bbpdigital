@@ -23,19 +23,6 @@ export class GrupoClientesComponent implements OnInit {
 
   formGrupoClientes: FormGroup;
 
-  private generatedIds: Set<string> = new Set();
-
-  private generateUniqueId(): string {
-    let newId: string;
-    do {
-      newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
-    // Adiciona o novo ID ao conjunto
-    this.generatedIds.add(newId);
-    return newId;
-  }
-
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formGrupoClientes = this.fb.group({
       definir_grupos_clientesid: [''],
@@ -47,24 +34,23 @@ export class GrupoClientesComponent implements OnInit {
   // Linhas da Tabela
   rowsGrupoClientes: definir_grupos_clientes[] = [
     {
-      definir_grupos_clientesid: this.generateUniqueId(),
+      definir_grupos_clientesid: '1',
       codgrupo: '',
       nome_grupo: '',
       selected: false
     }
   ];
 
+  nextId = 2;
 
-  addNovaRowGrupoClientes: definir_grupos_clientes[] = [];
   addRowGrupoClientes() {
     const newRow: definir_grupos_clientes = {
-      definir_grupos_clientesid: this.generateUniqueId(),
+      definir_grupos_clientesid: String(this.nextId++),
       codgrupo: '',
       nome_grupo: '',
       selected: false
     };
     this.rowsGrupoClientes = [...this.rowsGrupoClientes, newRow];
-    this.addNovaRowGrupoClientes.push(newRow)
   }
 
   removeSelectedRowsGrupoClientes() {
@@ -121,8 +107,12 @@ export class GrupoClientesComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
+    // Resgatar o bbP_id + cardCode do sessionStorage
+    // const configsGerais = this.formInfoBanco.value;
     const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
+    // const cardCode = sessionStorage.getItem('cardCode');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -136,16 +126,9 @@ export class GrupoClientesComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const grupoClientesPOST = this.addNovaRowGrupoClientes.map(row => ({
-      ...row,
-      definir_grupos_clientesid: '0'
-    }));
+    const apiData = { ...this.infoBasica[0] };
 
-    const apiData = { ...this.infoBasica[0],
-      definir_grupos_clientes: grupoClientesPOST,
-     };
-
-    // apiData.definir_grupos_clientes = this.rowsGrupoClientes;
+    apiData.definir_grupos_clientes = this.rowsGrupoClientes;
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
