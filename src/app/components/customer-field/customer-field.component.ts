@@ -20,13 +20,26 @@ export class CustomerFieldComponent implements OnInit {
   customerData: Customer[] = [];
   selectedCustomer: Customer | null = null;
   selectedBbpId: string | null = null;
-  isLoading: boolean = true; // Adiciona estado de carregamento
+  isLoading: boolean = true;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
+    // Recupera o bbP_id do sessionStorage
     this.selectedBbpId = sessionStorage.getItem('bbP_id');
-    this.fetchCustomerData();
+
+    // Verifica se já há dados armazenados no sessionStorage
+    const storedData = sessionStorage.getItem('customerData');
+
+    if (storedData) {
+      // Se houver dados armazenados, utiliza-os sem fazer um novo GET
+      this.customerData = JSON.parse(storedData);
+      this.selectedCustomer = this.findSelectedCustomer();
+      this.isLoading = false;
+    } else {
+      // Se não houver dados, faz o GET
+      this.fetchCustomerData();
+    }
   }
 
   // Método para buscar dados do cliente
@@ -46,18 +59,18 @@ export class CustomerFieldComponent implements OnInit {
         this.customerData = data;
         this.isLoading = false;
 
-        // Se não tiver bbP_id salvo, seleciona o primeiro da lista
+        // Armazena os dados no sessionStorage para uso futuro
+        sessionStorage.setItem('customerData', JSON.stringify(this.customerData));
+
+        // Define o cliente selecionado com base no bbP_id
+        this.selectedCustomer = this.findSelectedCustomer();
+
+        // Se não houver bbP_id salvo, salva o primeiro da lista no sessionStorage
         if (!bbP_id && this.customerData.length > 0) {
           const firstBbpId = this.customerData[0]?.bbP_id.toString();
           sessionStorage.setItem('bbP_id', firstBbpId);
           this.selectedBbpId = firstBbpId;
           this.selectedCustomer = this.customerData[0]; // Define o primeiro cliente como selecionado
-        } else if (bbP_id) {
-          // Se houver um bbP_id, seleciona o cliente correspondente
-          const selectedCustomerIndex = this.customerData.findIndex(customer => customer.bbP_id.toString() === bbP_id);
-          if (selectedCustomerIndex !== -1) {
-            this.selectedCustomer = this.customerData[selectedCustomerIndex];
-          }
         }
       },
       (error) => {
@@ -67,6 +80,17 @@ export class CustomerFieldComponent implements OnInit {
     );
   }
 
+  // Método para encontrar o cliente selecionado com base no bbP_id
+  findSelectedCustomer(): Customer | null {
+    if (this.selectedBbpId) {
+      const selectedCustomerIndex = this.customerData.findIndex(
+        customer => customer.bbP_id.toString() === this.selectedBbpId
+      );
+      return selectedCustomerIndex !== -1 ? this.customerData[selectedCustomerIndex] : null;
+    }
+    return null;
+  }
+
   // Quando o usuário muda a filial no select
   onSelectChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
@@ -74,6 +98,9 @@ export class CustomerFieldComponent implements OnInit {
 
     // Atualiza o bbP_id no sessionStorage
     sessionStorage.setItem('bbP_id', selectedValue);
+
+    // Limpa os dados armazenados para forçar um novo GET após o reload
+    sessionStorage.removeItem('customerData');
 
     // Recarrega a página para fazer o novo GET com o bbP_id atualizado
     window.location.reload();
