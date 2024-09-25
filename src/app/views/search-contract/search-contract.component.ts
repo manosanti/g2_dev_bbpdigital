@@ -88,11 +88,14 @@ export class SearchContractComponent implements OnInit {
   }
 
   onRowClick(bbP_id: number): void {
+    // Salva o bbP_id no sessionStorage
+    sessionStorage.setItem('bbP_id', bbP_id.toString());
+  
+    // Faz a requisição para buscar os detalhes do BBP com o ID
     this.fetchBBPDetails(bbP_id).subscribe({
       next: (response) => {
         console.log('Detalhes do BBP:', response);
-        // Aqui você pode redirecionar ou manipular os dados recebidos
-        // Exemplo: this.router.navigate(['/detalhes-filial', bbP_id]);
+        // Exemplo: navegação ou outra ação com o bbP_id salvo
         this.router.navigate(['/informacoes-basicas']);
       },
       error: (err) => {
@@ -100,6 +103,7 @@ export class SearchContractComponent implements OnInit {
       }
     });
   }
+  
 
   backToLogin(): void {
     this.router.navigate(['/sign-in']);
