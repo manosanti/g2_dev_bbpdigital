@@ -23,13 +23,9 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><button type="button" (click)="addRowAlertaAtividade()"><i
+                                        <th><button type="button" class="btnDelete" (click)="addRowAlertaAtividade()"><i
                                                     class="fa-solid fa-plus"></i> Adicionar
                                                 Linha</button></th>
-                                        <!-- <th><input type="checkbox" (change)="toggleSelectAllAlertaAtividade($event)" />
-                                        </th> -->
-                                        <!-- <th>#</th> -->
-                                        <!-- <th></th> -->
                                         <th>codigobanco</th>
                                         <th>agenciafilial</th>
                                         <th>digitoagencia</th>
@@ -41,15 +37,6 @@
                                 <tbody class="teste">
                                     <tr *ngFor="let row of alertaAtividadeRows; trackBy: trackByFnAlertaAtividade"
                                         class="trow">
-                                        <!-- <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected"
-                                                name="selected{{row.definir_Informacoes_bancoid}}" />
-                                        </td> -->
-                                        <!-- <td>
-                                            <input type="text" [(ngModel)]="row.definir_Informacoes_bancoid"
-                                                name="definir_Informacoes_bancoid{{row.definir_Informacoes_bancoid}}"
-                                                placeholder="Insira o código..." disabled />
-                                        </td> -->
                                         <td>
                                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
                                                 <i class="fa-solid fa-trash"></i></button>
@@ -86,10 +73,6 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <!-- <div class="btnFuncionality">
-                                    <button type="button" (click)="addRowAlertaAtividade()"><i
-                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                </div> -->
                             </table>
 
                             <div class="btnSave">

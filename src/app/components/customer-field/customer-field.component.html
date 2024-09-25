@@ -1,14 +1,14 @@
 <section id="customerWrapper">
     <div class="customerSection">
         <form id="customerForm" method="get">
-            <div class="companyField" *ngIf="customerData.length > 0">
+            <div class="companyField" *ngIf="selectedCustomer">
                 <div>
                     <label for="">Nome da Empresa</label>
-                    <input type="text" [value]="customerData[0]?.cardName" disabled>
+                    <input type="text" [value]="selectedCustomer.cardName" disabled>
                 </div>
                 <div>
                     <label for="">ID Contrato</label>
-                    <input type="text" [value]="customerData[0]?.bbP_id" disabled>
+                    <input type="text" [value]="selectedCustomer.bbP_id" disabled>
                 </div>
                 <div>
                     <label for="">Filial</label>
@@ -19,27 +19,22 @@
                           [selected]="customer.bbP_id.toString() === selectedBbpId">
                           {{ customer.cardName }}
                         </option>
-                      </select>
+                    </select>
                 </div>
             </div>
-            <div class="contractField">
+            <div class="contractField" *ngIf="selectedCustomer">
                 <div>
                     <label for="">Código PN</label>
-                    <input type="text" [value]="customerData[0]?.cardCode" disabled>
+                    <input type="text" [value]="selectedCustomer.cardCode" disabled>
                 </div>
                 <div>
                     <label for="">Data Início</label>
-                    <input type="text" [value]="formatDate(customerData[0]?.docDate || '')" disabled>
+                    <input type="text" [value]="formatDate(selectedCustomer.docDate || '')" disabled>
                 </div>
-                <!-- <div>
-                    <label for="">Status</label>
-                    <input type="text" value="Em Andamento" disabled>
-                </div> -->
                 <div>
                     <button type="submit" class="btn" disabled>Enviar Contrato</button>
                 </div>
             </div>
-
         </form>
     </div>
 </section>

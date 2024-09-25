@@ -19,50 +19,60 @@ interface Customer {
 })
 export class CustomerFieldComponent implements OnInit {
   customerData: Customer[] = [];
-  cardCode: string | null = null;
+  selectedCustomer: Customer | null = null;
+  selectedBbpId: string | null = null; // Mantém o bbP_id selecionado
 
   constructor(private http: HttpClient) { }
 
+  // Método para alterar a filial
   onSelectChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
-    sessionStorage.setItem('bbP_id', selectedValue);
+
+    sessionStorage.setItem('bbP_id', selectedValue); // Salva o valor no sessionStorage
+
+    // Recarrega a página para fazer a nova requisição GET com o bbP_id atualizado
     window.location.reload();
   }
 
-  selectedBbpId: string | null = null;
-
   ngOnInit(): void {
-    this.selectedBbpId = sessionStorage.getItem('bbP_id');
+    this.selectedBbpId = sessionStorage.getItem('bbP_id'); // Pega o valor salvo no sessionStorage
     this.fetchCustomerData();
   }
 
   fetchCustomerData(): void {
-    const cardCode = sessionStorage.getItem('cardCode');
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = sessionStorage.getItem('cardCode'); // Pega o cardCode no sessionStorage
+    const bbP_id = sessionStorage.getItem('bbP_id'); // Pega o bbP_id no sessionStorage
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': 'bearer ' + sessionStorage.getItem('token')
       }),
-    }
+    };
 
-    this.http.get<Customer[]>(`/api/BBP/BBPCardCode?cardCode=${cardCode}`, httpOptions).subscribe(
+    this.http.get<Customer[]>(`/api/BBP/BBPCardCode?cardCode=${cardCode}&bbP_id=${bbP_id}`, httpOptions).subscribe(
       (data: Customer[]) => {
         this.customerData = data;
 
-        // Se bbP_id ainda não estiver definido, use o primeiro da lista retornada
+        // Se nenhum bbP_id estiver definido, use o primeiro da lista retornada
         if (!bbP_id && this.customerData.length > 0) {
           const firstBbpId = this.customerData[0]?.bbP_id.toString();
           sessionStorage.setItem('bbP_id', firstBbpId);
-          this.selectedBbpId = firstBbpId; // Atualize o valor selecionado
+          this.selectedBbpId = firstBbpId;
+          this.selectedCustomer = this.customerData[0]; // Define o primeiro cliente como selecionado
+        } else if (bbP_id) {
+          // Encontra o cliente correspondente com o bbP_id selecionado
+          const selectedCustomerIndex = this.customerData.findIndex(customer => customer.bbP_id.toString() === bbP_id);
+          if (selectedCustomerIndex !== -1) {
+            this.selectedCustomer = this.customerData[selectedCustomerIndex];  // Atualiza o cliente selecionado
+          }
         }
       },
       (error) => {
         console.error('Erro de Fetch:', error);
       }
-    )
+    );
   }
 
   formatDate(dateString: string): string {
