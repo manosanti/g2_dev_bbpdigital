@@ -21,6 +21,19 @@ export class GrupoFornecedoresComponent implements OnInit {
 
   isLoading: boolean = true;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    // Adiciona o novo ID ao conjunto
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formGrupoFornecedores = this.fb.group({
       definir_grupos_fornecedoresid: [''],
@@ -33,7 +46,7 @@ export class GrupoFornecedoresComponent implements OnInit {
 
   rowsGrupoFornecedores: definir_grupos_fornecedores[] = [
     {
-      definir_grupos_fornecedoresid: '1',
+      definir_grupos_fornecedoresid: this.generateUniqueId(),
       codgrupo: '',
       nome_grupo: '',
       selected: false
@@ -42,14 +55,16 @@ export class GrupoFornecedoresComponent implements OnInit {
 
   nextId = 2;
 
+  addNovaRowGrupoFornecedores: definir_grupos_fornecedores[] = [];
   addRowGrupoFornecedores() {
     const newRow: definir_grupos_fornecedores = {
-      definir_grupos_fornecedoresid: String(this.nextId++),
+      definir_grupos_fornecedoresid: this.generateUniqueId(),
       codgrupo: '',
       nome_grupo: '',
       selected: false
     };
     this.rowsGrupoFornecedores = [...this.rowsGrupoFornecedores, newRow];
+    this.addNovaRowGrupoFornecedores.push(newRow);
   }
 
   removeSelectedRowsGrupoFornecedores() {
@@ -109,17 +124,26 @@ export class GrupoFornecedoresComponent implements OnInit {
 
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
-    // Obter Valores do Formulário + Valores do SessionStorage
-    const grupoFornecedores = this.formGrupoFornecedores.value;
     const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
+    if (!bbP_id) {
+      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      return; // Interrompe a execução se o bbP_id não estiver presente
+    }
+
+    const grupoFornecedoresPOST = this.addNovaRowGrupoFornecedores.map(row => ({
+      ...row,
+      definir_grupos_fornecedoresid: '0',
+    }))
+
     // Clonar o objeto recuperado do GET
-    const apiData = { ...this.infoBasica[0] };
+    const apiData = { ...this.infoBasica[0],
+      definir_grupos_fornecedores: grupoFornecedoresPOST
+     };
 
     // Atualizar apenas o campo 'rowsGrupoFornecedores' com os novos valores
-    apiData.definir_grupos_fornecedores = this.rowsGrupoFornecedores;
+    // apiData.definir_grupos_fornecedores = this.rowsGrupoFornecedores;
 
     // Dados enviados para o back-end
     const newGrupoFornecedores = {
@@ -142,5 +166,33 @@ export class GrupoFornecedoresComponent implements OnInit {
     }, error => {
       console.error('Erro ao enviar dados', error);
     });
+  }
+
+  deleteRowGrupoFornecedores(row: definir_grupos_fornecedores) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_grupos_fornecedoresid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DEFGRFOR';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rowsGrupoFornecedores = this.rowsGrupoFornecedores.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
   }
 }

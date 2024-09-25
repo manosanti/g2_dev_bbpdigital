@@ -22,23 +22,28 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><input type="checkbox" (change)="toggleSelectAllGrupoClientes($event)" />
+                                        <!-- <th><input type="checkbox" (change)="toggleSelectAllGrupoClientes($event)" />
                                         </th>
-                                        <th>#</th>
-                                        <th>codgrupo</th>
-                                        <th>nome_grupo</th>
+                                        <th>#</th> -->
+                                        <th><button type="button" class="addRow" (click)="addRowGrupoClientes()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th>Cód. Grupo</th>
+                                        <th>Nome do Grupo</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
                                     <tr *ngFor="let row of rowsGrupoClientes; trackBy: trackByFnGrupoClientes"
                                         class="trow">
-                                        <td>
+                                        <!-- <td>
                                             <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.definir_grupos_clientesid" name="codigobanco{{row.definir_grupos_clientesid}}"
                                                 placeholder="Insira o código do banco..." disabled />
-                                        </td>
+                                        </td> -->
+                                        <td>
+                                            <button type="button" class="btnDelete" (click)="deleteRowGrupoClientes(row)">
+                                                                          <i class="fa-solid fa-trash"></i> Remover</button>
+                                                                      </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.codgrupo" name="agenciafilial{{row.definir_grupos_clientesid}}"
                                                 placeholder="Insira o código da agência..." />
@@ -49,12 +54,6 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnFuncionality">
-                                    <button type="button" (click)="addRowGrupoClientes()"><i
-                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                    <button type="button" (click)="removeSelectedRowsGrupoClientes()"><i
-                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                </div>
                             </table>
 
                             <div class="btnSave">

@@ -231,4 +231,32 @@ export class defina_Grupo_ItemComponent implements OnInit {
       }
     );
   }
+
+  deleteRow(row: defina_Grupo_Item) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.defina_Grupo_Itemid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DEFGRITEM'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rows = this.rows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
 }

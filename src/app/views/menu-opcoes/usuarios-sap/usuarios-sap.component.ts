@@ -199,7 +199,7 @@ export class UsuariosSapComponent implements OnInit {
     }))
 
     const apiData = { ...this.infoBasica[0],
-      definir_usuario_senha: usuariosSAP,
+      definir_usuario_senhas: usuariosSAP,
      };
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
@@ -211,6 +211,34 @@ export class UsuariosSapComponent implements OnInit {
       error => {
         console.error('Erro ao enviar dados', error);
         this.isLoading = false;
+      }
+    );
+  }
+
+  deleteRow(row: definir_usuario_senhas) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_usuario_senhasid;
+    const vtabela = '%40G2_BBP_DEFUSUSENHA';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response);
+        if (response) {
+          this.rowsUsuariosSenhas = this.rowsUsuariosSenhas.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
       }
     );
   }

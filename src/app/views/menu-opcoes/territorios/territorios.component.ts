@@ -143,7 +143,7 @@ export class TerritoriosComponent implements OnInit {
   addNovaEstagiosNiveisVendas: definir_Estagios_Niveis_Vendas[] = [];
   addRowsdefinir_Estagios_Niveis_Vendas() {
     const newRow: definir_Estagios_Niveis_Vendas = {
-      definir_Estagios_Niveis_Vendasid: '1',
+      definir_Estagios_Niveis_Vendasid: this.generateUniqueId(),
       nivel: '',
       nome: '',
       perc_final: 0,
@@ -335,5 +335,117 @@ export class TerritoriosComponent implements OnInit {
     if ((event.target as Element).classList.contains('modal')) {
       this.closeModal(modalId);
     }
+  }
+
+  deleteRowTerritorios(row: definir_Territorios) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_Territoriosid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DEFTERRI'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rowsTerritorios = this.rowsTerritorios.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowNiveisVendas(row: definir_Estagios_Niveis_Vendas) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_Estagios_Niveis_Vendasid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DEFESTNVE'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rowsdefinir_Estagios_Niveis_Vendas = this.rowsdefinir_Estagios_Niveis_Vendas.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowGrupoComissoes(row: definir_grupo_comissoes) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_grupo_comissoesid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DEFGRUPO'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rowsdefinir_grupo_comissoes = this.rowsdefinir_grupo_comissoes.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowControleVendedor(row: definir_controle_vendedor) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_controle_vendedorid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_CONTRVEN'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rowsdefinir_controle_vendedor = this.rowsdefinir_controle_vendedor.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
   }
 }

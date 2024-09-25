@@ -23,38 +23,30 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th></th>
+                                        <!-- <th></th>
                                         <th><input type="checkbox" (change)="toggleSelectAllAlertaAtividade($event)" />
                                         </th>
-                                        <th>#</th>
-                                        <th>codigo_condicao</th>
-                                        <th>data_vencimento_baseada</th>
-                                        <th>prestacao</th>
-                                        <th>dias_vencimento_prestacao</th>
-                                        <th>abrir_contas_receber</th>
-                                        <th>perc_total_desconto</th>
+                                        <th>#</th> -->
+                                        <th><button type="button" class="addRow" (click)="addRowAlertaAtividade()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th>Cód. Condição</th>
+                                        <th>Data Venc. Baseada</th>
+                                        <th>Prestação</th>
+                                        <th>Dias Venc. Prestação</th>
+                                        <th>Abrir Contas a Receber</th>
+                                        <th>Percen. Total Descontos</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
                                     <tr *ngFor="let row of alertaAtividadeRows; trackBy: trackByFnAlertaAtividade" class="trow">
                                         <td>
-                                            <button type="button" (click)="deleteRow(row)">
-                                              <i class="fa-solid fa-trash"></i> Deletar
-                                            </button>
-                                          </td>
-                                        <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.definir_condicoes_pagamentosid}}" />
-                                        </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.definir_condicoes_pagamentosid"
-                                                name="definir_condicoes_pagamentosid{{row.definir_condicoes_pagamentosid}}"
-                                                placeholder="Insira o ID da condição de pagamento..." disabled />
-                                        </td>
-                                        <td>
+                                            <button type="button" class="btnDelete" (click)="deleteRow(row)">
+                                                                          <i class="fa-solid fa-trash"></i> Remover</button>
+                                                                      </td>
+                                        <!-- <td>
                                             <input type="text" [(ngModel)]="row.codigo_condicao"
                                                 name="codigo_condicao{{row.definir_condicoes_pagamentosid}}"
                                                 placeholder="Defina a condição de pagamento..." />
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <input type="text" [(ngModel)]="row.data_vencimento_baseada"
                                                 name="data_vencimento_baseada{{row.definir_condicoes_pagamentosid}}"
@@ -82,12 +74,12 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnFuncionality">
+                                <!-- <div class="btnFuncionality">
                                     <button type="button" (click)="addRowAlertaAtividade()"><i
                                             class="fa-solid fa-plus"></i> Adicionar Linha</button>
                                     <button type="button" (click)="removeSelectedRowsAlertaAtividade()"><i
                                             class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                </div>
+                                </div> -->
                             </table>
 
                             <div class="btnSave">

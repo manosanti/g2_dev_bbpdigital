@@ -52,25 +52,20 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th><input type="checkbox"
-                                                                (change)="toggleSelectedAllTerritorios($event)" />
-                                                        </th>
-                                                        <th>definir_Territoriosid</th>
-                                                        <th>posicao</th>
-                                                        <th>nome_territorio</th>
+                                                        <th><button type="button" class="addRow"
+                                                                (click)="addRowsTerritorios()"><i
+                                                                    class="fa-solid fa-plus"></i> Adicionar
+                                                                Linha</button></th>
+                                                        <th>Posição</th>
+                                                        <th>Nome do Território</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios"
                                                         class="trow">
                                                         <td>
-                                                            <input type="checkbox" [(ngModel)]="row.selected"
-                                                                name="selected" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text" [(ngModel)]="row.definir_Territoriosid"
-                                                                name="definir_Territoriosid{{row.definir_Territoriosid}}"
-                                                                placeholder="Insira o código do banco..." disabled />
+                                                            <button type="button" class="btnDelete" (click)="deleteRowTerritorios(row)">
+                                                                <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.posicao"
@@ -84,16 +79,10 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <div class="btnFuncionality">
-                                                    <button type="button" (click)="addRowsTerritorios()"><i
-                                                            class="fa-solid fa-plus"></i>
-                                                        Adicionar Linha</button>
-                                                    <button type="button" (click)="removeSelectedRowsTerritorios()"><i
-                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_Territorios')">Fechar</button>
+                                        <button class="btn modal-save" type="button"
+                                            (click)="closeModal('definir_Territorios')">Fechar</button>
                                     </div>
                                 </div>
 
@@ -104,28 +93,19 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th><input type="checkbox"
-                                                                (change)="toggleSelectedAlldefinir_Estagios_Niveis_Vendas($event)" />
-                                                        </th>
-                                                        <th>definir_Estagios_Niveis_Vendasid</th>
-                                                        <th>nivel</th>
-                                                        <th>nome</th>
-                                                        <th>perc_final</th>
+                                                        <th><button type="button" class="addRow" (click)="addRowsdefinir_Estagios_Niveis_Vendas()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                                        <th>Nível</th>
+                                                        <th>Nome</th>
+                                                        <th>Perc. Final</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of rowsdefinir_Estagios_Niveis_Vendas; trackBy: trackByFndefinir_Estagios_Niveis_Vendas"
                                                         class="trow">
                                                         <td>
-                                                            <input type="checkbox" [(ngModel)]="row.selected"
-                                                                name="selected" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                [(ngModel)]="row.definir_Estagios_Niveis_Vendasid"
-                                                                name="definir_Estagios_Niveis_Vendasid{{row.definir_Estagios_Niveis_Vendasid}}"
-                                                                placeholder="Insira o código do banco..." disabled />
-                                                        </td>
+                                                            <button type="button" class="btnDelete" (click)="deleteRowNiveisVendas(row)">
+                                                                                          <i class="fa-solid fa-trash"></i> Remover</button>
+                                                                                      </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.nivel"
                                                                 name="nivel{{row.definir_Estagios_Niveis_Vendasid}}"
@@ -143,18 +123,10 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <div class="btnFuncionality">
-                                                    <button type="button"
-                                                        (click)="addRowsdefinir_Estagios_Niveis_Vendas()"><i
-                                                            class="fa-solid fa-plus"></i>
-                                                        Adicionar Linha</button>
-                                                    <button type="button"
-                                                        (click)="removeSelectedRowsdefinir_Estagios_Niveis_Vendas()"><i
-                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_Estagios_Niveis_Vendas')">Fechar</button>
+                                        <button class="btn modal-save" type="button"
+                                            (click)="closeModal('definir_Estagios_Niveis_Vendas')">Fechar</button>
                                     </div>
                                 </div>
 
@@ -165,18 +137,19 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th><input type="checkbox"
+                                                        <!-- <th><input type="checkbox"
                                                                 (change)="toggleSelectedAlldefinir_grupo_comissoes($event)" />
                                                         </th>
-                                                        <th>definir_grupo_comissoesid</th>
-                                                        <th>nome_grupo</th>
-                                                        <th>perc_comissao</th>
+                                                        <th>definir_grupo_comissoesid</th> -->
+                                                        <th><button type="button" class="addRow" (click)="addRowsdefinir_grupo_comissoes()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                                        <th>Nome do Grupo</th>
+                                                        <th>Perc. Comissão</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of rowsdefinir_grupo_comissoes; trackBy: trackByFndefinir_grupo_comissoes"
                                                         class="trow">
-                                                        <td>
+                                                        <!-- <td>
                                                             <input type="checkbox" [(ngModel)]="row.selected"
                                                                 name="selected" />
                                                         </td>
@@ -185,7 +158,11 @@
                                                                 [(ngModel)]="row.definir_grupo_comissoesid"
                                                                 name="definir_grupo_comissoesid{{row.definir_grupo_comissoesid}}"
                                                                 placeholder="Insira o código do banco..." disabled />
-                                                        </td>
+                                                        </td> -->
+                                                        <td>
+                                                            <button type="button" class="btnDelete" (click)="deleteRowGrupoComissoes(row)">
+                                                                                          <i class="fa-solid fa-trash"></i> Remover</button>
+                                                                                      </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.nome_grupo"
                                                                 name="nome_grupo{{row.definir_grupo_comissoesid}}"
@@ -198,17 +175,10 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <div class="btnFuncionality">
-                                                    <button type="button" (click)="addRowsdefinir_grupo_comissoes()"><i
-                                                            class="fa-solid fa-plus"></i>
-                                                        Adicionar Linha</button>
-                                                    <button type="button"
-                                                        (click)="removeSelectedRowsTerritoriosdefinir_grupo_comissoes()"><i
-                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_grupo_comissoes')">Fechar</button>
+                                        <button class="btn modal-save" type="button"
+                                            (click)="closeModal('definir_grupo_comissoes')">Fechar</button>
                                     </div>
                                 </div>
 
@@ -219,27 +189,27 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th><input type="checkbox"
+                                                        <!-- <th><input type="checkbox"
                                                                 (change)="toggleSelectedAlldefinir_controle_vendedor($event)" />
                                                         </th>
-                                                        <th>definir_controle_vendedorid</th>
-                                                        <th>nome_vendedor</th>
-                                                        <th>observacoes</th>
-                                                        <th>grupo_comissoes</th>
+                                                        <th>definir_controle_vendedorid</th> -->
+                                                        <th><button type="button" class="addRow"
+                                                                (click)="addRowsdefinir_controle_vendedor()"><i
+                                                                    class="fa-solid fa-plus"></i> Adicionar
+                                                                Linha</button></th>
+                                                        <th>Nome do Vendedor</th>
+                                                        <th>Observações</th>
+                                                        <th>Grupo de Comissões</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of rowsdefinir_controle_vendedor; trackBy: trackByFndefinir_controle_vendedor"
                                                         class="trow">
+                                           
                                                         <td>
-                                                            <input type="checkbox" [(ngModel)]="row.selected"
-                                                                name="selected" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                [(ngModel)]="row.definir_controle_vendedorid"
-                                                                name="definir_controle_vendedorid{{row.definir_controle_vendedorid}}"
-                                                                placeholder="Insira o código do banco..." disabled />
+                                                            <button type="button" class="btnDelete"
+                                                                (click)="deleteRowControleVendedor(row)">
+                                                                <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.nome_vendedor"
@@ -258,16 +228,10 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <div class="btnFuncionality">
-                                                    <button type="button" (click)="addRowsTerritorios()"><i
-                                                            class="fa-solid fa-plus"></i>
-                                                        Adicionar Linha</button>
-                                                    <button type="button" (click)="removeSelectedRowsTerritorios()"><i
-                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_controle_vendedor')">Fechar</button>
+                                        <button class="btn modal-save" type="button"
+                                            (click)="closeModal('definir_controle_vendedor')">Fechar</button>
                                     </div>
                                 </div>
                             </ng-container>

@@ -23,28 +23,33 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><input type="checkbox" (change)="toggleSelectAll($event)" />
-                                        </th>
-                                        <th>#</th>
-                                        <th>nome_imposto</th>
-                                        <th>categoria</th>
-                                        <th>taxa</th>
-                                        <th>tipo_basico</th>
-                                        <th>perc_valor_base</th>
-                                        <th>codigo_oficial</th>
-                                        <th>conta</th>
-                                        <th>tipo</th>
+                                        <!-- <th><input type="checkbox" (change)="toggleSelectAll($event)" />
+                                        </th> -->
+                                        <!-- <th>#</th> -->
+                                        <th><button type="button" class="addRow" (click)="addRow()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th>Nome Imposto</th>
+                                        <th>Categoria</th>
+                                        <th>Taxa</th>
+                                        <th>Tipo Básico</th>
+                                        <th>Perc. Valor Base</th>
+                                        <th>Cód. Oficial</th>
+                                        <th>Conta</th>
+                                        <th>Tipo</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
                                     <tr *ngFor="let row of rows; trackBy: trackByFn" class="trow">
-                                        <td>
+                                        <!-- <td>
                                             <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
-                                        </td>
+                                        </td> -->
                                         <td>
+                                            <button type="button" class="btnDelete" (click)="deleteRow(row)">
+                                                                          <i class="fa-solid fa-trash"></i> Remover</button>
+                                                                      </td>
+                                        <!-- <td>
                                             <input type="text" [(ngModel)]="row.configuracao_Imposto_Retido_Fonteid"
                                                 name="configuracao_Imposto_Retido_Fonteid" placeholder="Insira o código..." disabled />
-                                        </td>
+                                        </td> -->
                                         <td>
                                             <input type="text" [(ngModel)]="row.nome_imposto"
                                                 name="nome_imposto" placeholder="Insira o nome do imposto..." />
@@ -79,12 +84,12 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnFuncionality">
+                                <!-- <div class="btnFuncionality">
                                     <button type="button" (click)="addRow()"><i class="fa-solid fa-plus"></i> Adicionar
                                         Linha</button>
                                     <button type="button" (click)="removeSelectedRows()"><i
                                             class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                </div>
+                                </div> -->
                             </table>
 
                             <div class="btnSave">
