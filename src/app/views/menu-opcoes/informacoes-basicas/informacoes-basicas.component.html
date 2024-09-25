@@ -61,9 +61,9 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th><button type="button" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i> Adicionar
-                            Linha</button></th>
-                          <th></th>
+                          <th><button type="button" class="addRow" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i>
+                              Adicionar
+                              Linha</button></th>
                           <th>Tipo FJ</th>
                           <th>CNPJ</th>
                           <th>CPF</th>
@@ -87,7 +87,7 @@
                         <tr *ngFor="let row of dadosCTBRows; trackBy: trackByFnDadosCTB" class="trow">
                           <td>
                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
-                              <i class="fa-solid fa-trash"></i></button>
+                              <i class="fa-solid fa-trash"></i> Remover</button>
                           </td>
                           <td><input type="text" [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}"
                               placeholder="F ou J" maxlength="1" required /></td>
@@ -137,10 +137,6 @@
                               placeholder="Insira o valor..." /></td>
                         </tr>
                       </tbody>
-                      <div class="btnFuncionality">
-                        <button type="button" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i> Adicionar
-                          Linha</button>
-                      </div>
                     </table>
                   </form>
                   <button class="btn modal-save" type="button" (click)="closeModal('dadosContabeis')">Fechar</button>
@@ -358,9 +354,8 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th></th>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllMoeda($event)" /></th> -->
-                          <!-- <th>Code</th> -->
+                          <th><button type="button" class="addRow" (click)="addRowMoeda()"><i class="fa-solid fa-plus"></i> Adicionar
+                            Linha</button></th>
                           <th>Número</th>
                           <th>Nome da Moeda</th>
                           <th>Código Internacional</th>
@@ -368,13 +363,9 @@
                       </thead>
                       <tbody class="teste">
                         <tr *ngFor="let row of moedasRows; trackBy: trackByFnMoeda" class="trow">
-                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected" name="selected{{row.bbP_MoedasID}}" />
-                          </td> -->
-                          <!-- <td><input type="text" [(ngModel)]="row.bbP_MoedasID" name="tipoFJ{{row.bbP_MoedasID}}"
-                              placeholder="Insira o valor..." disabled /></td> -->
                           <td>
                             <button type="button" class="btnDelete" (click)="deleteRowMoedas(row)">
-                              <i class="fa-solid fa-trash"></i></button>
+                              <i class="fa-solid fa-trash"></i> Remover</button>
                           </td>
                           <td><input type="text" [(ngModel)]="row.numero" name="cnpj{{row.bbP_MoedasID}}"
                               placeholder="Insira o valor..." /></td>
@@ -384,13 +375,6 @@
                               name="codigoCNAE{{row.bbP_MoedasID}}" placeholder="Insira o valor..." /></td>
                         </tr>
                       </tbody>
-                      <div class="btnFuncionality">
-                        <button type="button" (click)="addRowMoeda()"><i class="fa-solid fa-plus"></i> Adicionar
-                          Linha</button>
-                        <button type="button" (click)="removeSelectedRowMoeda()"><i class="fa-solid fa-trash"></i>
-                          Remover
-                          Selecionadas</button>
-                      </div>
                       <div class="btnSave">
                         <button type="submit">Salvar</button>
                       </div>

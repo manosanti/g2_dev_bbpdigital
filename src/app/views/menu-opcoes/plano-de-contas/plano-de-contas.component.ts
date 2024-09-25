@@ -138,6 +138,35 @@ export class PlanoDeContasComponent implements OnInit {
     )
   }
 
+  deleteRow(row: plano_Contas_Empresa_anexo) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.plano_Contas_Empresa_anexoid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_ALERTAAT'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) { 
+          // Remover a linha da tabela localmente após sucesso
+          this.rowsPlanoContas = this.rowsPlanoContas.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );    
+  }
+
   onSubmit(): void {
     const bbP_id = sessionStorage.getItem('bbP_id');
     const cardCode = sessionStorage.getItem('cardCode');

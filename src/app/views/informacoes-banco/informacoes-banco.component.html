@@ -23,9 +23,7 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><button type="button" class="btnDelete" (click)="addRowAlertaAtividade()"><i
-                                                    class="fa-solid fa-plus"></i> Adicionar
-                                                Linha</button></th>
+                                        <th><button type="button" class="addRow" (click)="addRowAlertaAtividade()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>codigobanco</th>
                                         <th>agenciafilial</th>
                                         <th>digitoagencia</th>
@@ -39,7 +37,7 @@
                                         class="trow">
                                         <td>
                                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
-                                                <i class="fa-solid fa-trash"></i></button>
+                                                <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.codigobanco"

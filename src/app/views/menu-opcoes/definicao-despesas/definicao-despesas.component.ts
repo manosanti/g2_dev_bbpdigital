@@ -42,8 +42,8 @@ export class DefinicaoDespesasComponent implements OnInit {
   despesas_AdicionaisRows: despesas_Adicionais[] = [];
 
   modals = [
-    { id: 'definicao_Despesas', title: 'definicao_Despesas', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-money-bill-transfer' },
-    { id: 'despesas_Adicionais', title: 'despesas_Adicionais', description: 'Preencher Dados Contábeis', isVisible: false, icon: 'fa-solid fa-money-bill-transfer' },
+    { id: 'definicao_Despesas', title: 'Definição Despesas', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-money-bill-transfer' },
+    { id: 'despesas_Adicionais', title: 'Despesas Adicionais', description: 'Preencher Dados Contábeis', isVisible: false, icon: 'fa-solid fa-money-bill-transfer' },
   ];
 
   constructor(private http: HttpClient, private fb: FormBuilder) {
@@ -235,5 +235,61 @@ export class DefinicaoDespesasComponent implements OnInit {
     if ((event.target as Element).classList.contains('modal')) {
       this.closeModal(modalId);
     }
+  }
+
+  deleteRowDespesas(row: definicao_Despesas) {
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.definicao_Despesasid;
+    const vtabela = '%40G2_BBP_DEFDESP';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.definicao_DespesasRows = this.definicao_DespesasRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowAdicionais(row: despesas_Adicionais) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.despesas_Adicionaisid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DESPAD'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.despesas_AdicionaisRows = this.despesas_AdicionaisRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
   }
 }

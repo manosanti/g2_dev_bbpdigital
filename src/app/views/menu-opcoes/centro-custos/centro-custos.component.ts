@@ -65,6 +65,7 @@ export class CentroCustosComponent implements OnInit {
       nome_Definir_Dimensoes_Centros_Custo: ['', Validators.required],
       codigoordenacao: ['', Validators.required],
       dimensao: ['', Validators.required],
+      ck: ['', Validators.required],
       // Definição Despesas
       definicao_Despesasid: ['', Validators.required],
       nome_Definir_Centros_Custo: ['', Validators.required],
@@ -175,7 +176,9 @@ export class CentroCustosComponent implements OnInit {
   };
 
   onSubmit() {
+    this.isLoading = true;
     const token = sessionStorage.getItem('token');
+    const bbP_id = sessionStorage.getItem('bbP_id');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -184,6 +187,10 @@ export class CentroCustosComponent implements OnInit {
       }),
     };
 
+    if (!bbP_id) {
+      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      return;
+    }
     
     const centroCustosPOST = this.novasRowsDefinirCentroCustos.map(row => ({
       ...row,
@@ -208,6 +215,7 @@ export class CentroCustosComponent implements OnInit {
         console.log('Dados atualizados com sucesso:', response);
         console.log('Dados a serem enviados:', apiData);
         this.isLoading = false;
+        window.location.reload();
       },
       error => {
         console.error('Erro ao atualizar dados:', error);
@@ -236,11 +244,6 @@ export class CentroCustosComponent implements OnInit {
     if ((event.target as Element).classList.contains('modal')) {
       this.closeModal(modalId);
     }
-  }
-
-  saveData(modalId: string) {
-    // Lógica para salvar dados
-    this.closeModal(modalId);
   }
 
   tipsObj: Tip[] = [
@@ -286,6 +289,59 @@ export class CentroCustosComponent implements OnInit {
     }
   }
 
-  // POST
+  deleteRowDimCC(row: definir_Dimensoes_Centros_Custo) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_Dimensoes_Centros_Custoid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DIMCC'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
 
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.definir_Dimensoes_Centros_CustoRows = this.definir_Dimensoes_Centros_CustoRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowCentroCusto(row: definir_Centros_Custo) {
+    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const vcode = row.definir_Centros_Custoid; // Use o valor apropriado de vcode
+    const vtabela = '%40G2_BBP_DEFCC'; // ou algum valor dinâmico, caso necessário
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.definir_Centros_CustoRows = this.definir_Centros_CustoRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
 }

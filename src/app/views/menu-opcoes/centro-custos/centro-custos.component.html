@@ -11,8 +11,7 @@
       <section id="informacoesBasicas">
         <div class="boxMenuOptions">
           <div class="text-center">
-            <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
-                de Centro de Custo!</span></h2>
+            <h2 class="menusTitle">Preencha os campos abaixo para criar os <span class="purple-primary">Centro de Custo!</span></h2>
             <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
               sua empresa. </p>
           </div>
@@ -51,23 +50,28 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th>
-                          <th>#</th>
-                          <th>definir_Dimensoes_Centros_Custo_nome</th>
-                          <th>definir_Dimensoes_Centros_Custo_dimensao</th>
-                          <th>ativo</th>
-                          <th>Descrição</th>
+                          <!-- <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th>
+                          <th>#</th> -->
+                          <th><button type="button" class="addRow" (click)="addRowDimensaoCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                          <th>Nome da Dimensão</th>
+                          <th>Tam. Dimensão</th>
+                          <th>Ativo?</th>
+                          <th>Descrição:</th>
                           <th>CK</th>
                         </tr>
                       </thead>
                       <tbody class="teste">
                         <tr *ngFor="let row of definir_Dimensoes_Centros_CustoRows; trackBy: trackByFnDimensoes"
                           class="trow">
-                          <td><input type="checkbox" [(ngModel)]="row.selected"
+                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected"
                               name="selected{{row.definir_Dimensoes_Centros_Custoid}}" /></td>
                           <td><input type="text" [(ngModel)]="row.definir_Dimensoes_Centros_Custoid"
                               name="id{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Insira o valor..."
-                              disabled /></td>
+                              disabled /></td> -->
+                              <td>
+                                <button type="button" class="btnDelete" (click)="deleteRowDimCC(row)">
+                                  <i class="fa-solid fa-trash"></i> Remover</button>
+                              </td>
                           <td><input type="text" [(ngModel)]="row.nome_Definir_Dimensoes_Centros_Custo"
                               name="nome{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Insira o valor..." />
                           </td>
@@ -83,12 +87,12 @@
                               placeholder="Insira o valor..." /></td>
                         </tr>
                       </tbody>
-                      <div class="btnFuncionality">
+                      <!-- <div class="btnFuncionality">
                         <button type="button" (click)="addRowDimensaoCentroCustos()"><i class="fa-solid fa-plus"></i>
                           Adicionar Linha</button>
                         <button type="button" (click)="removeSelectedDimensaoCentroCustos()"><i
                             class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                      </div>
+                      </div> -->
                       <div class="btnSave">
                         <button type="submit">Salvar</button>
                       </div>
@@ -104,20 +108,20 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th>
-                          <th>#</th>
-                          <th>codigocentrocusto</th>
-                          <th>definir_Centros_Custo_nome</th>
-                          <th>codigoordenacao</th>
-                          <th>dimensao</th>
+                          <!-- <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th> -->
+                          <!-- <th>#</th> -->
+                           <th><button type="button" class="addRow" (click)="addRowCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                          <th>Cód. Centro de Custos</th>
+                          <th>Nome Centro de Custos</th>
+                          <th>Cód. Ordenação</th>
+                          <th>Dimensão</th>
                         </tr>
                       </thead>
                       <tbody class="teste">
                         <tr *ngFor="let row of definir_Centros_CustoRows; trackBy: trackByFnCentroCustos" class="trow">
-                          <td><input type="checkbox" [(ngModel)]="row.selected"
-                              name="selected{{row.definir_Centros_Custoid}}" /></td>
-                          <td><input type="text" [(ngModel)]="row.definir_Centros_Custoid"
-                              name="id{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." disabled /></td>
+                          <td>
+                            <button type="button" class="btnDelete" (click)="deleteRowCentroCusto(row)"><i class="fa-solid fa-trash"></i> Remover</button>
+                          </td>
                           <td><input type="text" [(ngModel)]="row.codigocentrocusto"
                               name="nome{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
                           <td><input type="text" [(ngModel)]="row.nome_Definir_Centros_Custo"
@@ -128,12 +132,12 @@
                               name="descricao{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
                         </tr>
                       </tbody>
-                      <div class="btnFuncionality">
+                      <!-- <div class="btnFuncionality">
                         <button type="button" (click)="addRowCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar
                           Linha</button>
                         <button type="button" (click)="removeSelectedCentroCustos()"><i class="fa-solid fa-trash"></i>
                           Remover Selecionadas</button>
-                      </div>
+                      </div> -->
                       <div class="btnSave">
                         <button type="submit">Salvar</button>
                       </div>

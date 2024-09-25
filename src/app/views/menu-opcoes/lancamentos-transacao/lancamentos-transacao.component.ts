@@ -14,6 +14,7 @@ import { determinacao_contacontabil_compras } from '../../../models/lancamento-t
 import { determinacao_contacontabil_estoque } from '../../../models/lancamento-transacao/determinacao_contacontabil_estoque.model';
 import { determinacao_contacontabil_geral } from '../../../models/lancamento-transacao/determinacao_contacontabil_geral.model';
 import { lancamentoTransacao } from '../../../models/lancamento-transacao/lancamento-transacao.model';
+import { definir_Estagios_Niveis_Vendas } from '../../../models/Territorios/definir_Estagios_Niveis_Vendas.model';
 
 @Component({
   selector: 'app-lancamentos-transacao',
@@ -351,5 +352,117 @@ export class LancamentosTransacaoComponent implements OnInit {
     if (!clickedElement.closest('.thActive')) {
       this.activeTipId = null;
     }
+  }
+
+  deleteRowVendas(row: determinacao_contacontabil_vendas) {
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.determinacao_contacontabil_vendasid;
+    const vtabela = '%40G2_BBP_DETCTBV';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.determinacao_contacontabil_vendasRows = this.determinacao_contacontabil_vendasRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowEstoque(row: determinacao_contacontabil_estoque) {
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.determinacao_contacontabil_estoqueid;
+    const vtabela = '%40G2_BBP_DETCTBE';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.determinacao_contacontabil_estoqueRows = this.determinacao_contacontabil_estoqueRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowGeral(row: determinacao_contacontabil_geral) {
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.determinacao_contacontabil_geralid;
+    const vtabela = '%40G2_BBP_DETCTBG';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.determinacao_contacontabil_geralRows = this.determinacao_contacontabil_geralRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  deleteRowCompras(row: determinacao_contacontabil_compras) {
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.determinacao_contacontabil_comprasid;
+    const vtabela = '%40G2_BBP_DETCTBC';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.determinacao_contacontabil_comprasRows = this.determinacao_contacontabil_comprasRows.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
   }
 }

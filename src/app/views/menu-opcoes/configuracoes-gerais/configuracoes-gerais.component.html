@@ -53,7 +53,11 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th></th>
+                                                        <!-- <th></th> -->
+                                                        <th><button type="button" class="addRow"
+                                                                (click)="addRowAlertaAtividade()"><i
+                                                                    class="fa-solid fa-plus"></i>
+                                                                Adicionar Linha</button></th>
                                                         <th>Tipo de Atividade</th>
                                                         <th>Descrição da Atividade</th>
                                                         <th>Ativo (S/N)</th>
@@ -63,7 +67,8 @@
                                                     <tr *ngFor="let row of alertaAtividadeRows; trackBy: trackByFnAlertaAtividade"
                                                         class="trow">
                                                         <td>
-                                                            <button type="button" (click)="deleteRow(row)">
+                                                            <button type="button" class="btnDelete"
+                                                                (click)="deleteRow(row)">
                                                                 <i class="fa-solid fa-trash"></i>
                                                             </button>
                                                         </td>
@@ -85,14 +90,6 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-
-                                                <div class="btnFuncionality">
-                                                    <button type="button" (click)="addRowAlertaAtividade()"><i
-                                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                                    <button type="button"
-                                                        (click)="removeSelectedRowsAlertaAtividade()"><i
-                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div>
                                             </table>
                                         </form>
                                         <button class="btn modal-save" type="button"
@@ -113,11 +110,11 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <!-- <th><input type="checkbox"
-                                                                (change)="toggleSelectAllAlertaAtividade($event)" />
-                                                        </th> -->
-                                                        <!-- <th>#</th> -->
-                                                         <th></th>
+                                                        <th><button type="button" class="addRow"
+                                                                (click)="addRowTaxaComissao()"><i
+                                                                    class="fa-solid fa-plus"></i>
+                                                                Adicionar
+                                                                Linha</button></th>
                                                         <th>tipo</th>
                                                         <th>st_SN</th>
                                                     </tr>
@@ -126,20 +123,10 @@
                                                     <tr *ngFor="let row of taxaComissaoRows; trackBy: trackByFnTaxaComissao"
                                                         class="trow">
                                                         <td>
-                                                            <button type="button" (click)="deleteRowTaxaComissao(row)">
-                                                                <i class="fa-solid fa-trash"></i>
-                                                            </button>
+                                                            <button type="button" class="btnDelete"
+                                                                (click)="deleteRowTaxaComissao(row)">
+                                                                <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
-                                                        <!-- <td>
-                                                            <input type="checkbox" [(ngModel)]="row.selected"
-                                                                name="selected{{row.com_base_negocio_define_taxadecomissid}}" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                [(ngModel)]="row.com_base_negocio_define_taxadecomissid"
-                                                                name="com_base_negocio_define_taxadecomissid{{row.com_base_negocio_define_taxadecomissid}}"
-                                                                placeholder="Insira o código..." disabled />
-                                                        </td> -->
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.tipo"
                                                                 name="tipo{{row.com_base_negocio_define_taxadecomissid}}"
@@ -152,12 +139,12 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <div class="btnFuncionality">
+                                                <!-- <div class="btnFuncionality">
                                                     <button type="button" (click)="addRowTaxaComissao()"><i
                                                             class="fa-solid fa-plus"></i> Adicionar Linha</button>
                                                     <button type="button" (click)="removeSelectedRowsTaxaComissao()"><i
                                                             class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div>
+                                                </div> -->
                                             </table>
                                         </form>
                                         <button class="btn modal-save" type="button"
@@ -167,10 +154,6 @@
                                 <!-- Casas Decimais -->
                                 <div *ngSwitchCase="'casasDecimais'">
                                     <div class="atvClienteBox">
-                                        <h2 class="title">Condições de Pagamento
-                                            <i class="fa-solid fa-circle-info" (click)="toggleTip(9)"></i>
-                                            <p *ngIf="activeTipId === 9" class="tip" [innerHTML]="getTip(9)"></p>
-                                        </h2>
                                         <form class="formComponent" (submit)="onSubmit()">
                                             <table>
                                                 <thead class="tableHeader">
@@ -178,7 +161,10 @@
                                                         <!-- <th><input type="checkbox"
                                                                 (change)="toggleSelectAllAlertaAtividade($event)" />
                                                         </th> -->
-                                                        <th></th>
+                                                        <!-- <th></th> -->
+                                                        <th><button type="button" class="addRow"
+                                                                (click)="addRowquantas_casas_decimais_utilizar()"><i
+                                                                    class="fa-solid fa-plus"></i>Adicionar Linha</button></th>
                                                         <th>tipoCampo</th>
                                                         <th>casas_decimais</th>
                                                     </tr>
@@ -186,21 +172,16 @@
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of quantas_casas_decimais_utilizarRows; trackBy: trackByFnquantas_casas_decimais_utilizar"
                                                         class="trow">
-                                                        <!-- <td>
-                                                            <input type="checkbox" [(ngModel)]="row.selected"
-                                                                name="selected{{row.quantas_casas_decimais_utilizarid}}" />
-                                                        </td> -->
-                                                        <!-- <td>
-                                                            <input type="text"
-                                                                [(ngModel)]="row.quantas_casas_decimais_utilizarid"
-                                                                name="tipoAtividade{{row.quantas_casas_decimais_utilizarid}}"
-                                                                placeholder="Insira o código..." disabled />
-                                                        </td> -->
                                                         <td>
+                                                            <button type="button" class="btnDelete"
+                                                                (click)="deleteRowCasasDecimais(row)">
+                                                                <i class="fa-solid fa-trash"></i> Remover</button>
+                                                        </td>
+                                                        <!-- <td>
                                                             <button type="button" (click)="deleteRowCasasDecimais(row)">
                                                                 <i class="fa-solid fa-trash"></i>
                                                             </button>
-                                                        </td>
+                                                        </td> -->
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.tipoCampo"
                                                                 name="descricaoAtividade{{row.quantas_casas_decimais_utilizarid}}"
@@ -213,14 +194,14 @@
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <div class="btnFuncionality">
+                                                <!-- <div class="btnFuncionality">
                                                     <button type="button"
                                                         (click)="addRowquantas_casas_decimais_utilizar()"><i
                                                             class="fa-solid fa-plus"></i> Adicionar Linha</button>
                                                     <button type="button"
                                                         (click)="removeSelectedRowsquantas_casas_decimais_utilizar()"><i
                                                             class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div>
+                                                </div> -->
                                             </table>
                                         </form>
                                         <button class="btn modal-save" type="button"

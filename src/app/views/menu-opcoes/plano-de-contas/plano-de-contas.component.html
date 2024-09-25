@@ -21,33 +21,26 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><input type="checkbox" (change)="toggleSelectAll($event)" /></th>
-                                        <th>#</th>
-                                        <th>descricao</th>
-                                        <th>arquivo</th>
+                                        <th><button type="button" class="addRow" (click)="addRowPlanoContas()"><i
+                                                    class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th>Descrição</th>
+                                        <th>Arquivo</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
                                     <tr *ngFor="let row of rowsPlanoContas; trackBy: trackByFn" class="trow">
-                                        <td><input type="checkbox" [(ngModel)]="row.selected"
-                                                name="selected{{row.plano_Contas_Empresa_anexoid}}" /></td>
-                                        <td><input type="text" [(ngModel)]="row.plano_Contas_Empresa_anexoid"
-                                                name="plano_Contas_Empresa_anexoid{{row.plano_Contas_Empresa_anexoid}}"
-                                                placeholder="Insira um Insira o valor..." disabled /></td>
+                                        <td>
+                                            <button type="button" class="btnDelete" (click)="deleteRow(row)">
+                                                <i class="fa-solid fa-trash"></i> Remover</button>
+                                        </td>
                                         <td><input type="text" [(ngModel)]="row.descricao"
                                                 name="descricao{{row.plano_Contas_Empresa_anexoid}}"
                                                 placeholder="Insira um Insira o valor..." /></td>
                                         <td>
-                                            <a [href]="row.arquivo" target="_blank">Baixar Arquivo</a>
+                                            <a [href]="row.arquivo" class="downloadLink" target="_blank">Baixar Arquivo</a>
+                                        </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnFuncionality">
-                                    <button type="button" (click)="addRowPlanoContas()"><i class="fa-solid fa-plus"></i>
-                                        Adicionar Linha</button>
-                                    <button type="button" (click)="removeRowPlanoContas()"><i
-                                            class="fa-solid fa-trash"></i> Remover
-                                        Selecionadas</button>
-                                </div>
                                 <div class="btnSave">
                                     <button type="submit">Salvar</button>
                                 </div>
@@ -57,7 +50,8 @@
                     </div>
                     <div class="plano-contas">
                         <input type="file" (change)="onFileSelected($event)" />
-                        <a *ngIf="downloadLink" [href]="downloadLink" download="plano-contas-planilha">Download Plano Contas</a>
+                        <a *ngIf="downloadLink" [href]="downloadLink" download="plano-contas-planilha">Download Plano
+                            Contas</a>
                     </div>
                     <!-- <div class="plano-contas">
                         <label for="plano-contas">Envio Plano de Contas</label>
