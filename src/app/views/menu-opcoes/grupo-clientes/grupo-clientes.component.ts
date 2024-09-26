@@ -134,10 +134,18 @@ export class GrupoClientesComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const grupoClientesPOST = this.addNovaRowGrupoClientes.map(row => ({
-      ...row,
-      definir_grupos_clientesid: '0'
-    }));
+    const grupoClientesPOST = this.rowsGrupoClientes.map(row => {
+      if (this.addNovaRowGrupoClientes.includes(row)) {
+        // Se a linha foi adicionada recentemente, definir ID como '0'
+        return {
+          ...row,
+          definir_grupos_clientesid: '0'
+        };
+      } else {
+        // Para as linhas existentes, manter o ID original
+        return row;
+      }
+    });
 
     const apiData = { ...this.infoBasica[0],
       definir_grupos_clientes: grupoClientesPOST,

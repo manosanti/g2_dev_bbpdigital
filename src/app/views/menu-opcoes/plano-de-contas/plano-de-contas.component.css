@@ -12,10 +12,6 @@
     width: fit-content;
 }
 
-th {
-    width: 100%;
-}
-
 .wrapper {
     margin: auto;
     max-width: calc(100vw - 15.375rem);
@@ -23,4 +19,13 @@ th {
 
 .tableContainer {
     overflow-x: scroll;
+}
+
+.fileUpload {
+    display: flex;
+    flex-direction: column;
+}
+
+.fileUpload label {
+    padding: 0 1rem;
 }

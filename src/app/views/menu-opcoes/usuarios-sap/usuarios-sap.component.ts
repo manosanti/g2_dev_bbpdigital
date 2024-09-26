@@ -193,13 +193,19 @@ export class UsuariosSapComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const usuariosSAP = this.addNovaRowUsuariosSenhas.map(row => ({
-      ...row,
-      definir_usuario_senhasid: '0',
-    }))
+    const usuariosSAPPOST = this.rowsUsuariosSenhas.map(row => {
+      if(this.addNovaRowUsuariosSenhas.includes(row)) {
+        return {
+          ...row,
+          definir_usuario_senhasid: '0',
+        }
+      } else {
+        return row;
+      }
+    })
 
     const apiData = { ...this.infoBasica[0],
-      definir_usuario_senhas: usuariosSAP,
+      definir_usuario_senhas: usuariosSAPPOST,
      };
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(

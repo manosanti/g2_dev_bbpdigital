@@ -1,19 +1,23 @@
 {
-    "/api": {
-      "target": "http://localhost:8021",
-      "secure": false,
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/api": ""
-      }
-    },
-    "/file": {
-      "target": "http://localhost:3200",
-      "secure": false,
-      "changeOrigin": true,
-      "pathRewrite": {
-        "^/file": ""
-      }
+  "/api": {
+    "target": "http://localhost:8021",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
     }
+  },
+  "/file": {
+    "target": "http://localhost:9032",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/file": ""
+    }
+  },
+  "/upload": {
+    "target": "http://localhost:9032",
+    "secure": false,
+    "changeOrigin": true
   }
-  
+}

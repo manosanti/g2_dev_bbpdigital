@@ -26,13 +26,13 @@ export class PlanoDeContasComponent implements OnInit {
   // Função para manipular a seleção do arquivo e gerar o link de download
   onFileSelected(event: any): void {
     const file = event.target.files[0];
-    
+
     if (file) {
       const formData = new FormData();
       formData.append('file', file);
 
       // Fazendo a requisição POST para o backend
-      this.http.post<{ filePath: string }>('/file/upload', formData).subscribe(
+      this.http.post<{ filePath: string }>('/upload', formData).subscribe(
         (response) => {
           this.downloadLink = response.filePath; // Link para download
           console.log('Arquivo salvo com sucesso:', this.downloadLink);
@@ -41,18 +41,18 @@ export class PlanoDeContasComponent implements OnInit {
         (error) => {
           console.error('Erro ao enviar o arquivo:', error);
         }
-      );
+      );      
     }
   }
-  
+
   isLoading: boolean = true;
 
   infoBasica: infoBasica[] = [];
 
   formPlanoContas: FormGroup;
 
-   // Inicialmente, a tabela tem apenas uma linha
-   rowsPlanoContas: plano_Contas_Empresa_anexo[] = [
+  // Inicialmente, a tabela tem apenas uma linha
+  rowsPlanoContas: plano_Contas_Empresa_anexo[] = [
     {
       plano_Contas_Empresa_anexoid: '1',
       descricao: '',
@@ -141,7 +141,7 @@ export class PlanoDeContasComponent implements OnInit {
   deleteRow(row: plano_Contas_Empresa_anexo) {
     const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.plano_Contas_Empresa_anexoid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_ALERTAAT'; // ou algum valor dinâmico, caso necessário
+    const vtabela = '%40G2_BBP_PLACTAE'; // ou algum valor dinâmico, caso necessário
     const token = sessionStorage.getItem('token')
 
     const httpOptions = {
@@ -156,7 +156,7 @@ export class PlanoDeContasComponent implements OnInit {
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
+        if (response) {
           // Remover a linha da tabela localmente após sucesso
           this.rowsPlanoContas = this.rowsPlanoContas.filter(r => r !== row);
         }
@@ -164,7 +164,7 @@ export class PlanoDeContasComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar a linha', error);
       }
-    );    
+    );
   }
 
   onSubmit(): void {

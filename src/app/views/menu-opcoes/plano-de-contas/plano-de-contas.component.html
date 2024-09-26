@@ -25,6 +25,7 @@
                                                     class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Descrição</th>
                                         <th>Arquivo</th>
+                                        <th>Importe o arquivo</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
@@ -35,33 +36,28 @@
                                         </td>
                                         <td><input type="text" [(ngModel)]="row.descricao"
                                                 name="descricao{{row.plano_Contas_Empresa_anexoid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
+                                                placeholder="Insira um Insira o valor..." />
+                                        </td>
                                         <td>
-                                            <a [href]="row.arquivo" class="downloadLink" target="_blank">Baixar Arquivo</a>
+                                            <a [href]="row.arquivo" class="downloadLink" target="_blank">Baixar
+                                                Arquivo</a>
+                                        </td>
+                                        <td>
+                                            <div class="fileUpload">
+                                                <label for="fileUpload">Importe o arquivo</label>
+                                                <input type="file" id="fileUpload" (change)="onFileSelected($event)" />
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnSave">
-                                    <button type="submit">Salvar</button>
-                                </div>
                             </table>
-
                         </form>
                     </div>
-                    <div class="plano-contas">
-                        <input type="file" (change)="onFileSelected($event)" />
-                        <a *ngIf="downloadLink" [href]="downloadLink" download="plano-contas-planilha">Download Plano
-                            Contas</a>
-                    </div>
-                    <!-- <div class="plano-contas">
-                        <label for="plano-contas">Envio Plano de Contas</label>
-                        <input type="file" id="plano-contas">
-                    </div> -->
+
                     <div class="btnSave">
                         <button type="submit">Salvar</button>
                     </div>
                 </form>
-
             </div>
         </div>
     </div>

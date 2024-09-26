@@ -13,8 +13,7 @@
           <div class="text-center">
             <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
                 básicas!</span></h2>
-            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
-              sua empresa. </p>
+                <p><b>NOTA:</b> Insira as informações básicas essenciais para concluir o cadastro no BBP Digital.</p>
           </div>
           <div class="boxMenuContent">
             <div class="boxMenuItem" *ngFor="let modal of modals">
@@ -24,7 +23,6 @@
                 </div>
                 <div class="nameDescription">
                   <h3>{{ modal.title }}</h3>
-                  <!-- <p>{{ modal.description }}</p> -->
                 </div>
               </div>
               <div class="answerField">
@@ -49,8 +47,7 @@
                 <div *ngSwitchCase="'nomeEmpresa'">
                   <div class="modalInputField">
                     <label for="cardName" class="required">Nome da Empresa:</label>
-                    <input type="text" id="cardName" formControlName="cardName" placeholder="Informe o nome da empresa"
-                      required>
+                    <input type="text" id="cardName" formControlName="cardName" placeholder="Informe o nome da empresa">
                   </div>
                   <button class="btn modal-save" type="button" (click)="closeModal('nomeEmpresa')">Fechar</button>
                 </div>
@@ -221,12 +218,6 @@
                       formControlName="campos_Loca_Registro_Comercial" required>
                   </div>
 
-                  <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
-                    <label for="campos_Loca_Data_Incorporacao" class="required">Data de Incorporação:</label>
-                    <input type="text" id="campos_Loca_Data_Incorporacao"
-                      formControlName="campos_Loca_Data_Incorporacao" required>
-                  </div> -->
-
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="campos_Loca_Perfil_Sped" class="required">Perfil do SPED:</label>
                     <input type="text" id="campos_Loca_Perfil_Sped" formControlName="campos_Loca_Perfil_Sped" required>
@@ -270,17 +261,6 @@
                       </label>
                       <input type="text" id="caminho_Pasta_Imagens" formControlName="caminho_Pasta_Imagens" required>
                     </div>
-
-                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
-                <label for="pasta-de-anexos" class="required">Pasta de anexos:
-                  <i class="fa-solid fa-circle-info" (click)="toggleTip(7)"></i>
-                  <p *ngIf="activeTipId === 7" class="tip">
-                    <span class="tip-close" (click)="closeTip()">&#x2715;</span>
-                    {{ getTip(7) }}
-                  </p>
-                </label>
-                <input type="text" id="pasta-de-anexos" required>
-              </div> -->
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="caminho_Pasta_Licencas" class="required">Pasta p/ licenças dos add-ons
@@ -327,16 +307,6 @@
                       <input type="text" id="seu_Negocio_necessita_sup_mult"
                         formControlName="seu_Negocio_necessita_sup_mult">
                     </div>
-
-                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
-                    <label for="metodo-de-avaliacao-de-grupos">Método de Avaliação de Grupos:</label>
-                    <input type="text" id="metodo-de-avaliacao-de-grupos">
-                  </div> -->
-
-                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
-                    <label for="liberacao-de-estoque-sem-custo-do-item">Liberação de Estoque sem Custo do Item:</label>
-                    <input type="text" id="liberacao-de-estoque-sem-custo-do-item">
-                  </div> -->
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="qual_conta_corrente_negocio_padrao_sistema">Conta Corrente Padrão:</label>
