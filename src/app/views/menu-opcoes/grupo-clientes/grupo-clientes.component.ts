@@ -18,9 +18,7 @@ import { definir_grupos_clientes } from '../../../models/grupo-clientes/definir_
   styleUrls: ['./grupo-clientes.component.css']
 })
 export class GrupoClientesComponent implements OnInit {
-
   isLoading: boolean = true;
-
   formGrupoClientes: FormGroup;
 
   private generatedIds: Set<string> = new Set();
