@@ -190,12 +190,12 @@
 
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="site" class="required">Site:</label>
-                    <input type="text" id="site" formControlName="site" required>
+                    <input type="text" id="site" formControlName="site" required placeholder="www.seusite.com.br">
                   </div>
 
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="email" class="required">Email:</label>
-                    <input type="text" id="email" formControlName="email" required>
+                    <input type="text" id="email" formControlName="email" required placeholder="exemplo@email.com">
                   </div>
                   <button class="btn modal-save" type="button" (click)="closeModal('web')">Fechar</button>
                 </div>
@@ -221,11 +221,11 @@
                       formControlName="campos_Loca_Registro_Comercial" required>
                   </div>
 
-                  <div class="modalInputField" [formGroup]="formInfoBasica">
+                  <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="campos_Loca_Data_Incorporacao" class="required">Data de Incorporação:</label>
                     <input type="text" id="campos_Loca_Data_Incorporacao"
                       formControlName="campos_Loca_Data_Incorporacao" required>
-                  </div>
+                  </div> -->
 
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="campos_Loca_Perfil_Sped" class="required">Perfil do SPED:</label>

@@ -250,7 +250,7 @@ export class InformacoesBasicasComponent implements OnInit {
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
         if (response) { 
-          this.rowsMoedas = this.rowsMoedas.filter(r => row !== row);
+          this.moedasRows = this.moedasRows.filter(r => row !== row);
         }
       },
       (error) => {
@@ -408,6 +408,24 @@ export class InformacoesBasicasComponent implements OnInit {
       dadosCTB: dadosCTBPOST,
       moedas: moedasPOST,
     }
+    
+    apiData.cardName = this.formInfoBasica.value.cardName;
+    apiData.campos_Loca_Registro_Comercial = this.formInfoBasica.value.campos_Loca_Registro_Comercial;
+    apiData.campos_Loca_Data_Incorporacao = this.formInfoBasica.value.campos_Loca_Data_Incorporacao;
+    apiData.campos_Loca_Perfil_Sped = this.formInfoBasica.value.campos_Loca_Perfil_Sped;
+    apiData.caminho_Pasta_Word = this.formInfoBasica.value.caminho_Pasta_Word;
+    apiData.caminho_Pasta_Excel = this.formInfoBasica.value.caminho_Pasta_Excel;
+    apiData.caminho_Pasta_Imagens = this.formInfoBasica.value.caminho_Pasta_Imagens;
+    apiData.caminho_Pasta_Licencas = this.formInfoBasica.value.caminho_Pasta_Licencas;
+    apiData.caminho_Pasta_XML = this.formInfoBasica.value.caminho_Pasta_XML;
+    apiData.moeda_Corrente = this.formInfoBasica.value.moeda_Corrente;
+    apiData.moeda_Sistema = this.formInfoBasica.value.moeda_Sistema;
+    apiData.seu_Negocio_necessita_sup_mult = this.formInfoBasica.value.seu_Negocio_necessita_sup_mult;
+    apiData.qual_conta_corrente_negocio_padrao_sistema = this.formInfoBasica.value.qual_conta_corrente_negocio_padrao_sistema;
+    apiData.site = this.formInfoBasica.value.site;
+    apiData.email = this.formInfoBasica.value.email;
+    apiData.telefone = this.formInfoBasica.value.telefone;
+    apiData.telefone2 = this.formInfoBasica.value.telefone2;
 
     console.log('Dados enviados:', apiData);
 
