@@ -151,15 +151,15 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     // 17. Tipos de Expedição
-    // {
-    //     path: 'tipos-de-expedicao',
-    //     component: TiposExpedicaoComponent,
-    //     canActivate: [authGuard]
-    // },
+    {
+        path: 'tipos-de-expedicao',
+        component: TiposExpedicaoComponent,
+        canActivate: [authGuard]
+    },
     // 18. Config. Iniciais de Documento
-    // {
-    //     path: 'configuracoes-iniciais-de-documento',
-    //     component: ConfigInicialDocumentoComponent,
-    //     canActivate: [authGuard]
-    // }
+    {
+        path: 'configuracoes-iniciais-de-documento',
+        component: ConfigInicialDocumentoComponent,
+        canActivate: [authGuard]
+    }
 ];

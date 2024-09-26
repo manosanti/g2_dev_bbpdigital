@@ -9,7 +9,6 @@ import { CustomerFieldComponent } from '../../components/customer-field/customer
 
 // Models
 import { Tip } from '../../models/infobasica/tip.model';
-import { configsGerais } from '../../models/configs-gerais/configsGerais.model';
 import { definir_Informacoes_banco } from '../../models/info-banco/info-banco.model';
 import { infoBasica } from '../../models/infobasica/infobasica.model';
 
@@ -104,7 +103,6 @@ export class InformacoesBancoComponent implements OnInit {
     }
   ];
 
-  // nextId = 2;
   novasRowsAlertaAtividade: definir_Informacoes_banco[] = [];
   addRowAlertaAtividade() {
     const newRow: definir_Informacoes_banco = {
@@ -136,8 +134,6 @@ export class InformacoesBancoComponent implements OnInit {
     });
   }
 
-  // Méotdo GET
-  // configsGerais: configsGerais[] = [];
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
@@ -213,9 +209,9 @@ export class InformacoesBancoComponent implements OnInit {
   }
 
   deleteRow(row: definir_Informacoes_banco) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
-    const vcode = row.definir_Informacoes_bancoid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_DINFB'; // ou algum valor dinâmico, caso necessário
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.definir_Informacoes_bancoid;
+    const vtabela = '%40G2_BBP_DINFB';
     const token = sessionStorage.getItem('token')
 
     const httpOptions = {

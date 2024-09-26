@@ -32,27 +32,38 @@ export class TiposExpedicaoComponent implements OnInit {
 
   formTiposExpedicao: FormGroup;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      // Gera um ID aleatório
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   rowsTipoExpedicao: definir_tipos_expedicao[] = [
     {
-      definir_tipos_expedicaoid: '1',
+      definir_tipos_expedicaoid: this.generateUniqueId(),
       tipo_expedicao: '',
       web_site_expedicao: '',
       selected: false
     }
   ];
 
-  nextId = 2;
-
-
-
+  addNovasRows: definir_tipos_expedicao[] = [];
   addRowTiposExpedicao() {
     const newRow: definir_tipos_expedicao = {
-      definir_tipos_expedicaoid: String(this.nextId++),
+      definir_tipos_expedicaoid: this.generateUniqueId(),
       tipo_expedicao: '',
       web_site_expedicao: '',
       selected: false
     };
     this.rowsTipoExpedicao = [...this.rowsTipoExpedicao, newRow];
+    this.addNovasRows.push(newRow);
   }
 
   removeSelectedRowsTipoExpedicao() {
@@ -75,6 +86,7 @@ export class TiposExpedicaoComponent implements OnInit {
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
+    this.isLoading = true;
     const token = sessionStorage.getItem('token');
     const bbP_id = sessionStorage.getItem('bbP_id');
 
@@ -91,8 +103,6 @@ export class TiposExpedicaoComponent implements OnInit {
         'Authorization': `Bearer ${token}`
       }),
     };
-
-    this.isLoading = true;
 
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
@@ -112,33 +122,35 @@ export class TiposExpedicaoComponent implements OnInit {
 
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
-    // Obter Valores do Formulário + Valores do SessionStorage
-    const tiposExpedicao = this.formTiposExpedicao.value;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
-
-    // Dados enviados para o back-end
-    // const newTiposExpedicao = {
-    //   bbP_id: bbP_id,
-    //   cardCode: cardCode,
-    //   definir_tipos_expedicao: this.rowsTipoExpedicao
-    // }
-
-    // Clonar o objeto recuperado do GET
-    const apiData = { ...this.infoBasica[0] };
-
-    // Atualizar valor das tabelas
-    apiData.definir_tipos_expedicao = this.rowsTipoExpedicao;
-
-    console.log(this.rowsTipoExpedicao)
+    const bbP_id = sessionStorage.getItem('bbP_id');
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-      })
+      }),
     };
+
+    if (!bbP_id) {
+      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      return;
+    }
+
+    const tipo_expedicaoPOST = this.addNovasRows.map(row => ({
+      ...row,
+      definir_tipos_expedicaoid: '0',
+    }))
+
+    // Clonar o objeto recuperado do GET
+    const apiData = { ...this.infoBasica[0],
+      definir_tipos_expedicao: tipo_expedicaoPOST };
+
+    // Atualizar valor das tabelas
+    // apiData.definir_tipos_expedicao = this.rowsTipoExpedicao;
+    apiData.definir_tipos_expedicao = tipo_expedicaoPOST;
+
+    console.log(this.rowsTipoExpedicao)
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
@@ -146,5 +158,33 @@ export class TiposExpedicaoComponent implements OnInit {
     }, error => {
       console.error('Erro ao enviar dados', error);
     });
+  }
+
+  deleteRow(row: definir_tipos_expedicao) {
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.definir_tipos_expedicaoid;
+    const vtabela = '%40G2_BBP_TPEXPE';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rowsTipoExpedicao = this.rowsTipoExpedicao.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
   }
 }

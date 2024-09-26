@@ -22,32 +22,27 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><input type="checkbox" (change)="toggleSelectAllConfigInicial($event)" />
-                                        </th>
-                                        <th>definir_configuracoes_iniciais_documento_id</th>
-                                        <th>calcular_lucro_bruto</th>
-                                        <th>observacoes_documento_compreendem</th>
-                                        <th>para_ema_EP_vendas_documentos</th>
-                                        <th>resposta_liberacao_entrada_estoque_abaixo_nivel</th>
-                                        <th>bloquear_estoque_negativo</th>
-                                        <th>bloquear_estoque_negativo_por</th>
-                                        <th>metodo_arredondamento</th>
-                                        <th>data_base_taxa_cambio</th>
-                                        <th>arredondar_valor_imposto_linhas</th>
-                                        <th>exibir_observacao_arredondamento</th>
-                                        <th>bloquear_documentos_data_lancamento</th>
-                                        <th>permitir_data_lancamento_futuro</th>
+                                        <th><button type="button" class="addRow" (click)="addRowConfigInicial()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th>Calcular Lucro Bruto</th>
+                                        <th>Obs. Documento Compreendem</th>
+                                        <th>Vendas de Documentos</th>
+                                        <th>Resposta liberação entrada estoque abaixo nível</th>
+                                        <th>Bloquear Estoque Negativo</th>
+                                        <th>Bloquear Estoque Negativo por:</th>
+                                        <th>Método de Arredondamento</th>
+                                        <th>Data Base Taxa de Câmbio</th>
+                                        <th>Arredondar valor imposto linhas</th>
+                                        <th>Exibir observação arredondamento</th>
+                                        <th>Bloquear documentos data lançamento</th>
+                                        <th>Permitir data lançamento futuro</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
                                     <tr *ngFor="let row of rowsConfigInicial; trackBy: trackByFnConfigInicial"
                                         class="trow">
                                         <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
-                                        </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.calcular_lucro_bruto" name="codigobanco{{row.definir_configuracoes_iniciais_documento_id}}"
-                                                placeholder="Insira o código do banco..." disabled />
+                                            <button type="button" class="btnDelete" (click)="deleteRow(row)">
+                                                <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.calcular_lucro_bruto" name="agenciafilial{{row.definir_configuracoes_iniciais_documento_id}}"
@@ -78,6 +73,18 @@
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
+                                            <input type="text" [(ngModel)]="row.data_base_taxa_cambio" name="data_base_taxa_cambio{{row.definir_configuracoes_iniciais_documento_id}}"
+                                                placeholder="Insira o dígito da agência..." />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.arredondar_valor_imposto_linhas" name="arredondar_valor_imposto_linhas{{row.definir_configuracoes_iniciais_documento_id}}"
+                                                placeholder="Insira o dígito da agência..." />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.exibir_observacao_arredondamento" name="exibir_observacao_arredondamento{{row.definir_configuracoes_iniciais_documento_id}}"
+                                                placeholder="Insira o dígito da agência..." />
+                                        </td>
+                                        <td>
                                             <input type="text" [(ngModel)]="row.bloquear_documentos_data_lancamento" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
@@ -87,17 +94,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnFuncionality">
-                                    <button type="button" (click)="addRowConfigInicial()"><i
-                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                    <button type="button" (click)="removeSelectedRowConfigInicial()"><i
-                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                </div>
                             </table>
-
-                            <div class="btnSave">
-                                <button type="submit">Salvar</button>
-                            </div>
                         </form>
                     </div>
                     <div class="btnSave">

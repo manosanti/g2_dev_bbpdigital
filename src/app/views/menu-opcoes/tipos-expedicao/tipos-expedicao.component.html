@@ -22,23 +22,17 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><input type="checkbox" (change)="toggleSelectAllTipoExpedicao($event)" />
-                                        </th>
-                                        <th>#</th>
-                                        <th>tipo_expedicao</th>
-                                        <th>web_site_expedicao</th>
+                                        <th><button type="button" class="addRow" (click)="addRowTiposExpedicao()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th>Tipo de Expedição</th>
+                                        <th>Site de Expedição</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
                                     <tr *ngFor="let row of rowsTipoExpedicao; trackBy: trackByFnTipoExpedicao"
                                         class="trow">
                                         <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
-                                        </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.definir_tipos_expedicaoid"
-                                                name="codigobanco{{row.definir_tipos_expedicaoid}}"
-                                                placeholder="Insira o código do banco..." disabled />
+                                            <button type="button" class="btnDelete" (click)="deleteRow(row)">
+                                                <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.tipo_expedicao"
@@ -52,12 +46,6 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <div class="btnFuncionality">
-                                    <button type="button" (click)="addRowTiposExpedicao()"><i
-                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                    <button type="button" (click)="removeSelectedRowsTipoExpedicao()"><i
-                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                </div>
                             </table>
 
                             <div class="btnSave">

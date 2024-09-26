@@ -22,6 +22,19 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
   isLoading: boolean = true;
 
+  private generatedIds: Set<string> = new Set();
+
+  private generateUniqueId(): string {
+    let newId: string;
+    do {
+      // Gera um ID aleatório
+      newId = Math.random().toString(36).substring(2, 15);
+    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
+
+    this.generatedIds.add(newId);
+    return newId;
+  }
+
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formConfigInicial = this.fb.group({
       calcular_lucro_bruto: [''],
@@ -43,6 +56,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
   rowsConfigInicial: definir_configuracoes_iniciais_documento[] = [
     {
+      definir_configuracoes_iniciais_documento_id: this.generateUniqueId(),
       calcular_lucro_bruto: '',
       observacoes_documento_compreendem: '',
       para_ema_EP_vendas_documentos: '',
@@ -59,10 +73,10 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     }
   ]
 
-  nextId = 2;
-
+  novasRowsConfigInicial: definir_configuracoes_iniciais_documento[] = [];
   addRowConfigInicial() {
     const newRow: definir_configuracoes_iniciais_documento = {
+      definir_configuracoes_iniciais_documento_id: this.generateUniqueId(),
       calcular_lucro_bruto: '',
       observacoes_documento_compreendem: '',
       para_ema_EP_vendas_documentos: '',
@@ -78,6 +92,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       selected: false
     };
     this.rowsConfigInicial = [...this.rowsConfigInicial, newRow];
+    this.novasRowsConfigInicial.push(newRow)
   }
 
   removeSelectedRowConfigInicial() {
@@ -214,31 +229,12 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     }
   }
 
-
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
-    // Obter Valores do Formulário + Valores do SessionStorage
-    const configInicial = this.formConfigInicial.value;
+    this.isLoading = true;
     const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
     const token = sessionStorage.getItem('token');
 
-    // Dados enviados para o back-end
-    // const newConfigsInicial = {
-    //   bbP_id: bbP_id,
-    //   cardCode: cardCode,
-    //   // Objeto dos dados do formulário (definir_configuracoes_iniciais_documento)
-    //   definir_configuracoes_iniciais_documento: [
-    //     configInicial
-    //   ],
-    // }
-
-    // Clonar o objeto recuperado do GET
-    const apiData = { ...this.infoBasica[0] };
-
-    apiData.definir_configuracoes_iniciais_documento = this.rowsConfigInicial;
-
-    // Headers com Token de Segurança
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -246,14 +242,58 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       }),
     }
 
+    if (!bbP_id) {
+      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      return;
+    }
+
+    const configInicialPOST = this.novasRowsConfigInicial.map(row => ({
+      ...row,
+      definir_configuracoes_iniciais_documento_id: '0',
+    }))
+
+    const apiData = {
+      ...this.infoBasica[0],
+      definir_configuracoes_iniciais_documento: configInicialPOST,
+    };
+
     // Envio (POST) dados para o back-end
     this.http.post(`/api/BBP`, apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
       console.log('Dados enviados:', apiData);
+      this.isLoading = false;
       // Reiniciar após envio (POST) para resgatar os dados via (GET)
       // window.location.reload();
     }, error => {
       console.error('Erro ao enviar dados', error);
     });
+  }
+
+  deleteRow(row: definir_configuracoes_iniciais_documento) {
+    const bbpid = sessionStorage.getItem('bbP_id');
+    const vcode = row.definir_configuracoes_iniciais_documento_id;
+    const vtabela = '%40G2_BBP_CONFINI';
+    const token = sessionStorage.getItem('token')
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }),
+    };
+
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+
+    this.http.delete(deleteUrl, httpOptions).subscribe(
+      (response) => {
+        console.log('Resposta da API:', response); // Verifique o que a API está retornando
+        if (response) {
+          this.rowsConfigInicial = this.rowsConfigInicial.filter(r => r !== row);
+        }
+      },
+      (error) => {
+        console.error('Erro ao deletar a linha', error);
+      }
+    );
   }
 }
