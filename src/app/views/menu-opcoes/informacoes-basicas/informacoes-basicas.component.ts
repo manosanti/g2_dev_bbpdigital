@@ -30,6 +30,7 @@ export class InformacoesBasicasComponent implements OnInit {
   // Arrays de Tabelas
   dadosCTBRows: tableDadosCTB[] = [];
   moedasRows: moedas[] = [];
+  currencies: any[] = [];
 
   modals = [
     { id: 'nomeEmpresa', title: 'Nome da Empresa', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
@@ -220,7 +221,7 @@ export class InformacoesBasicasComponent implements OnInit {
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
+        if (response) {
           // Remover a linha da tabela localmente após sucesso
           this.dadosCTBRows = this.dadosCTBRows.filter(r => r !== row);
         }
@@ -228,8 +229,20 @@ export class InformacoesBasicasComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar a linha', error);
       }
-    );    
+    );
   }
+
+  // selectCurrency() {
+  //   this.http.get('https://openexchangerates.org/api/currencies.json').subscribe(
+  //     (data: any) => {
+  //       this.currency = Object.entries(data); // Transformar o objeto retornado em um array de pares [key, value]
+  //       console.log('resultado:', this.currency);
+  //     },
+  //     (error) => {
+  //       console.error('Erro ao buscar moedas:', error);
+  //     }
+  //   );
+  // }
 
   deleteRowMoedas(row: moedas) {
     const bbpid = sessionStorage.getItem('bbP_id');
@@ -249,14 +262,14 @@ export class InformacoesBasicasComponent implements OnInit {
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
-          this.moedasRows = this.moedasRows.filter(r => row !== row);
+        if (response) {
+          this.moedasRows = this.moedasRows.filter(r => r !== row);
         }
       },
       (error) => {
         console.error('Erro ao deletar a linha', error);
       }
-    );    
+    );
   }
 
   toggleSelectAllDadosCTB(event: Event) {
@@ -333,6 +346,10 @@ export class InformacoesBasicasComponent implements OnInit {
     const token = sessionStorage.getItem('token');
     const bbP_id = sessionStorage.getItem('bbP_id');
 
+    this.http.get<any[]>('currency.json').subscribe(data => {
+      this.currencies = data;
+    });
+
     setTimeout(() => {
       if (!token || !bbP_id) {
         // Se token ou bbP_id não estão disponíveis, recarregar a página
@@ -394,21 +411,34 @@ export class InformacoesBasicasComponent implements OnInit {
       }),
     };
 
-    const dadosCTBPOST = this.addNovaDadosCTB.map(row => ({
-      ...row,
-      bbP_DadosCTBID: '0',  // Converte para '0'
-    }));
+    const dadosCTBPOST = this.dadosCTBRows.map(row => {
+      if (this.addNovaDadosCTB.includes(row)) {
+        return {
+          ...row,
+          bbP_DadosCTBID: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const moedasPOST = this.addNovaMoedas.map(row => ({
-      ...row,
-      bbP_MoedasID: '0',  // Converte para '0'
-    }));
+    const moedasPOST = this.moedasRows.map(row => {
+      if (this.addNovaMoedas.includes(row)) {
+        return {
+          ...row,
+          bbP_MoedasID: '0',
+        }
+      } else {
+        return row;
+      }
+    })
 
-    const apiData = {...this.infoBasica[0],
+    const apiData = {
+      ...this.infoBasica[0],
       dadosCTB: dadosCTBPOST,
       moedas: moedasPOST,
     }
-    
+
     apiData.cardName = this.formInfoBasica.value.cardName;
     apiData.campos_Loca_Registro_Comercial = this.formInfoBasica.value.campos_Loca_Registro_Comercial;
     apiData.campos_Loca_Data_Incorporacao = this.formInfoBasica.value.campos_Loca_Data_Incorporacao;

@@ -678,6 +678,14 @@ td:first-child {
     font-size: 13.5px;
 }
 
+.selectMenu {
+    background-color: #662E91;
+    padding: .3rem;
+    color: var(--white);
+    width: min-content;
+    border: transparent;
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);

@@ -61,7 +61,7 @@
                           <th><button type="button" class="addRow" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i>
                               Adicionar
                               Linha</button></th>
-                          <th>Tipo FJ</th>
+                          <th title="Pessoa Física ou Jurídica?">Tipo FJ</th>
                           <th>CNPJ</th>
                           <th>CPF</th>
                           <th>Código CNAE</th>
@@ -86,8 +86,15 @@
                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
                               <i class="fa-solid fa-trash"></i> Remover</button>
                           </td>
-                          <td><input type="text" [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}"
-                              placeholder="F ou J" maxlength="1" required /></td>
+                          <!-- <td><input type="text" [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}"
+                              placeholder="F ou J" maxlength="1" required /></td> -->
+                          <td>
+                            <select [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}" class="selectMenu">
+                              <option value="" disabled>Selecione...</option>
+                              <option value="F">Pessoa Física</option>
+                              <option value="J">Pessoa Jurídica</option>
+                            </select>
+                          </td>
                           <td><input type="text" [(ngModel)]="row.cnpj" name="cnpj{{row.bbP_DadosCTBID}}"
                               placeholder="Digite o CNPJ (somente números)" /></td>
                           <td><input type="text" [(ngModel)]="row.cpf" name="cpf{{row.bbP_DadosCTBID}}"
@@ -326,7 +333,7 @@
                         <tr>
                           <th><button type="button" class="addRow" (click)="addRowMoeda()"><i class="fa-solid fa-plus"></i> Adicionar
                             Linha</button></th>
-                          <th>Número</th>
+                          <!-- <th>Número</th> -->
                           <th>Nome da Moeda</th>
                           <th>Código Internacional</th>
                         </tr>
@@ -337,12 +344,19 @@
                             <button type="button" class="btnDelete" (click)="deleteRowMoedas(row)">
                               <i class="fa-solid fa-trash"></i> Remover</button>
                           </td>
-                          <td><input type="text" [(ngModel)]="row.numero" name="cnpj{{row.bbP_MoedasID}}"
-                              placeholder="Insira o valor..." /></td>
-                          <td><input type="text" [(ngModel)]="row.nomeMoeda" name="cpf{{row.bbP_MoedasID}}"
-                              placeholder="Insira o valor..." maxlength="3" /></td>
+                          <!-- <td><input type="text" [(ngModel)]="row.numero" name="numero{{row.bbP_MoedasID}}"
+                              placeholder="Insira o valor..." /></td> -->
+                          <td><input type="text" [(ngModel)]="row.nomeMoeda" name="nomeMoeda{{row.bbP_MoedasID}}"
+                              placeholder="Real Brasileiro" maxlength="3" /></td>
+                              <!-- <td>
+                                <select [(ngModel)]="row.nomeMoeda" name="nomeMoeda{{row.nomeMoeda}}">
+                                  <option *ngFor="let currency of currencies" [value]="currency.value">
+                                    {{ currency.value }}
+                                  </option>
+                                </select>                                
+                              </td> -->
                           <td><input type="text" [(ngModel)]="row.codigoInternacional"
-                              name="codigoCNAE{{row.bbP_MoedasID}}" placeholder="Insira o valor..." /></td>
+                              name="codigoInternacional{{row.bbP_MoedasID}}" placeholder="R$" /></td>
                         </tr>
                       </tbody>
                       <div class="btnSave">
