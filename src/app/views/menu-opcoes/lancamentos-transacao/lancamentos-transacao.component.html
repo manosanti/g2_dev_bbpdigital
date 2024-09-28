@@ -64,25 +64,14 @@
                             <button type="button" class="btnDelete" (click)="deleteRowVendas(row)">
                               <i class="fa-solid fa-trash"></i> Remover</button>
                           </td>
-                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected"
-                              name="selected{{row.determinacao_contacontabil_vendasid}}" /></td>
-                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_vendasid"
-                              name="tipoFJ{{row.determinacao_contacontabil_vendasid}}" placeholder="Insira o valor..."
-                              disabled /></td> -->
                           <td><input type="text" [(ngModel)]="row.tipodeconta_vendas"
                               name="tipoConta{{row.determinacao_contacontabil_vendasid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Receita, Despesa..." /></td>
                           <td><input type="text" [(ngModel)]="row.contacontabil_vendas"
                               name="contaContabil{{row.determinacao_contacontabil_vendasid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Vendas, CMV..." /></td>
                         </tr>
                       </tbody>
-                      <!-- <div class="btnFuncionality">
-                        <button type="button" (click)="addRowVendas()"><i class="fa-solid fa-plus"></i> Adicionar
-                          Linha</button>
-                        <button type="button" (click)="removeSelectedVendas()"><i class="fa-solid fa-trash"></i> Remover
-                          Selecionadas</button>
-                      </div> -->
                       <div class="btnSave">
                         <button type="submit">Salvar</button>
                       </div>
@@ -120,10 +109,10 @@
                           </td>
                           <td><input type="text" [(ngModel)]="row.tipodeconta_geral"
                               name="tipoConta{{row.determinacao_contacontabil_geralid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Receita, Despesa..." /></td>
                           <td><input type="text" [(ngModel)]="row.contacontabil_geral"
                               name="contaContabil{{row.determinacao_contacontabil_geralid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Vendas, CMV..." /></td>
                         </tr>
                       </tbody>
                       <!-- <div class="btnFuncionality">
@@ -169,18 +158,12 @@
                           </td>
                           <td><input type="text" [(ngModel)]="row.tipodeconta_estoque"
                               name="tipoConta{{row.determinacao_contacontabil_estoqueid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Receita, Despesa..." /></td>
                           <td><input type="text" [(ngModel)]="row.contacontabil_estoque"
                               name="contaContabil{{row.determinacao_contacontabil_estoqueid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Vendas, CMV..." /></td>
                         </tr>
                       </tbody>
-                      <!-- <div class="btnFuncionality">
-                        <button type="button" (click)="addRowEstoque()"><i class="fa-solid fa-plus"></i> Adicionar
-                          Linha</button>
-                        <button type="button" (click)="removeSelectedEstoque()"><i class="fa-solid fa-trash"></i>
-                          Remover Selecionadas</button>
-                      </div> -->
                       <div class="btnSave">
                         <button type="submit">Salvar</button>
                       </div>
@@ -218,10 +201,10 @@
                           </td>
                           <td><input type="text" [(ngModel)]="row.tipodeconta_compras"
                               name="tipoConta{{row.determinacao_contacontabil_comprasid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Receita, Despesa..." /></td>
                           <td><input type="text" [(ngModel)]="row.contacontabil_compras"
                               name="contaContabil{{row.determinacao_contacontabil_comprasid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: Vendas, CMV..." /></td>
                         </tr>
                       </tbody>
                       <!-- <div class="btnFuncionality">

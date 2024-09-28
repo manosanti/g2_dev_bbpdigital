@@ -333,20 +333,38 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const alerta_AtividadePOST = this.addNovasAlertaAtividade.map(row => ({
-      ...row,
-      bbP_Alerta_Atividadeid: '0',
-    }));
+    const alerta_AtividadePOST = this.alertaAtividadeRows.map(row => {
+      if (this.addNovasAlertaAtividade.includes(row)) {
+        return {
+          ...row,
+          bbP_Alerta_Atividadeid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const taxaComissaoPOST = this.addNovasTaxaComissao.map(row => ({
-      ...row,
-      com_base_negocio_define_taxadecomissid: '0',
-    }));
+    const taxaComissaoPOST = this.taxaComissaoRows.map(row => {
+      if (this.addNovasTaxaComissao.includes(row)) {
+        return {
+          ...row,
+          com_base_negocio_define_taxadecomissid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const casasDecimaisPOST = this.addNovasCasasDecimais.map(row => ({
-      ...row,
-      quantas_casas_decimais_utilizarid: '0',
-    }));
+    const casasDecimaisPOST = this.quantas_casas_decimais_utilizarRows.map(row => {
+      if (this.addNovasCasasDecimais.includes(row)) {
+        return {
+          ...row,
+          quantas_casas_decimais_utilizarid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     // Clonar o objeto recuperado do GET
     const apiData = {
@@ -416,7 +434,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
+        if (response) {
           // Remover a linha da tabela localmente após sucesso
           this.alertaAtividadeRows = this.alertaAtividadeRows.filter(r => r !== row);
         }
@@ -424,7 +442,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar a linha', error);
       }
-    );    
+    );
   }
 
   deleteRowTaxaComissao(row: com_base_negocio_define_taxadecomiss) {
@@ -445,7 +463,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
+        if (response) {
           // Remover a linha da tabela localmente após sucesso
           this.taxaComissaoRows = this.taxaComissaoRows.filter(r => r !== row);
         }
@@ -453,7 +471,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar a linha', error);
       }
-    );    
+    );
   }
 
   deleteRowCasasDecimais(row: quantas_casas_decimais_utilizar) {
@@ -474,7 +492,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
+        if (response) {
           // Remover a linha da tabela localmente após sucesso
           this.quantas_casas_decimais_utilizarRows = this.quantas_casas_decimais_utilizarRows.filter(r => r !== row);
         }
@@ -482,6 +500,6 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar a linha', error);
       }
-    );    
+    );
   }
 }

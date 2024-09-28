@@ -41,7 +41,7 @@ export class PlanoDeContasComponent implements OnInit {
         (error) => {
           console.error('Erro ao enviar o arquivo:', error);
         }
-      );      
+      );
     }
   }
 
@@ -65,7 +65,7 @@ export class PlanoDeContasComponent implements OnInit {
   addRowPlanoContas() {
     if (this.rowsPlanoContas.length < 1) {
       const newRow: plano_Contas_Empresa_anexo = {
-        plano_Contas_Empresa_anexoid: '1',
+        plano_Contas_Empresa_anexoid: '0',
         descricao: '',
         arquivo: '',
         selected: false,
@@ -109,6 +109,15 @@ export class PlanoDeContasComponent implements OnInit {
     const bbP_id = sessionStorage.getItem('bbP_id');
     const token = sessionStorage.getItem('token');
 
+    this.http.get('/IIS').subscribe(
+      () => {
+        console.log('IIS está respondendo, prosseguindo com a chamada para o backend.')
+      });
+    this.http.get('/file/upload').subscribe(
+      () => {
+        console.log('IIS está respondendo, prosseguindo com a chamada para o backend.')
+      });
+
     setTimeout(() => {
       if (!token || !bbP_id) {
         // Se token ou bbP_id não estão disponíveis, recarregar a página
@@ -141,7 +150,7 @@ export class PlanoDeContasComponent implements OnInit {
   deleteRow(row: plano_Contas_Empresa_anexo) {
     const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.plano_Contas_Empresa_anexoid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_PLACTAE'; // ou algum valor dinâmico, caso necessário
+    const vtabela = '%40G2_BBP_PLANCEMPAN'; // ou algum valor dinâmico, caso necessário
     const token = sessionStorage.getItem('token')
 
     const httpOptions = {

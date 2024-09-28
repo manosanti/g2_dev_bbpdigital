@@ -6,6 +6,7 @@ import { CommonModule, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { debounceTime } from 'rxjs';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 // Services
 // import { MetodosHttpService } from '../../../services/infobasica/metodos-http.service';
 import { FormInfoService } from '../../../services/infobasica/form-info.service';
@@ -18,13 +19,14 @@ import { moedas } from '../../../models/infobasica/moedas.model';
 @Component({
   selector: 'app-informacoes-basicas',
   standalone: true,
-  imports: [HeaderComponent, CustomerFieldComponent, MenuNavigationComponent, CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule, NgIf],
+  imports: [HeaderComponent, CustomerFieldComponent, MenuNavigationComponent, CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule, NgIf, NgxMaskDirective],
   templateUrl: './informacoes-basicas.component.html',
+  providers: [provideNgxMask({ /* opções de cfg */ })],
   styleUrls: ['./informacoes-basicas.component.css']
 })
 export class InformacoesBasicasComponent implements OnInit {
   isLoading: boolean = true;
-
+  inscricaoEstadual: string = '';
   formInfoBasica: FormGroup;
 
   // Arrays de Tabelas
@@ -537,5 +539,105 @@ export class InformacoesBasicasComponent implements OnInit {
     if (!clickedElement.closest('.thActive')) {
       this.activeTipId = null;
     }
+  }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const charCode = event.keyCode || event.which;
+
+    // Permitir: teclas de controle (backspace, delete, tab, setas), números e teclado numérico
+    if (
+      charCode === 8 ||  // Backspace
+      charCode === 9 ||  // Tab
+      charCode === 46 || // Delete
+      (charCode >= 37 && charCode <= 40) ||  // Setas (esquerda, direita, etc)
+      (charCode >= 48 && charCode <= 57) ||  // Números (0-9)
+      (charCode >= 96 && charCode <= 105)    // Teclado numérico (0-9)
+    ) {
+      // Tecla permitida, nada a fazer
+      return;
+    } else {
+      // Bloquear a tecla não numérica
+      event.preventDefault();
+    }
+  }
+
+  // Garantir que apenas números sejam colados
+  onPaste(event: ClipboardEvent, row: any): void {
+    const clipboardData = event.clipboardData || (window as any).clipboardData;
+    const pastedText = clipboardData.getData('text');
+
+    // Remover caracteres não numéricos
+    const onlyNumbers = pastedText.replace(/\D/g, ''); // Manter apenas números
+
+    if (onlyNumbers.length > 0) {
+      event.preventDefault(); // Previne o comportamento padrão de colar
+      // Atribui o texto formatado a ambas as propriedades
+      row.inscricaoEstadual = onlyNumbers;
+      row.inscricaoEstadual_Sub_Tributario = onlyNumbers;
+
+      // Aplica a máscara, se necessário
+      this.aplicarMascara(row);
+    }
+  }
+
+  // Função chamada sempre que o usuário digitar algo no campo
+  onInputChange(row: any): void {
+    // Limpa caracteres não numéricos (caso tenham sido colados ou inseridos via algum outro método)
+    row.inscricaoEstadual = row.inscricaoEstadual.replace(/\D/g, '');
+    row.inscricaoEstadual_Sub_Tributario = row.inscricaoEstadual_Sub_Tributario.replace(/\D/g, '');
+
+    // Aplicar a máscara, se necessário
+    this.aplicarMascara(row);
+  }
+
+  // Funções para formatar de acordo com o número de dígitos
+  aplicarMascara(row: any): void {
+    // Formatar o inscricaoEstadual
+    this.formatarInscricao(row, 'inscricaoEstadual');
+
+    // Formatar o inscricaoEstadual_Sub_Tributario
+    this.formatarInscricao(row, 'inscricaoEstadual_Sub_Tributario');
+  }
+
+  formatarInscricao(row: any, campo: string): void {
+    const valor = row[campo];
+
+    if (valor.length <= 9) {
+      row[campo] = this.formatarPara9Digitos(valor);
+    } else if (valor.length === 10) {
+      row[campo] = this.formatarPara10Digitos(valor);
+    } else if (valor.length === 11) {
+      row[campo] = this.formatarPara11Digitos(valor);
+    } else if (valor.length === 12) {
+      row[campo] = this.formatarPara12Digitos(valor);
+    } else if (valor.length === 13) {
+      row[campo] = this.formatarPara13Digitos(valor);
+    } else if (valor.length === 14) {
+      row[campo] = this.formatarPara14Digitos(valor);
+    } else if (valor.length === 15) {
+      row[campo] = this.formatarPara15Digitos(valor);
+    }
+  }
+
+  formatarPara9Digitos(valor: string): string {
+    return valor.replace(/(\d{3})(\d{3})(\d{2})(\d{1})/, '$1.$2.$3-$4');
+  }
+  formatarPara10Digitos(valor: string): string {
+    return valor.replace(/(\d{2})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+  formatarPara11Digitos(valor: string): string {
+    return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+  formatarPara12Digitos(valor: string): string {
+    return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{3})/, '$1.$2.$3.$4');
+  }
+  formatarPara13Digitos(valor: string): string {
+    return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{4})/, '$1.$2.$3/$4');
+  }
+  formatarPara14Digitos(valor: string): string {
+    return valor.replace(/(\d{8})(\d{4})(\d{2})/, '$1-$2/$3');
+  }
+  formatarPara15Digitos(valor: string): string {
+    return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
   }
 }

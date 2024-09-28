@@ -19,5 +19,13 @@
     "target": "http://localhost:9032",
     "secure": false,
     "changeOrigin": true
+  },
+  "/IIS": {
+    "target": "http://localhost:9031",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/file": ""
+    }
   }
 }

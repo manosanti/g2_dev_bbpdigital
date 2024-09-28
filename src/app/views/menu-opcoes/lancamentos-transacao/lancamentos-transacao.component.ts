@@ -189,6 +189,7 @@ export class LancamentosTransacaoComponent implements OnInit {
   }
 
   // Funções para determinacao_contacontabil_geral
+
   addRowGeral() {
     const newRow: determinacao_contacontabil_geral = {
       determinacao_contacontabil_geralid: this.generateUniqueId(),
@@ -268,22 +269,49 @@ export class LancamentosTransacaoComponent implements OnInit {
       }),
     };
 
-    const determinacaoGeralPOST = this.novasRowsGeral.map(row => ({
-      ...row,
-      determinacao_contacontabil_geralid: '0', // Ou o ID correto se necessário
-    }));
-    const determinacaoVendasPOST = this.novasRowsDeterminacaoContabil.map(row => ({
-      ...row,
-      determinacao_contacontabil_vendasid: '0', // Ou o ID correto se necessário
-    }));
-    const determinacaoComprasPOST = this.novasRowsCompras.map(row => ({
-      ...row,
-      determinacao_contacontabil_comprasid: '0', // Ou o ID correto se necessário
-    }));
-    const determinacaoEstoquePOST = this.novasRowsEstoque.map(row => ({
-      ...row,
-      determinacao_contacontabil_estoqueid: '0', // Ou o ID correto se necessário
-    }));
+    const determinacaoGeralPOST = this.determinacao_contacontabil_geralRows.map(row => {
+      if (this.novasRowsGeral.includes(row)) {
+        return {
+          ...row,
+          determinacao_contacontabil_geralid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
+
+    const determinacaoVendasPOST = this.determinacao_contacontabil_vendasRows.map(row => {
+      if (this.novasRowsDeterminacaoContabil.includes(row)) {
+        return {
+          ...row,
+          determinacao_contacontabil_vendasid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
+
+    const determinacaoComprasPOST = this.determinacao_contacontabil_comprasRows.map(row => {
+      if (this.novasRowsCompras.includes(row)) {
+        return {
+          ...row,
+          determinacao_contacontabil_comprasid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
+
+    const determinacaoEstoquePOST = this.determinacao_contacontabil_estoqueRows.map(row => {
+      if (this.novasRowsEstoque.includes(row)) {
+        return {
+          ...row,
+          determinacao_contacontabil_estoqueid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = {
       ...this.infoBasica[0],

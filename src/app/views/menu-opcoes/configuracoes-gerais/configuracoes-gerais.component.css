@@ -28,6 +28,10 @@
   gap: 1.25rem;
 }
 
+.tdLow {
+  padding: 0.5rem;
+}
+
 .boxMenuItem {
   border-radius: .5rem;
   align-items: center;

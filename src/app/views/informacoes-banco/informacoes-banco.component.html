@@ -23,13 +23,14 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><button type="button" class="addRow" (click)="addRowAlertaAtividade()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
-                                        <th>codigobanco</th>
-                                        <th>agenciafilial</th>
-                                        <th>digitoagencia</th>
-                                        <th>numerodaConta</th>
-                                        <th>contacontabil</th>
-                                        <th>contacontprovisoria</th>
+                                        <th><button type="button" class="addRow" (click)="addRowAlertaAtividade()"><i
+                                                    class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th>Cód. Banco</th>
+                                        <th>Agência Filial</th>
+                                        <th>Dígito Agência</th>
+                                        <th>Número da Conta</th>
+                                        <th>Conta Contábil</th>
+                                        <th>Conta Contábil Provisória</th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
@@ -41,33 +42,33 @@
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.codigobanco"
-                                                name="codigobanco{{row.definir_Informacoes_bancoid}}"
-                                                placeholder="Insira o código do banco..." />
+                                                name="codigobanco{{row.definir_Informacoes_bancoid}}" placeholder="000"
+                                                maxlength="3" (keydown)="allowOnlyNumbers($event)" />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.agenciafilial"
                                                 name="agenciafilial{{row.definir_Informacoes_bancoid}}"
-                                                placeholder="Insira o código da agência..." />
+                                                placeholder="0000" maxlength="4" (keydown)="allowOnlyNumbers($event)" />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.digitoagencia"
                                                 name="digitoagencia{{row.definir_Informacoes_bancoid}}"
-                                                placeholder="Insira o dígito da agência..." />
+                                                placeholder="0" maxlength="1" (keydown)="allowOnlyNumbers($event)" />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.numerodaConta"
                                                 name="numerodaConta{{row.definir_Informacoes_bancoid}}"
-                                                placeholder="Insira o número da conta..." />
+                                                placeholder="000000" maxlength="6" (keydown)="allowOnlyNumbers($event)" />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.contacontabil"
                                                 name="contacontabil{{row.definir_Informacoes_bancoid}}"
-                                                placeholder="Insira a conta contábil..." />
+                                                placeholder="0000" maxlength="4" (keydown)="allowOnlyNumbers($event)" />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.contacontprovisoria"
                                                 name="contacontprovisoria{{row.definir_Informacoes_bancoid}}"
-                                                placeholder="Insira a conta contábil provisória..." />
+                                                placeholder="0000" maxlength="4" (keydown)="allowOnlyNumbers($event)" />
                                         </td>
                                     </tr>
                                 </tbody>

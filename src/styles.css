@@ -368,6 +368,7 @@ table input {
     padding: 0 0 0 .8rem;
     height: 2.5rem;
     background: transparent;
+    width: 100%;
 
     &:focus-visible,
     &:focus {
@@ -679,11 +680,11 @@ td:first-child {
 }
 
 .selectMenu {
-    background-color: #662E91;
-    padding: .3rem;
-    color: var(--white);
-    width: min-content;
     border: transparent;
+
+    &:focus-visible {
+        border: transparent;
+    }
 }
 
 @keyframes spin {

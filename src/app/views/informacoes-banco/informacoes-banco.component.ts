@@ -11,6 +11,8 @@ import { CustomerFieldComponent } from '../../components/customer-field/customer
 import { Tip } from '../../models/infobasica/tip.model';
 import { definir_Informacoes_banco } from '../../models/info-banco/info-banco.model';
 import { infoBasica } from '../../models/infobasica/infobasica.model';
+// Services
+import { AllowOnlyNumbersService } from '../../services/allowNumbers.service';
 
 @Component({
   selector: 'app-informacoes-banco',
@@ -20,6 +22,10 @@ import { infoBasica } from '../../models/infobasica/infobasica.model';
   styleUrls: ['./informacoes-banco.component.css']
 })
 export class InformacoesBancoComponent implements OnInit {
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    this.AllowOnlyNumbers.allowOnlyNumbers(event);
+  }
+
   isLoading: boolean = true;
 
   formInfoBanco: FormGroup;
@@ -76,7 +82,7 @@ export class InformacoesBancoComponent implements OnInit {
     return item.definir_Informacoes_bancoid;
   }
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService, private AllowOnlyNumbers: AllowOnlyNumbersService) {
     this.formInfoBanco = this.fb.group({
       // definir_Informacoes_bancoid: ['', Validators.required],
       codigobanco: ['', Validators.required],
@@ -187,10 +193,20 @@ export class InformacoesBancoComponent implements OnInit {
     }
 
     // Prepare apenas as novas linhas para envio
-    const definir_Informacoes_bancoPOST = this.novasRowsAlertaAtividade.map(row => ({
-      ...row,
-      definir_Informacoes_bancoid: '0',
-    }));
+    const definir_Informacoes_bancoPOST = this.alertaAtividadeRows.map(row => {
+      if (this.novasRowsAlertaAtividade.includes(row)) {
+        return {
+          ...row,
+          definir_Informacoes_bancoid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
+    // const definir_Informacoes_bancoPOST = this.novasRowsAlertaAtividade.map(row => ({
+    //   ...row,
+    //   definir_Informacoes_bancoid: '0',
+    // }));
 
     const apiData = { ...this.infoBasica[0], definir_Informacoes_banco: definir_Informacoes_bancoPOST };
 

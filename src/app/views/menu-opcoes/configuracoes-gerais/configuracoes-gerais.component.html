@@ -60,7 +60,7 @@
                                                                 Adicionar Linha</button></th>
                                                         <th>Tipo de Atividade</th>
                                                         <th>Descrição da Atividade</th>
-                                                        <th>Ativo (S/N)</th>
+                                                        <th title="Ativo? Sim, ou não!">Ativo (S/N)</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
@@ -75,18 +75,24 @@
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.tipoAtividade_id"
                                                                 name="tipoAtividade_id{{row.bbP_Alerta_Atividadeid}}"
-                                                                placeholder="Insira um valor..." />
+                                                                placeholder="Ex: Comércio, Serviços..." />
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.descricaoAtividade"
                                                                 name="descricaoAtividade{{row.bbP_Alerta_Atividadeid}}"
-                                                                placeholder="Insira um valor..." />
+                                                                placeholder="Ex: Prestação de serviços de consultoria, venda de produtos" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" [(ngModel)]="row.ativaSN"
+                                                            <!-- <input type="text" [(ngModel)]="row.ativaSN"
                                                                 name="ativaSN{{row.bbP_Alerta_Atividadeid}}"
                                                                 placeholder="Insira se está ativa (S/N)..."
-                                                                maxlength="1" />
+                                                                maxlength="1" /> -->
+                                                            <select [(ngModel)]="row.ativaSN" class="selectMenu"
+                                                                name="ativaSN{{row.bbP_Alerta_Atividadeid}}">
+                                                                <option value="" disabled>Selecione...</option>
+                                                                <option value="Sim">Sim</option>
+                                                                <option value="Não">Não</option>
+                                                            </select>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -101,8 +107,7 @@
                                 <div *ngSwitchCase="'taxaComissao'">
                                     <div class="atvClienteBox">
                                         <div class="flex">
-                                            <p>Com base em que seu negócio define a taxa de comissão, se aplicada?
-                                            </p>
+                                            <p>Com base em que seu negócio define a taxa de comissão, se aplicada?</p>
                                             <i class="fa-solid fa-circle-info" (click)="toggleTip(11)"></i>
                                             <p *ngIf="activeTipId === 11" class="tip" [innerHTML]="getTip(11)"></p>
                                         </div>
@@ -112,39 +117,46 @@
                                                     <tr>
                                                         <th><button type="button" class="addRow"
                                                                 (click)="addRowTaxaComissao()"><i
-                                                                    class="fa-solid fa-plus"></i>
-                                                                Adicionar
-                                                                Linha</button></th>
-                                                        <th>tipo</th>
-                                                        <th>st_SN</th>
+                                                                    class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                                        <th>Tipo</th>
+                                                        <th>Situação Tributária (ST-SN)</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of taxaComissaoRows; trackBy: trackByFnTaxaComissao"
                                                         class="trow">
-                                                        <td>
+                                                        <td class="tdLow">
                                                             <button type="button" class="btnDelete"
                                                                 (click)="deleteRowTaxaComissao(row)">
                                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
-                                                        <td>
+                                                        <!-- <td>
                                                             <input type="text" [(ngModel)]="row.tipo"
                                                                 name="tipo{{row.com_base_negocio_define_taxadecomissid}}"
                                                                 placeholder="Insira a descrição..." />
+                                                        </td> -->
+                                                        <td class="tdLow"><select [(ngModel)]="row.tipo" class="selectMenu"
+                                                            name="tipo{{row.com_base_negocio_define_taxadecomissid}}">
+                                                        <option value="">Selecione...</option>
+                                                        <option value="Fixa">Fixa</option>
+                                                        <option value="Percentual">Percentual</option>
+                                                        <option value="Mista">Mista</option>
+                                                    </select></td>
+                                                        <td class="tdLow">
+                                                            <select [(ngModel)]="row.st_SN" class="selectMenu"
+                                                            name="st_SN{{row.com_base_negocio_define_taxadecomissid}}">
+                                                                <option value="" disabled>Selecione...</option>
+                                                                <option value="Sim">Sim</option>
+                                                                <option value="Não">Não</option>
+                                                            </select>
                                                         </td>
-                                                        <td>
+                                                        <!-- <td>
                                                             <input type="text" [(ngModel)]="row.st_SN"
                                                                 name="st_SN{{row.com_base_negocio_define_taxadecomissid}}"
                                                                 placeholder="Insira um valor..." />
-                                                        </td>
+                                                        </td> -->
                                                     </tr>
                                                 </tbody>
-                                                <!-- <div class="btnFuncionality">
-                                                    <button type="button" (click)="addRowTaxaComissao()"><i
-                                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                                    <button type="button" (click)="removeSelectedRowsTaxaComissao()"><i
-                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div> -->
                                             </table>
                                         </form>
                                         <button class="btn modal-save" type="button"
@@ -158,15 +170,12 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <!-- <th><input type="checkbox"
-                                                                (change)="toggleSelectAllAlertaAtividade($event)" />
-                                                        </th> -->
-                                                        <!-- <th></th> -->
                                                         <th><button type="button" class="addRow"
                                                                 (click)="addRowquantas_casas_decimais_utilizar()"><i
-                                                                    class="fa-solid fa-plus"></i>Adicionar Linha</button></th>
-                                                        <th>tipoCampo</th>
-                                                        <th>casas_decimais</th>
+                                                                    class="fa-solid fa-plus"></i>Adicionar
+                                                                Linha</button></th>
+                                                        <th>Tipo de Campo</th>
+                                                        <th>Casas Decimais</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
@@ -177,31 +186,19 @@
                                                                 (click)="deleteRowCasasDecimais(row)">
                                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
-                                                        <!-- <td>
-                                                            <button type="button" (click)="deleteRowCasasDecimais(row)">
-                                                                <i class="fa-solid fa-trash"></i>
-                                                            </button>
-                                                        </td> -->
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.tipoCampo"
                                                                 name="descricaoAtividade{{row.quantas_casas_decimais_utilizarid}}"
-                                                                placeholder="Insira a descrição..." />
+                                                                placeholder="Ex: Preços, Taxas..." />
                                                         </td>
                                                         <td>
                                                             <input type="number" [(ngModel)]="row.casas_decimais"
                                                                 name="casas_decimais{{row.quantas_casas_decimais_utilizarid}}"
-                                                                placeholder="Insira um valor..." />
+                                                                placeholder="0" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
-                                                <!-- <div class="btnFuncionality">
-                                                    <button type="button"
-                                                        (click)="addRowquantas_casas_decimais_utilizar()"><i
-                                                            class="fa-solid fa-plus"></i> Adicionar Linha</button>
-                                                    <button type="button"
-                                                        (click)="removeSelectedRowsquantas_casas_decimais_utilizar()"><i
-                                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                                </div> -->
+
                                             </table>
                                         </form>
                                         <button class="btn modal-save" type="button"

@@ -13,7 +13,7 @@
           <div class="text-center">
             <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
                 básicas!</span></h2>
-                <p><b>NOTA:</b> Insira as informações básicas essenciais para concluir o cadastro no BBP Digital.</p>
+            <p><b>NOTA:</b> Insira as informações básicas essenciais para concluir o cadastro no BBP Digital.</p>
           </div>
           <div class="boxMenuContent">
             <div class="boxMenuItem" *ngFor="let modal of modals">
@@ -58,14 +58,15 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th><button type="button" class="addRow" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i>
+                          <th><button type="button" class="addRow" (click)="addRowDadosCTB()"><i
+                                class="fa-solid fa-plus"></i>
                               Adicionar
                               Linha</button></th>
                           <th title="Pessoa Física ou Jurídica?">Tipo FJ</th>
-                          <th>CNPJ</th>
                           <th>CPF</th>
+                          <th>CNPJ</th>
                           <th>Código CNAE</th>
-                          <th>Inscrição Estadual</th>
+                          <th title="Caso não possua Inscrição Estadual preencher com ISENTO">Inscrição Estadual</th>
                           <th>Inscrição Estadual Sub. Tributário</th>
                           <th>Inscrição Municipal</th>
                           <th>Indicador Natureza PJ</th>
@@ -77,7 +78,8 @@
                           <th>Qualificação Empresa</th>
                           <th>Tipo Declarante</th>
                           <th>Valor Acumulado Imposto Retido Fonte CR</th>
-                          <th>Valor Acumulado Imposto Retido Fonte CP</th>
+                          <th title="Valor Acumulado Imposto Retido Fonte Contas a Pagar">
+                            Valor Acumulado Imposto Retido Fonte CP</th>
                         </tr>
                       </thead>
                       <tbody class="teste">
@@ -95,30 +97,40 @@
                               <option value="J">Pessoa Jurídica</option>
                             </select>
                           </td>
-                          <td><input type="text" [(ngModel)]="row.cnpj" name="cnpj{{row.bbP_DadosCTBID}}"
-                              placeholder="Digite o CNPJ (somente números)" /></td>
                           <td><input type="text" [(ngModel)]="row.cpf" name="cpf{{row.bbP_DadosCTBID}}"
-                              placeholder="Digite o CPF (somente números)" /></td>
+                              mask="000.000.000-00" placeholder="000.000.000-00" required /></td>
+                          <td><input type="text" [(ngModel)]="row.cnpj" name="cnpj{{row.bbP_DadosCTBID}}"
+                              placeholder="00.000.000/0000-00" mask="00.000.000/0000-00" required /></td>
                           <td><input type="text" [(ngModel)]="row.codigoCNAE" name="codigoCNAE{{row.bbP_DadosCTBID}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="0000-0/00" mask="0000-0/00" required /></td>
                           <td><input type="text" [(ngModel)]="row.inscricaoEstadual"
-                              name="inscricaoEstadual{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." /></td>
+                              name="inscricaoEstadual{{row.bbP_DadosCTBID}}" placeholder="000.000.000/0000"
+                              (input)="onInputChange(row)" maxlength="16" (keydown)="allowOnlyNumbers($event)" (paste)="onPaste($event, row)" /></td>
+
                           <td><input type="text" [(ngModel)]="row.inscricaoEstadual_Sub_Tributario"
-                              name="inscricaoEstadual_Sub_Tributario{{row.bbP_DadosCTBID}}"
-                              placeholder="Insira o valor..." /></td>
+                              name="inscricaoEstadual_Sub_Tributario{{row.bbP_DadosCTBID}}" placeholder="000.000.000/0000"
+                              (input)="onInputChange(row)" maxlength="16" (keydown)="allowOnlyNumbers($event)" (paste)="onPaste($event, row)" /></td>
+
                           <td><input type="text" [(ngModel)]="row.inscricaoMunicipal"
-                              name="inscricaoMunicipal{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." /></td>
+                              name="inscricaoMunicipal{{row.bbP_DadosCTBID}}" placeholder="1234567801" maxlength="11" (keydown)="allowOnlyNumbers($event)"/></td>
+
                           <td><input type="text" [(ngModel)]="row.indicador_natureza_pessoa_juridicial"
                               name="indicador_natureza_pessoa_juridicial{{row.bbP_DadosCTBID}}"
-                              placeholder="Insira o valor..." />
+                              placeholder="00" (keydown)="allowOnlyNumbers($event)" maxlength="2" />
                           </td>
+
                           <td><input type="text" [(ngModel)]="row.indicador_Tipo_Atividade_Preponderante"
                               name="indicador_Tipo_Atividade_Preponderante{{row.bbP_DadosCTBID}}"
-                              placeholder="Insira o valor..." />
+                              placeholder="Ex: Prestador de serviços" />
                           </td>
                           <td><input type="text" [(ngModel)]="row.ind_Apuracao_Contribuicoes_Creditos"
                               name="ind_Apuracao_Contribuicoes_Creditos{{row.bbP_DadosCTBID}}"
-                              placeholder="Insira o valor..." />
+                              placeholder="Ex: Apuração com base no registro individualizado de NF-e (C100 e C170) e ECF (C400)" />
+                          </td>
+                          <td>
+                            <select [(ngModel)]="row.ind_Apuracao_Contribuicoes_Creditos"
+                            name="ind_Apuracao_Contribuicoes_Creditos{{row.bbP_DadosCTBID}}" class="selectMenu"></select>
+                            <option value=""></option>
                           </td>
                           <td><input type="text" [(ngModel)]="row.indicador_Apuracao_IPI"
                               name="indicador_Apuracao_IPI{{row.bbP_DadosCTBID}}" placeholder="Insira o valor..." />
@@ -331,8 +343,9 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <th><button type="button" class="addRow" (click)="addRowMoeda()"><i class="fa-solid fa-plus"></i> Adicionar
-                            Linha</button></th>
+                          <th><button type="button" class="addRow" (click)="addRowMoeda()"><i
+                                class="fa-solid fa-plus"></i> Adicionar
+                              Linha</button></th>
                           <!-- <th>Número</th> -->
                           <th>Nome da Moeda</th>
                           <th>Código Internacional</th>
@@ -348,7 +361,7 @@
                               placeholder="Insira o valor..." /></td> -->
                           <td><input type="text" [(ngModel)]="row.nomeMoeda" name="nomeMoeda{{row.bbP_MoedasID}}"
                               placeholder="Real Brasileiro" maxlength="3" /></td>
-                              <!-- <td>
+                          <!-- <td>
                                 <select [(ngModel)]="row.nomeMoeda" name="nomeMoeda{{row.nomeMoeda}}">
                                   <option *ngFor="let currency of currencies" [value]="currency.value">
                                     {{ currency.value }}
@@ -359,9 +372,6 @@
                               name="codigoInternacional{{row.bbP_MoedasID}}" placeholder="R$" /></td>
                         </tr>
                       </tbody>
-                      <div class="btnSave">
-                        <button type="submit">Salvar</button>
-                      </div>
                     </table>
                   </form>
                   <button class="btn modal-save" type="button" (click)="closeModal('listarMoedas')">Fechar</button>
