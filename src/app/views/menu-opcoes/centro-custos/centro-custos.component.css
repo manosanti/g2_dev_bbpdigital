@@ -1,9 +1,14 @@
 .boxMenuOptions {
   display: grid;
   gap: 1rem;
+  background-color: #F9F9F9;
   margin: 0 auto;
-  max-width: 100%;
+  /* max-width: 80%; */
   padding: 1.25rem;
+}
+
+#listarMoedas {
+  display: none;
 }
 
 .boxMenuContent {
@@ -34,10 +39,13 @@
 .menuOptionImage i {
   padding: 1rem;
   background-color: white;
-  border: 1px solid gray;
+  border: 1px solid #242522;
   border-radius: 50%;
-  font-size: 1rem;
+  font-size: 1.4rem;
+  min-width: 60px;
   width: auto;
+  text-align: center;
+  color: #242522;
 }
 
 .boxMenuOptions h2 {
@@ -45,7 +53,7 @@
 }
 
 #informacoesBasicas {
-  max-width: 1440px;
+  /* max-width: 1440px; */
   margin: 0 auto;
 }
 
@@ -101,17 +109,19 @@
 }
 
 .close {
-  color: #aaa;
+  color: var(--red-primary);
   float: right;
   font-size: 28px;
   font-weight: bold;
+  transition: .3s;
+  cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: red;
   text-decoration: none;
-  cursor: pointer;
+  /* font-size: 2.25rem; */
 }
 
 .answerField button {
@@ -125,13 +135,4 @@
 
 .answerField button:hover {
   background-color: #0056b3;
-}
-
-.wrapper {
-  margin: auto;
-  max-width: calc(100vw - 15.375rem);
-}
-
-.tableContainer {
-  overflow-x: scroll;
 }

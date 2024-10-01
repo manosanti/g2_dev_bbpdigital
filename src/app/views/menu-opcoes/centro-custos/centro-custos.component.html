@@ -11,9 +11,8 @@
       <section id="informacoesBasicas">
         <div class="boxMenuOptions">
           <div class="text-center">
-            <h2 class="menusTitle">Preencha os campos abaixo para criar os <span class="purple-primary">Centro de Custo!</span></h2>
-            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
-              sua empresa. </p>
+            <h2 class="menusTitle">Preencha os campos abaixo para criar o <span class="purple-primary">Centro de Custo!</span></h2>
+            <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
           </div>
           <div class="boxMenuContent">
             <div class="boxMenuItem" *ngFor="let modal of modals">
@@ -23,7 +22,6 @@
                 </div>
                 <div class="nameDescription">
                   <h3>{{ modal.title }}</h3>
-                  <!-- <p>{{ modal.description }}</p> -->
                 </div>
               </div>
               <div class="answerField">
@@ -50,8 +48,6 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th>
-                          <th>#</th> -->
                           <th><button type="button" class="addRow" (click)="addRowDimensaoCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                           <th>Nome da Dimensão</th>
                           <th>Tam. Dimensão</th>
@@ -63,39 +59,32 @@
                       <tbody class="teste">
                         <tr *ngFor="let row of definir_Dimensoes_Centros_CustoRows; trackBy: trackByFnDimensoes"
                           class="trow">
-                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected"
-                              name="selected{{row.definir_Dimensoes_Centros_Custoid}}" /></td>
-                          <td><input type="text" [(ngModel)]="row.definir_Dimensoes_Centros_Custoid"
-                              name="id{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Insira o valor..."
-                              disabled /></td> -->
                               <td>
                                 <button type="button" class="btnDelete" (click)="deleteRowDimCC(row)">
                                   <i class="fa-solid fa-trash"></i> Remover</button>
                               </td>
                           <td><input type="text" [(ngModel)]="row.nome_Definir_Dimensoes_Centros_Custo"
-                              name="nome{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Insira o valor..." />
+                              name="nome_Definir_Dimensoes_Centros_Custo{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Nome da Dimensão" />
                           </td>
                           <td><input type="text" [(ngModel)]="row.dimensao"
                               name="dimensao{{row.definir_Dimensoes_Centros_Custoid}}"
-                              placeholder="Insira o valor..." /></td>
-                          <td><input type="text" [(ngModel)]="row.ativo"
-                              name="ativo{{row.definir_Dimensoes_Centros_Custoid}}" /></td>
+                              placeholder="Ex: Pequeno, Médio, Grande..." /></td>
+                          <td>
+                            <select [(ngModel)]="row.ativo" name="ativo{{row.definir_Dimensoes_Centros_Custoid}}">
+                              <option value="" disabled>Selecione...</option>
+                              <option value="Sim" disabled>Sim</option>
+                              <option value="Não" disabled>Não</option>
+                            </select>
+                          </td>
+                          <!-- <td><input type="text" [(ngModel)]="row.ativo"
+                              name="ativo{{row.definir_Dimensoes_Centros_Custoid}}" /></td> -->
                           <td><input type="text" [(ngModel)]="row.descricao"
                               name="descricao{{row.definir_Dimensoes_Centros_Custoid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Descrição da dimensão..." /></td>
                           <td><input type="text" [(ngModel)]="row.ck" name="ck{{row.definir_Dimensoes_Centros_Custoid}}"
-                              placeholder="Insira o valor..." /></td>
+                              placeholder="Ex: CK - Vendas, CK - Marketing..." /></td>
                         </tr>
                       </tbody>
-                      <!-- <div class="btnFuncionality">
-                        <button type="button" (click)="addRowDimensaoCentroCustos()"><i class="fa-solid fa-plus"></i>
-                          Adicionar Linha</button>
-                        <button type="button" (click)="removeSelectedDimensaoCentroCustos()"><i
-                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                      </div> -->
-                      <div class="btnSave">
-                        <button type="submit">Salvar</button>
-                      </div>
                     </table>
                   </form>
                   <button class="btn modal-save" type="button"
@@ -108,8 +97,6 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllDimensaoCentroCustos($event)" /></th> -->
-                          <!-- <th>#</th> -->
                            <th><button type="button" class="addRow" (click)="addRowCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                           <th>Cód. Centro de Custos</th>
                           <th>Nome Centro de Custos</th>
@@ -123,24 +110,15 @@
                             <button type="button" class="btnDelete" (click)="deleteRowCentroCusto(row)"><i class="fa-solid fa-trash"></i> Remover</button>
                           </td>
                           <td><input type="text" [(ngModel)]="row.codigocentrocusto"
-                              name="nome{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
+                              name="codigocentrocusto{{row.definir_Centros_Custoid}}" placeholder="Ex: CC-001 (Vendas), CC-002 (RH)..." /></td>
                           <td><input type="text" [(ngModel)]="row.nome_Definir_Centros_Custo"
-                              name="dimensao{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
+                              name="nome_Definir_Centros_Custo{{row.definir_Centros_Custoid}}" placeholder="Nome do Centro de Custo" /></td>
                           <td><input type="text" [(ngModel)]="row.codigoordenacao"
-                              name="ativo{{row.definir_Centros_Custoid}}" /></td>
+                              name="codigoordenacao{{row.definir_Centros_Custoid}}" placeholder="Código de Ordenação" /></td>
                           <td><input type="text" [(ngModel)]="row.dimensao"
-                              name="descricao{{row.definir_Centros_Custoid}}" placeholder="Insira o valor..." /></td>
+                              name="dimensao{{row.definir_Centros_Custoid}}" placeholder="Dimensão do Centro de Custo" /></td>
                         </tr>
                       </tbody>
-                      <!-- <div class="btnFuncionality">
-                        <button type="button" (click)="addRowCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar
-                          Linha</button>
-                        <button type="button" (click)="removeSelectedCentroCustos()"><i class="fa-solid fa-trash"></i>
-                          Remover Selecionadas</button>
-                      </div> -->
-                      <div class="btnSave">
-                        <button type="submit">Salvar</button>
-                      </div>
                     </table>
                   </form>
                   <button class="btn modal-save" type="button"

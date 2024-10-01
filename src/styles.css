@@ -95,6 +95,10 @@
     --max-width-desktop: 95%;
 }
 
+* {
+    text-wrap: balance;
+}
+
 /* Reutilizações */
 
 .credentialsField {
@@ -226,7 +230,7 @@ b {
     }
 }
 
-.inputField select {
+.modalInputField select {
     border: transparent;
     background-color: transparent;
     color: var(--black);
@@ -368,7 +372,7 @@ table input {
     padding: 0 0 0 .8rem;
     height: 2.5rem;
     background: transparent;
-    width: 100%;
+    width: max-content;
 
     &:focus-visible,
     &:focus {

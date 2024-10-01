@@ -12,8 +12,7 @@
         <div class="boxMenuOptions">
           <div class="text-center">
             <h2 class="menusTitle">Preencha os campos abaixo para criar os <span class="purple-primary">Lançamentos de Transação!</span></h2>
-            <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da
-              sua empresa. </p>
+            <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
           </div>
           <div class="boxMenuContent">
             <div class="boxMenuItem" *ngFor="let modal of modals">
@@ -43,14 +42,13 @@
               <h2>{{ modal.title }}</h2>
 
               <ng-container [ngSwitch]="modal.id">
+
                 <!-- determinacao_contacontabil_vendas -->
                 <div *ngSwitchCase="'determinacao_contacontabil_vendas'">
                   <form class="formComponent" (submit)="onSubmit()">
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllVendas($event)" /></th>
-                          <th>#</th> -->
                           <th><button type="button" class="addRow" (click)="addRowVendas()"><i
                                 class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                           <th>Tipo de Conta</th>
@@ -89,8 +87,6 @@
                         <tr>
                           <th><button type="button" class="addRow" (click)="addRowGeral()"><i
                                 class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllGeral($event)" /></th>
-                          <th>#</th> -->
                           <th>Tipo de Conta</th>
                           <th>Conta Contábil</th>
                         </tr>
@@ -98,11 +94,6 @@
                       <tbody class="teste">
                         <tr *ngFor="let row of determinacao_contacontabil_geralRows; trackBy: trackByFnGeral"
                           class="trow">
-                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected"
-                              name="selected{{row.determinacao_contacontabil_geralid}}" /></td>
-                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_geralid"
-                              name="tipoFJ{{row.determinacao_contacontabil_geralid}}" placeholder="Insira o valor..."
-                              disabled /></td> -->
                           <td>
                             <button type="button" class="btnDelete" (click)="deleteRowGeral(row)">
                               <i class="fa-solid fa-trash"></i> Remover</button>
@@ -115,12 +106,6 @@
                               placeholder="Ex: Vendas, CMV..." /></td>
                         </tr>
                       </tbody>
-                      <!-- <div class="btnFuncionality">
-                        <button type="button" (click)="addRowGeral()"><i class="fa-solid fa-plus"></i> Adicionar
-                          Linha</button>
-                        <button type="button" (click)="removeSelectedGeral()"><i class="fa-solid fa-trash"></i> Remover
-                          Selecionadas</button>
-                      </div> -->
                       <div class="btnSave">
                         <button type="submit">Salvar</button>
                       </div>
@@ -136,8 +121,6 @@
                     <table>
                       <thead class="tableHeader">
                         <tr>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllEstoque($event)" /></th>
-                          <th>#</th> -->
                           <th><button type="button" class="addRow" (click)="addRowEstoque()"><i
                                 class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                           <th>Tipo de Conta</th>
@@ -147,11 +130,6 @@
                       <tbody class="teste">
                         <tr *ngFor="let row of determinacao_contacontabil_estoqueRows; trackBy: trackByFnEstoque"
                           class="trow">
-                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected"
-                              name="selected{{row.determinacao_contacontabil_estoqueid}}" /></td>
-                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_estoqueid"
-                              name="tipoFJ{{row.determinacao_contacontabil_estoqueid}}" placeholder="Insira o valor..."
-                              disabled /></td> -->
                           <td>
                             <button type="button" class="btnDelete" (click)="deleteRowEstoque(row)">
                               <i class="fa-solid fa-trash"></i> Remover</button>
@@ -181,8 +159,6 @@
                         <tr>
                           <th><button type="button" class="addRow" (click)="addRowCompras()"><i
                                 class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
-                          <!-- <th><input type="checkbox" (change)="toggleSelectAllCompras($event)" /></th>
-                          <th>#</th> -->
                           <th>Tipo de Conta</th>
                           <th>Conta Contábil</th>
                         </tr>
@@ -190,11 +166,6 @@
                       <tbody class="teste">
                         <tr *ngFor="let row of determinacao_contacontabil_comprasRows; trackBy: trackByFnCompras"
                           class="trow">
-                          <!-- <td><input type="checkbox" [(ngModel)]="row.selected"
-                              name="selected{{row.determinacao_contacontabil_comprasid}}" /></td>
-                          <td><input type="text" [(ngModel)]="row.determinacao_contacontabil_comprasid"
-                              name="tipoFJ{{row.determinacao_contacontabil_comprasid}}" placeholder="Insira o valor..."
-                              disabled /></td> -->
                           <td>
                             <button type="button" class="btnDelete" (click)="deleteRowCompras(row)">
                               <i class="fa-solid fa-trash"></i> Remover</button>
@@ -207,15 +178,6 @@
                               placeholder="Ex: Vendas, CMV..." /></td>
                         </tr>
                       </tbody>
-                      <!-- <div class="btnFuncionality">
-                        <button type="button" (click)="addRowCompras()"><i class="fa-solid fa-plus"></i> Adicionar
-                          Linha</button>
-                        <button type="button" (click)="removeSelectedCompras()"><i class="fa-solid fa-trash"></i>
-                          Remover Selecionadas</button>
-                      </div> -->
-                      <div class="btnSave">
-                        <button type="submit">Salvar</button>
-                      </div>
                     </table>
                   </form>
                   <button class="btn modal-save" type="button"

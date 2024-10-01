@@ -11,13 +11,15 @@ import { definir_usuario_senhas } from '../../../models/usuarios-SAP/definir_usu
 import { api_objects } from '../../../models/api_objects.model';
 import { infoBasica } from '../../../models/infobasica/infobasica.model';
 import { FormInfoService } from '../../../services/infobasica/form-info.service';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
   selector: 'app-usuarios-sap',
   standalone: true,
-  imports: [MenuNavigationComponent, CustomerFieldComponent, HeaderComponent, FormsModule, NgFor, NgIf, HttpClientModule, ReactiveFormsModule],
+  imports: [MenuNavigationComponent, CustomerFieldComponent, HeaderComponent, FormsModule, NgFor, NgIf, HttpClientModule, ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './usuarios-sap.component.html',
-  styleUrl: './usuarios-sap.component.css'
+  styleUrl: './usuarios-sap.component.css',
+  providers: [provideNgxMask({})],
 })
 export class UsuariosSapComponent implements OnInit {
 

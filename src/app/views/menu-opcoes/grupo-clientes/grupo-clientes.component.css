@@ -10,3 +10,7 @@ th {
 .tableContainer {
     overflow-x: scroll;
 }
+
+.trow button {
+    text-wrap: nowrap;
+}

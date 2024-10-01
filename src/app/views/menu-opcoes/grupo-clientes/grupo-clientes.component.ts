@@ -52,7 +52,6 @@ export class GrupoClientesComponent implements OnInit {
     }
   ];
 
-
   addNovaRowGrupoClientes: definir_grupos_clientes[] = [];
   addRowGrupoClientes() {
     const newRow: definir_grupos_clientes = {
@@ -136,20 +135,19 @@ export class GrupoClientesComponent implements OnInit {
 
     const grupoClientesPOST = this.rowsGrupoClientes.map(row => {
       if (this.addNovaRowGrupoClientes.includes(row)) {
-        // Se a linha foi adicionada recentemente, definir ID como '0'
         return {
           ...row,
           definir_grupos_clientesid: '0'
         };
       } else {
-        // Para as linhas existentes, manter o ID original
         return row;
       }
     });
 
-    const apiData = { ...this.infoBasica[0],
+    const apiData = {
+      ...this.infoBasica[0],
       definir_grupos_clientes: grupoClientesPOST,
-     };
+    };
 
     // apiData.definir_grupos_clientes = this.rowsGrupoClientes;
 
@@ -190,6 +188,37 @@ export class GrupoClientesComponent implements OnInit {
       },
       (error) => {
         console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  // Função para fazer o POST individual por linha
+  postGrupo(row: definir_grupos_clientes) {
+    const bbP_id = sessionStorage.getItem('bbP_id');
+    const token = sessionStorage.getItem('token');
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }),
+    };
+
+    // Estrutura do objeto de acordo com a solicitação
+    const payload = {
+      name: row.nome_grupo, // O nome do grupo vindo da linha
+      type: 'C'             // Tipo sempre "C"
+    };
+
+    // URL de teste (você pode substituir pela URL correta)
+    const postUrl = '/api/SAPSDK/GrupoClientes'; // Substitua pela URL real
+
+    this.http.post(postUrl, payload, httpOptions).subscribe(
+      (response) => {
+        console.log('POST bem-sucedido para o grupo:', row.nome_grupo, response);
+      },
+      (error) => {
+        console.error('Erro ao fazer POST para o grupo:', row.nome_grupo, error);
       }
     );
   }

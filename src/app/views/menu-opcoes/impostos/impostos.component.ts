@@ -23,6 +23,8 @@ export class ImpostosComponent implements OnInit {
   formImpostos: FormGroup;
   infoBasica: infoBasica[] = [];
 
+  impostosRows: configuracao_Imposto_Retido_Fonte[] = [];
+
   private generatedIds: Set<string> = new Set();
 
   private generateUniqueId(): string {
@@ -50,7 +52,7 @@ export class ImpostosComponent implements OnInit {
     });
   }
 
-  rows: configuracao_Imposto_Retido_Fonte[] = [
+  rowsImpostos: configuracao_Imposto_Retido_Fonte[] = [
     {
       configuracao_Imposto_Retido_Fonteid: this.generateUniqueId(),
       nome_imposto: '',
@@ -79,18 +81,20 @@ export class ImpostosComponent implements OnInit {
       tipo: '',
       selected: false,
     };
-    this.rows = [...this.rows, newRow];
+    this.rowsImpostos = [...this.rowsImpostos, newRow];
     this.addRowConfigImposto.push(newRow);
+    console.log('Nova linha adicionada em Moedas:', newRow); // Log para conferir
+
   }
 
   removeSelectedRows() {
     // Mantém a primeira linha e remove as demais selecionadas
-    this.rows = this.rows.filter((row, index) => index === 0 || !row.selected);
+    this.rowsImpostos = this.rowsImpostos.filter((row, index) => index === 0 || !row.selected);
   }
 
   toggleSelectAll(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
-    this.rows.forEach((row, index) => {
+    this.rowsImpostos.forEach((row, index) => {
       if (index !== 0) { // Não seleciona a primeira linha
         row.selected = isChecked;
       }
@@ -186,7 +190,7 @@ export class ImpostosComponent implements OnInit {
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
-        this.rows = this.infoBasica[0]?.configuracao_Imposto_Retido_Fonte;
+        this.rowsImpostos = this.infoBasica[0]?.configuracao_Imposto_Retido_Fonte;
         this.formInfoService.patchInfoBasicaForm(this.formImpostos, this.infoBasica);
         console.log('dados recuperados onInit: ', this.infoBasica);
         this.isLoading = false;
@@ -215,10 +219,16 @@ export class ImpostosComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const configImpostoPOST = this.addRowConfigImposto.map(row => ({
-      ...row,
-      configuracao_Imposto_Retido_Fonteid: '0',
-    }))
+    const configImpostoPOST = this.rowsImpostos.map(row => {
+      if (this.addRowConfigImposto.includes(row)) {
+        return {
+          ...row,
+          configuracao_Imposto_Retido_Fonteid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = { ...this.infoBasica[0],
       configuracao_Imposto_Retido_Fonte: configImpostoPOST,
@@ -259,7 +269,7 @@ export class ImpostosComponent implements OnInit {
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
         if (response) {
-          this.rows = this.rows.filter(r => r !== row);
+          this.rowsImpostos = this.rowsImpostos.filter(r => r !== row);
         }
       },
       (error) => {

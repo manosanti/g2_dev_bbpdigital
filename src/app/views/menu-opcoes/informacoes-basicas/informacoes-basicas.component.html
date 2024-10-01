@@ -13,7 +13,7 @@
           <div class="text-center">
             <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
                 básicas!</span></h2>
-            <p><b>NOTA:</b> Insira as informações básicas essenciais para concluir o cadastro no BBP Digital.</p>
+            <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
           </div>
           <div class="boxMenuContent">
             <div class="boxMenuItem" *ngFor="let modal of modals">
@@ -47,7 +47,7 @@
                 <div *ngSwitchCase="'nomeEmpresa'">
                   <div class="modalInputField">
                     <label for="cardName" class="required">Nome da Empresa:</label>
-                    <input type="text" id="cardName" formControlName="cardName" placeholder="Informe o nome da empresa">
+                    <input type="text" id="cardName" formControlName="cardName" placeholder="Nome da empresa">
                   </div>
                   <button class="btn modal-save" type="button" (click)="closeModal('nomeEmpresa')">Fechar</button>
                 </div>
@@ -220,11 +220,11 @@
                 <div *ngSwitchCase="'telefone'">
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="telefone" class="required">Telefone:</label>
-                    <input type="text" id="telefone" formControlName="telefone" required>
+                    <input type="text" id="telefone" formControlName="telefone" placeholder="(00) 00000-0000" mask="(00) 00000-0000" required>
                   </div>
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="telefone2" class="required">Telefone 2:</label>
-                    <input type="text" id="telefone2" formControlName="telefone2" required>
+                    <input type="text" id="telefone2" formControlName="telefone2" placeholder="(00) 00000-0000" mask="(00) 00000-0000" required>
                   </div>
                   <button class="btn modal-save" type="button" (click)="closeModal('telefone')">Fechar</button>
                 </div>
@@ -233,13 +233,13 @@
                 <div *ngSwitchCase="'camposLocalizacao'">
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="campos_Loca_Registro_Comercial" class="required">Registro Comercial:</label>
-                    <input type="text" id="campos_Loca_Registro_Comercial"
-                      formControlName="campos_Loca_Registro_Comercial" required>
+                    <input type="text" id="campos_Loca_Registro_Comercial" maxlength="18" mask="00.000.000/0000-00"
+                      formControlName="campos_Loca_Registro_Comercial" placeholder="00.000.000/0000-00" required>
                   </div>
 
                   <div class="modalInputField" [formGroup]="formInfoBasica">
                     <label for="campos_Loca_Perfil_Sped" class="required">Perfil do SPED:</label>
-                    <input type="text" id="campos_Loca_Perfil_Sped" formControlName="campos_Loca_Perfil_Sped" required>
+                    <input type="text" id="campos_Loca_Perfil_Sped" formControlName="campos_Loca_Perfil_Sped" placeholder="Ex: Perfil A, Perfil B" required>
                   </div>
 
                   <button class="btn modal-save" type="button" (click)="closeModal('camposLocalizacao')">Fechar</button>
@@ -256,7 +256,7 @@
                           {{ getTip(4) }}
                         </p>
                       </label>
-                      <input type="text" id="caminho_Pasta_Word" formControlName="caminho_Pasta_Word" required>
+                      <input type="text" id="caminho_Pasta_Word" formControlName="caminho_Pasta_Word" placeholder="Ex: \\VM-Nome\Documents\arquivo.xlsx" required>
                     </div>
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
@@ -278,7 +278,7 @@
                           {{ getTip(6) }}
                         </p>
                       </label>
-                      <input type="text" id="caminho_Pasta_Imagens" formControlName="caminho_Pasta_Imagens" required>
+                      <input type="text" id="caminho_Pasta_Imagens" formControlName="caminho_Pasta_Imagens" placeholder="Ex: \\VM-Nome\Documents\arquivo.png" required>
                     </div>
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
@@ -290,7 +290,7 @@
                           {{ getTip(8) }}
                         </p>
                       </label>
-                      <input type="text" id="caminho_Pasta_Licencas" formControlName="caminho_Pasta_Licencas" required>
+                      <input type="text" id="caminho_Pasta_Licencas" formControlName="caminho_Pasta_Licencas" placeholder="Ex: \\VM-Nome\Documents\Pasta_Licencas" required>
                     </div>
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
@@ -301,7 +301,7 @@
                           {{ getTip(9) }}
                         </p>
                       </label>
-                      <input type="text" id="caminho_Pasta_XML" formControlName="caminho_Pasta_XML" required>
+                      <input type="text" id="caminho_Pasta_XML" formControlName="caminho_Pasta_XML" placeholder="Ex: \\VM-Nome\Documents\Pasta_Arquivo_XML" required>
                     </div>
 
                   </div>
@@ -313,25 +313,25 @@
                   <div class="grid-cols-2 gap-2">
                     <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="moeda_Corrente">Moeda Corrente:</label>
-                      <input type="text" id="moeda_Corrente" formControlName="moeda_Corrente">
+                      <input type="text" id="moeda_Corrente" formControlName="moeda_Corrente" placeholder="Ex: R$ (Real), $ (Dólar)...">
                     </div>
 
                     <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="moeda_Sistema">Moeda do Sistema:</label>
-                      <input type="text" id="moeda_Sistema" formControlName="moeda_Sistema">
+                      <input type="text" id="moeda_Sistema" formControlName="moeda_Sistema" placeholder="Ex: R$ (Real), $ (Dólar)...">
                     </div>
 
-                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="seu_Negocio_necessita_sup_mult">Suporte Multilíngue?:</label>
                       <input type="text" id="seu_Negocio_necessita_sup_mult"
                         formControlName="seu_Negocio_necessita_sup_mult">
-                    </div>
+                    </div> -->
 
-                    <div class="modalInputField" [formGroup]="formInfoBasica">
+                    <!-- <div class="modalInputField" [formGroup]="formInfoBasica">
                       <label for="qual_conta_corrente_negocio_padrao_sistema">Conta Corrente Padrão:</label>
                       <input type="text" id="qual_conta_corrente_negocio_padrao_sistema"
                         formControlName="qual_conta_corrente_negocio_padrao_sistema">
-                    </div>
+                    </div> -->
 
                   </div>
                   <button class="btn modal-save" type="button" (click)="closeModal('moedas')">Fechar</button>

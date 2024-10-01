@@ -183,10 +183,16 @@ export class CondicoesPagamentoComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const condicoesPagamentoPOST = this.addNovaCondicoesPagamento.map(row => ({
-      ...row,
-      definir_condicoes_pagamentosid: '0',
-    }))
+    const condicoesPagamentoPOST = this.rowsAlertaAtividade.map(row => {
+      if (this.addNovaCondicoesPagamento) {
+        return {
+          ...row,
+          definir_condicoes_pagamentosid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = { ...this.infoBasica[0],
       definir_condicoes_pagamentos: condicoesPagamentoPOST,
@@ -226,7 +232,7 @@ export class CondicoesPagamentoComponent implements OnInit {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
         if (response) { 
           // Remover a linha da tabela localmente após sucesso
-          this.rowsAlertaAtividade = this.rowsAlertaAtividade.filter(r => r !== row);
+          this.alertaAtividadeRows = this.alertaAtividadeRows.filter(r => r !== row);
         }
       },
       (error) => {

@@ -21,7 +21,7 @@ import { moedas } from '../../../models/infobasica/moedas.model';
   standalone: true,
   imports: [HeaderComponent, CustomerFieldComponent, MenuNavigationComponent, CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule, NgIf, NgxMaskDirective],
   templateUrl: './informacoes-basicas.component.html',
-  providers: [provideNgxMask({ /* opções de cfg */ })],
+  providers: [provideNgxMask({})],
   styleUrls: ['./informacoes-basicas.component.css']
 })
 export class InformacoesBasicasComponent implements OnInit {

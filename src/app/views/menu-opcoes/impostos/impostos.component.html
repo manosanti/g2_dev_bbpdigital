@@ -26,7 +26,8 @@
                                         <!-- <th><input type="checkbox" (change)="toggleSelectAll($event)" />
                                         </th> -->
                                         <!-- <th>#</th> -->
-                                        <th><button type="button" class="addRow" (click)="addRow()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th><button type="button" class="addRow" (click)="addRow()"><i
+                                                    class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Nome Imposto</th>
                                         <th>Categoria</th>
                                         <th>Taxa</th>
@@ -38,49 +39,43 @@
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
-                                    <tr *ngFor="let row of rows; trackBy: trackByFn" class="trow">
-                                        <!-- <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
-                                        </td> -->
+                                    <tr *ngFor="let row of rowsImpostos; trackBy: trackByFn" class="trow">
                                         <td>
                                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
-                                                                          <i class="fa-solid fa-trash"></i> Remover</button>
-                                                                      </td>
-                                        <!-- <td>
-                                            <input type="text" [(ngModel)]="row.configuracao_Imposto_Retido_Fonteid"
-                                                name="configuracao_Imposto_Retido_Fonteid" placeholder="Insira o código..." disabled />
-                                        </td> -->
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.nome_imposto"
-                                                name="nome_imposto" placeholder="Insira o nome do imposto..." />
+                                                <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.categoria"
-                                                name="categoria" placeholder="Insira a categoria..." />
+                                            <input type="text" [(ngModel)]="row.nome_imposto" name="nome_imposto"
+                                                placeholder="Insira o nome do imposto..." />
                                         </td>
                                         <td>
-                                            <input type="number" [(ngModel)]="row.taxa"
-                                                name="taxa" placeholder="Insira a taxa..." />
+                                            <input type="text" [(ngModel)]="row.categoria" name="categoria"
+                                                placeholder="Insira a categoria..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.tipo_basico"
-                                                name="tipo_basico" placeholder="Insira o tipo básico..." />
+                                            <input type="number" [(ngModel)]="row.taxa" name="taxa"
+                                                placeholder="Insira a taxa..." />
+                                        </td>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.tipo_basico" name="tipo_basico"
+                                                placeholder="Insira o tipo básico..." />
                                         </td>
                                         <td>
                                             <input type="number" [(ngModel)]="row.perc_valor_base"
-                                                name="perc_valor_base" placeholder="Insira o percentual de valor base..." />
+                                                name="perc_valor_base"
+                                                placeholder="Insira o percentual de valor base..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.codigo_oficial"
-                                                name="codigo_oficial" placeholder="Insira o código oficial..." />
+                                            <input type="text" [(ngModel)]="row.codigo_oficial" name="codigo_oficial"
+                                                placeholder="Insira o código oficial..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.conta"
-                                                name="conta" placeholder="Insira a conta..." />
+                                            <input type="text" [(ngModel)]="row.conta" name="conta"
+                                                placeholder="Insira a conta..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.tipo"
-                                                name="tipo" placeholder="Insira o tipo..." />
+                                            <input type="text" [(ngModel)]="row.tipo" name="tipo"
+                                                placeholder="Insira o tipo..." />
                                         </td>
                                     </tr>
                                 </tbody>

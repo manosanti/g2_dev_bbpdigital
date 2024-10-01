@@ -184,20 +184,33 @@ export class DefinicaoDespesasComponent implements OnInit {
       }),
     };
 
-    const despesasPOST = this.addNovasRowsDespesas.map(row => ({
-      ...row,
-      definicao_Despesasid: '0',
-    }));
+    const despesasPOST = this.definicao_DespesasRows.map(row => {
+      if (this.addNovasRowsDespesas.includes(row)) {
+        return {
+          ...row,
+          definicao_Despesasid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const adicionaisPOST = this.addNovasRowsAdicionais.map(row => ({
-      ...row,
-      despesas_Adicionaisid: '0',
-    }));
+    const adicionaisPOST = this.despesas_AdicionaisRows.map(row => {
+      if (this.addNovasRowsAdicionais.includes(row)) {
+        return {
+          ...row,
+          despesas_Adicionaisid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const apiData = { ...this.infoBasica[0],
+    const apiData = {
+      ...this.infoBasica[0],
       definicao_Despesas: despesasPOST,
       despesas_Adicionais: adicionaisPOST,
-     };
+    };
 
     // apiData.definicao_Despesas = this.definicao_DespesasRows;
     // apiData.despesas_Adicionais = this.despesas_AdicionaisRows;

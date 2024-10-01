@@ -54,8 +54,8 @@ export class CentroCustosComponent implements OnInit {
   definir_Centros_CustoRows: definir_Centros_Custo[] = [];
 
   modals = [
-    { id: 'definir_Dimensoes_Centros_Custo', title: 'Definir Dimensões Centro de Custo', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-location-pin' },
-    { id: 'definir_Centros_Custos', title: 'Definir Centro de Custo', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-location-pin' },
+    { id: 'definir_Dimensoes_Centros_Custo', title: 'Definir Dimensões Centro de Custo', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-gear' },
+    { id: 'definir_Centros_Custos', title: 'Definir Centro de Custo', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-file-invoice-dollar' },
   ];
 
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
@@ -192,15 +192,27 @@ export class CentroCustosComponent implements OnInit {
       return;
     }
     
-    const centroCustosPOST = this.novasRowsDefinirCentroCustos.map(row => ({
-      ...row,
-      definir_Centros_Custoid: '0',
-    }));
+    const centroCustosPOST = this.definir_Centros_CustoRows.map(row => {
+      if (this.novasRowsDefinirCentroCustos.includes(row)) {
+        return {
+          ...row,
+          definir_Centros_Custoid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const dimensoesPOST = this.novasRowsDimensoesCentroCusto.map(row => ({
-      ...row,
-      definir_Dimensoes_Centros_Custoid: '0',
-    }));
+    const dimensoesPOST = this.definir_Dimensoes_Centros_CustoRows.map(row => {
+      if (this.novasRowsDimensoesCentroCusto.includes(row)) {
+        return {
+          ...row,
+          definir_Dimensoes_Centros_Custoid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = { ...this.infoBasica[0],
       definir_Centros_Custo: centroCustosPOST,

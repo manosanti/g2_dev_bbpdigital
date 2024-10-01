@@ -18,7 +18,7 @@ import { infoBasica } from '../../../models/infobasica/infobasica.model';
   styleUrl: './informacoes-cartoes.component.css'
 })
 export class definir_informacoes_cartoesComponent implements OnInit {
-
+  rowsInfoCartao: definir_informacoes_cartoes[] = [];
   isLoading: boolean = false;
 
   private generatedIds: Set<string> = new Set();
@@ -144,14 +144,21 @@ export class definir_informacoes_cartoesComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const infoCartoesPOST = this.addNovaRow.map(row => ({
-      ...row,
-      definir_informacoes_cartoesid: '0',
-    }))
+    const infoCartoesPOST = this.rows.map(row => {
+      if (this.addNovaRow.includes(row)) {
+        return {
+          ...row,
+          definir_informacoes_cartoesid: '0',
+        }
+      } else {
+        return row;
+      }
+    })
 
-    const apiData = { ...this.infoBasica[0],
+    const apiData = {
+      ...this.infoBasica[0],
       definir_informacoes_cartoes: infoCartoesPOST,
-     };
+    };
 
     // apiData.definir_informacoes_cartoes = this.rows;
 

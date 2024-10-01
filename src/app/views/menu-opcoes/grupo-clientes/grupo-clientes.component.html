@@ -13,7 +13,7 @@
                     <div class="text-center">
                         <h2 class="menusTitle">Preencha os campos abaixo para criar o <span
                                 class="purple-primary">Grupo de Clientes!</span></h2>
-                        <p><b>NOTA:</b> Insira as informações básicas essenciais para concluir o cadastro no BBP Digital.</p>
+                        <p><b>NOTA:</b> Insira as informações necessárias para concluir o cadastro no BBP Digital.</p>
                     </div>
 
                     <div class="atvClienteBox">
@@ -24,6 +24,7 @@
                                         <th><button type="button" class="addRow" (click)="addRowGrupoClientes()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Cód. Grupo</th>
                                         <th>Nome do Grupo</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
@@ -34,13 +35,14 @@
                                                                           <i class="fa-solid fa-trash"></i> Remover</button>
                                                                       </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.codgrupo" name="agenciafilial{{row.definir_grupos_clientesid}}"
-                                                placeholder="Insira o código da agência..." />
+                                            <input type="text" [(ngModel)]="row.codgrupo" name="codgrupo{{row.definir_grupos_clientesid}}"
+                                                placeholder="Cód. do grupo" />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.nome_grupo" name="digitoagencia{{row.definir_grupos_clientesid}}"
-                                                placeholder="Insira o dígito da agência..." />
+                                            <input type="text" [(ngModel)]="row.nome_grupo" name="nome_grupo{{row.definir_grupos_clientesid}}"
+                                                placeholder="Nome do grupo" />
                                         </td>
+                                        <button type="button" (click)="postGrupo(row)"><i class="fa-solid fa-file-export"></i> Enviar ao SAP</button>
                                     </tr>
                                 </tbody>
                             </table>

@@ -13,8 +13,7 @@
                     <div class="text-center">
                         <h2 class="menusTitle">Preencha os campos abaixo para criar as <span
                                 class="purple-primary">Configurações Gerais!</span></h2>
-                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
-                            funcionamento da sua empresa. </p>
+                        <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
                     </div>
                     <div class="boxMenuContent">
                         <div class="boxMenuItem" *ngFor="let modal of modals">
@@ -24,7 +23,6 @@
                                 </div>
                                 <div class="nameDescription">
                                     <h3>{{ modal.title }}</h3>
-                                    <!-- <p>{{ modal.description }}</p> -->
                                 </div>
                             </div>
                             <div class="answerField">
@@ -53,7 +51,6 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <!-- <th></th> -->
                                                         <th><button type="button" class="addRow"
                                                                 (click)="addRowAlertaAtividade()"><i
                                                                     class="fa-solid fa-plus"></i>
@@ -83,10 +80,6 @@
                                                                 placeholder="Ex: Prestação de serviços de consultoria, venda de produtos" />
                                                         </td>
                                                         <td>
-                                                            <!-- <input type="text" [(ngModel)]="row.ativaSN"
-                                                                name="ativaSN{{row.bbP_Alerta_Atividadeid}}"
-                                                                placeholder="Insira se está ativa (S/N)..."
-                                                                maxlength="1" /> -->
                                                             <select [(ngModel)]="row.ativaSN" class="selectMenu"
                                                                 name="ativaSN{{row.bbP_Alerta_Atividadeid}}">
                                                                 <option value="" disabled>Selecione...</option>
@@ -115,9 +108,7 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th><button type="button" class="addRow"
-                                                                (click)="addRowTaxaComissao()"><i
-                                                                    class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                                        <th><button type="button" class="addRow" (click)="addRowTaxaComissao()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                                         <th>Tipo</th>
                                                         <th>Situação Tributária (ST-SN)</th>
                                                     </tr>
@@ -130,31 +121,22 @@
                                                                 (click)="deleteRowTaxaComissao(row)">
                                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
-                                                        <!-- <td>
-                                                            <input type="text" [(ngModel)]="row.tipo"
-                                                                name="tipo{{row.com_base_negocio_define_taxadecomissid}}"
-                                                                placeholder="Insira a descrição..." />
-                                                        </td> -->
-                                                        <td class="tdLow"><select [(ngModel)]="row.tipo" class="selectMenu"
-                                                            name="tipo{{row.com_base_negocio_define_taxadecomissid}}">
-                                                        <option value="">Selecione...</option>
-                                                        <option value="Fixa">Fixa</option>
-                                                        <option value="Percentual">Percentual</option>
-                                                        <option value="Mista">Mista</option>
-                                                    </select></td>
+                                                        <td class="tdLow"><select [(ngModel)]="row.tipo"
+                                                                class="selectMenu"
+                                                                name="tipo{{row.com_base_negocio_define_taxadecomissid}}">
+                                                                <option value="" disabled>Selecione...</option>
+                                                                <option value="Fixa">Fixa</option>
+                                                                <option value="Percentual">Percentual</option>
+                                                                <option value="Mista">Mista</option>
+                                                            </select></td>
                                                         <td class="tdLow">
                                                             <select [(ngModel)]="row.st_SN" class="selectMenu"
-                                                            name="st_SN{{row.com_base_negocio_define_taxadecomissid}}">
+                                                                name="st_SN{{row.com_base_negocio_define_taxadecomissid}}">
                                                                 <option value="" disabled>Selecione...</option>
                                                                 <option value="Sim">Sim</option>
                                                                 <option value="Não">Não</option>
                                                             </select>
                                                         </td>
-                                                        <!-- <td>
-                                                            <input type="text" [(ngModel)]="row.st_SN"
-                                                                name="st_SN{{row.com_base_negocio_define_taxadecomissid}}"
-                                                                placeholder="Insira um valor..." />
-                                                        </td> -->
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -205,50 +187,39 @@
                                             (click)="closeModal('casasDecimais')">Fechar</button>
                                     </div>
                                 </div>
+                                <div *ngSwitchCase="'formatoDataHora'">
+                                    <div class="grid-cols-2 gap-2">
+                                        <div class="modalInputField">
+                                            <label for="qual_formato_hora_uitlizar_tela" class="required"
+                                                required>Formato de Hora:</label>
+                                            <select formControlName="qual_formato_hora_uitlizar_tela"
+                                                [value]="'qual_formato_hora_uitlizar_tela'">
+                                                <option value="" disabled>Selecione uma opção...</option>
+                                                <option value="12h">12h</option>
+                                                <option value="24h">24h</option>
+                                            </select>
+                                        </div>
+                                        <div class="modalInputField">
+                                            <label for="qual_formato_data_uitlizar_tela" class="required"
+                                                required>Formato de Data:</label>
+                                            <select formControlName="qual_formato_data_uitlizar_tela"
+                                                id="qual_formato_data_uitlizar_tela">
+                                                <option value="" disabled>Selecione uma opção...</option>
+                                                <option value="dd-mm-aaaa">DD/MM/AAAA</option>
+                                                <option value="mm-dd-aaaa">MM/DD/AAAA</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="btn modal-save" type="button"
+                                        (click)="closeModal('formatoDataHora')">Fechar</button>
+                                </div>
                             </ng-container>
                         </div>
                     </div>
-                    <div class="btnSave">
-                        <button>Salvar</button>
-                    </div>
                 </div>
-                <div class="boxMenuOptions">
-                    <div class="atvClienteBox">
-                        <div class="titleIcon">
-                            <h2>Formato de Data & Hora</h2>
-                            <i class="fa-solid fa-circle-info" (click)="toggleTip(6)"></i>
-                            <p *ngIf="activeTipId === 6" class="tip" [innerHTML]="getTip(6)"></p>
-                        </div>
-                        <p>Qual formato de hora você gostaria de utilizar na exibição na tela:</p>
-                        <div class="flex">
-                            <div class="inputField">
-                                <div class="title">
-                                    <label for="qual_formato_hora_uitlizar_tela" class="required" required>Formato de
-                                        Hora:</label>
-                                </div>
-                                <select formControlName="qual_formato_hora_uitlizar_tela"
-                                    [value]="'qual_formato_hora_uitlizar_tela'">
-                                    <option value="" disabled>Selecione uma opção...</option>
-                                    <option value="12h">12h</option>
-                                    <option value="24h">24h</option>
-                                </select>
-                            </div>
-                            <div class="inputField">
-                                <div class="title">
-                                    <label for="qual_formato_data_uitlizar_tela" class="required" required>Formato de
-                                        Data:</label>
-                                </div>
-                                <select formControlName="qual_formato_data_uitlizar_tela"
-                                    id="qual_formato_data_uitlizar_tela">
-                                    <option value="" disabled>Selecione uma opção...</option>
-                                    <option value="dd-mm-aaaa">DD/MM/AAAA</option>
-                                    <option value="mm-dd-aaaa">MM/DD/AAAA</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <div class="btnSave">
+                    <button>Salvar</button>
                 </div>
-
             </form>
         </div>
     </div>

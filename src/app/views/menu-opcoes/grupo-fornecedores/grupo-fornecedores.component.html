@@ -22,9 +22,6 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <!-- <th><input type="checkbox" (change)="toggleSelectAllGrupoFornecedores($event)" />
-                                        </th>
-                                        <th>#</th> -->
                                         <th><button type="button" class="addRow" (click)="addRowGrupoFornecedores()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Cód. Grupo</th>
                                         <th>Nome do Grupo</th>
@@ -33,34 +30,24 @@
                                 <tbody class="teste">
                                     <tr *ngFor="let row of rowsGrupoFornecedores; trackBy: trackByFnGrupoFornecedores"
                                         class="trow">
-                                        <!-- <td>
-                                            <input type="checkbox" [(ngModel)]="row.selected" name="selected" />
-                                        </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.definir_grupos_fornecedoresid" name="codigobanco{{row.definir_grupos_fornecedoresid}}"
-                                                placeholder="Insira o código do banco..." disabled />
-                                        </td> -->
                                         <td>
                                             <button type="button" class="btnDelete" (click)="deleteRowGrupoFornecedores(row)">
                                                                           <i class="fa-solid fa-trash"></i> Remover</button>
                                                                       </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.codgrupo" name="agenciafilial{{row.definir_grupos_fornecedoresid}}"
-                                                placeholder="Insira o código da agência..." />
+                                                placeholder="Cód. do grupo" />
                                         </td>
                                         <td>
                                             <input type="text" [(ngModel)]="row.nome_grupo" name="digitoagencia{{row.definir_grupos_fornecedoresid}}"
-                                                placeholder="Insira o dígito da agência..." />
+                                                placeholder="Nome do grupo" />
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-
-                            <div class="btnSave">
-                                <button type="submit">Salvar</button>
-                            </div>
                         </form>
                     </div>
+
                     <div class="btnSave">
                         <button type="submit">Salvar</button>
                     </div>

@@ -275,24 +275,49 @@ export class TerritoriosComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const territoriosPOST = this.addNovaRowTerritorios.map(row => ({
-      ...row,
-      definir_Territoriosid: '0'
-    }));
+    const territoriosPOST = this.rowsTerritorios.map(row => {
+      if (this.addNovaRowTerritorios.includes(row)) {
+        return {
+          ...row,
+          definir_Territoriosid: '0'
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const grupoComissoesPOST = this.addNovaRowGrupoComissoes.map(row => ({
-      ...row,
-      definir_grupo_comissoesid: '0'
-    }));
+    const grupoComissoesPOST = this.rowsdefinir_grupo_comissoes.map(row => {
+      if (this.addNovaRowGrupoComissoes.includes(row)) {
+        return {
+          ...row,
+          definir_grupo_comissoesid: '0'
+        }
+      } else {
+        return row;
+      }
+    });
 
-    const controleVendedorPOST = this.addNovaControleVendedor.map(row => ({
-      ...row,
-      definir_controle_vendedorid: '0'
-    }));
-    const estagioNiveisVendasPOST = this.addNovaEstagiosNiveisVendas.map(row => ({
-      ...row,
-      definir_Estagios_Niveis_Vendasid: '0'
-    }));
+    const controleVendedorPOST = this.rowsdefinir_controle_vendedor.map(row => {
+      if (this.addNovaControleVendedor.includes(row)) {
+        return {
+          ...row,
+          definir_controle_vendedorid: '0'
+        }
+      } else {
+        return row;
+      }
+    });
+
+    const estagioNiveisVendasPOST = this.rowsdefinir_Estagios_Niveis_Vendas.map(row => {
+      if (this.addNovaEstagiosNiveisVendas.includes(row)) {
+        return {
+          ...row,
+          definir_Estagios_Niveis_Vendasid: '0'
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = {
       ...this.infoBasica[0],

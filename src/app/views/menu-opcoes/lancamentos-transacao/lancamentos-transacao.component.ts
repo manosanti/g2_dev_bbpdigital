@@ -14,7 +14,6 @@ import { determinacao_contacontabil_compras } from '../../../models/lancamento-t
 import { determinacao_contacontabil_estoque } from '../../../models/lancamento-transacao/determinacao_contacontabil_estoque.model';
 import { determinacao_contacontabil_geral } from '../../../models/lancamento-transacao/determinacao_contacontabil_geral.model';
 import { lancamentoTransacao } from '../../../models/lancamento-transacao/lancamento-transacao.model';
-import { definir_Estagios_Niveis_Vendas } from '../../../models/Territorios/definir_Estagios_Niveis_Vendas.model';
 
 @Component({
   selector: 'app-lancamentos-transacao',

@@ -207,10 +207,16 @@ export class defina_Grupo_ItemComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const grupoItensPOST = this.addNovaRow.map(row => ({
-      ...row,
-      defina_Grupo_Itemid: '0',
-    }))
+    const grupoItensPOST = this.rows.map(row => {
+      if (this.addNovaRow.includes(row)) {
+        return {
+          ...row,
+          defina_Grupo_Itemid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = { ...this.infoBasica[0],
       defina_Grupo_Item: grupoItensPOST,

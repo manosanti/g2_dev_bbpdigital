@@ -186,10 +186,16 @@ export class DepositosComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const depositosPOST = this.addNovaRow.map(row => ({
-      ...row,
-      defina_Depositosid: '0',
-    }))
+    const depositosPOST = this.rows.map(row => {
+      if (this.addNovaRow.includes(row)) {
+        return {
+          ...row,
+          defina_Depositosid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = { ...this.infoBasica[0],
       defina_depositos: depositosPOST,
