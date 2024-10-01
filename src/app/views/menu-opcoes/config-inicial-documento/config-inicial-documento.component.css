@@ -1,8 +1,16 @@
+th {
+    width: 100%;
+}
+
 .wrapper {
     margin: auto;
-    max-width: calc(100vw - 15.375rem);
+    max-width: 80vw;
 }
 
 .tableContainer {
     overflow-x: scroll;
+}
+
+.trow button {
+    text-wrap: nowrap;
 }

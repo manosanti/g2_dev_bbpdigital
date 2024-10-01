@@ -4,7 +4,7 @@ import { CustomerFieldComponent } from "../../../components/customer-field/custo
 import { HeaderComponent } from "../../../components/header/header.component";
 import { NgFor, NgIf } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 // Models
 import { Tip } from '../../../models/infobasica/tip.model';
 import { definir_configuracoes_iniciais_documento } from '../../../models/definir_configuracoes_iniciais_documento/definir_configuracoes_iniciais_documento.model';
@@ -21,13 +21,13 @@ import { infoBasica } from '../../../models/infobasica/infobasica.model';
 export class ConfigInicialDocumentoComponent implements OnInit {
 
   isLoading: boolean = true;
+  infoBasica: infoBasica[] = [];
 
   private generatedIds: Set<string> = new Set();
 
   private generateUniqueId(): string {
     let newId: string;
     do {
-      // Gera um ID aleatório
       newId = Math.random().toString(36).substring(2, 15);
     } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
 
@@ -37,18 +37,19 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formConfigInicial = this.fb.group({
-      calcular_lucro_bruto: [''],
-      observacoes_documento_compreendem: [''],
-      para_ema_EP_vendas_documentos: [''],
-      resposta_liberacao_entrada_estoque_abaixo_nivel: [''],
-      bloquear_estoque_negativo: [''],
-      bloquear_estoque_negativo_por: [''],
-      metodo_arredondamento: [''],
-      data_base_taxa_cambio: [''],
-      arredondar_valor_imposto_linhas: [''],
-      exibir_observacao_arredondamento: [''],
-      bloquear_documentos_data_lancamento: [''],
-      permitir_data_lancamento_futuro: [''],
+      definir_configuracoes_iniciais_documentoid: ['', Validators.required],
+      calcular_lucro_bruto: ['', Validators.required],
+      observacoes_documento_compreendem: ['', Validators.required],
+      para_ema_EP_vendas_documentos: ['', Validators.required],
+      resposta_liberacao_entrada_estoque_abaixo_nivel: ['', Validators.required],
+      bloquear_estoque_negativo: ['', Validators.required],
+      bloquear_estoque_negativo_por: ['', Validators.required],
+      metodo_arredondamento: ['', Validators.required],
+      data_base_taxa_cambio: ['', Validators.required],
+      arredondar_valor_imposto_linhas: ['', Validators.required],
+      exibir_observacao_arredondamento: ['', Validators.required],
+      bloquear_documentos_data_lancamento: ['', Validators.required],
+      permitir_data_lancamento_futuro: ['', Validators.required],
     })
   }
 
@@ -71,7 +72,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       permitir_data_lancamento_futuro: '',
       selected: false,
     }
-  ]
+  ];
 
   novasRowsConfigInicial: definir_configuracoes_iniciais_documento[] = [];
   addRowConfigInicial() {
@@ -93,26 +94,13 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     };
     this.rowsConfigInicial = [...this.rowsConfigInicial, newRow];
     this.novasRowsConfigInicial.push(newRow)
-  }
-
-  removeSelectedRowConfigInicial() {
-    this.rowsConfigInicial = this.rowsConfigInicial.filter((row, index) => index === 0 || !row.selected);
-  }
-
-  toggleSelectAllConfigInicial(event: Event) {
-    const isChecked = (event.target as HTMLInputElement).checked;
-    this.rowsConfigInicial.forEach((row, index) => {
-      if (index !== 0) {
-        row.selected = isChecked;
-      }
-    });
+    console.log(newRow)
   }
 
   trackByFnConfigInicial(index: number, item: definir_configuracoes_iniciais_documento) {
     return item.definir_configuracoes_iniciais_documento_id;
   }
 
-  infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
     const token = sessionStorage.getItem('token');
@@ -137,7 +125,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
-        this.rowsConfigInicial = this.infoBasica[0]?.definir_configuracoes_iniciais_documento || [];
+        this.rowsConfigInicial = this.infoBasica[0]?.definir_configuracoes_iniciais_documento;
         // GET (isolado) dos campos a serem resgatados
         this.formInfoService.patchInfoBasicaForm(this.formConfigInicial, this.infoBasica);
         this.isLoading = false;
@@ -247,10 +235,16 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       return;
     }
 
-    const configInicialPOST = this.novasRowsConfigInicial.map(row => ({
-      ...row,
-      definir_configuracoes_iniciais_documento_id: '0',
-    }))
+    const configInicialPOST = this.rowsConfigInicial.map(row => {
+      if (this.novasRowsConfigInicial.includes(row)) {
+        return {
+          ...row,
+          definir_configuracoes_iniciais_documento_id: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     const apiData = {
       ...this.infoBasica[0],
@@ -262,8 +256,6 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       console.log('Dados enviados com sucesso', response);
       console.log('Dados enviados:', apiData);
       this.isLoading = false;
-      // Reiniciar após envio (POST) para resgatar os dados via (GET)
-      // window.location.reload();
     }, error => {
       console.error('Erro ao enviar dados', error);
     });

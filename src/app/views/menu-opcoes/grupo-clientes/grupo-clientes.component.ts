@@ -149,13 +149,10 @@ export class GrupoClientesComponent implements OnInit {
       definir_grupos_clientes: grupoClientesPOST,
     };
 
-    // apiData.definir_grupos_clientes = this.rowsGrupoClientes;
-
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados enviados com sucesso', response);
         console.log('Dados enviados:', apiData);
-        console.log('bbp>', bbP_id)
         this.isLoading = false;
       },
       error => {

@@ -9,10 +9,10 @@
         <div class="w-full">
             <app-customer-field></app-customer-field>
             <section id="configuracoesGerais" class="wrapper">
-                <form [formGroup]="formConfigInicial" (submit)="onSubmit()" id="configuracoesGerais">
+                <form [formGroup]="formConfigInicial" (submit)="onSubmit()">
                     <div class="text-center">
                         <h2 class="menusTitle">Preencha os campos abaixo para criar as <span
-                                class="purple-primary">Configurações Gerais!</span></h2>
+                                class="purple-primary">Configurações Iniciais!</span></h2>
                         <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
                             funcionamento da sua empresa.</p>
                     </div>
@@ -45,31 +45,31 @@
                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.calcular_lucro_bruto" name="agenciafilial{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.calcular_lucro_bruto" name="calcular_lucro_bruto{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o código da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.observacoes_documento_compreendem" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.observacoes_documento_compreendem" name="observacoes_documento_compreendem{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.para_ema_EP_vendas_documentos" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.para_ema_EP_vendas_documentos" name="para_ema_EP_vendas_documentos{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.resposta_liberacao_entrada_estoque_abaixo_nivel" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.resposta_liberacao_entrada_estoque_abaixo_nivel" name="resposta_liberacao_entrada_estoque_abaixo_nivel{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.bloquear_estoque_negativo" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.bloquear_estoque_negativo" name="bloquear_estoque_negativo{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.bloquear_estoque_negativo_por" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.bloquear_estoque_negativo_por" name="bloquear_estoque_negativo_por{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.metodo_arredondamento" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.metodo_arredondamento" name="metodo_arredondamento{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
@@ -85,11 +85,11 @@
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.bloquear_documentos_data_lancamento" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.bloquear_documentos_data_lancamento" name="bloquear_documentos_data_lancamento{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.permitir_data_lancamento_futuro" name="digitoagencia{{row.definir_configuracoes_iniciais_documento_id}}"
+                                            <input type="text" [(ngModel)]="row.permitir_data_lancamento_futuro" name="permitir_data_lancamento_futuro{{row.definir_configuracoes_iniciais_documento_id}}"
                                                 placeholder="Insira o dígito da agência..." />
                                         </td>
                                     </tr>

@@ -132,23 +132,23 @@ export class GrupoFornecedoresComponent implements OnInit {
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
-    const grupoFornecedoresPOST = this.addNovaRowGrupoFornecedores.map(row => ({
-      ...row,
-      definir_grupos_fornecedoresid: '0',
-    }))
+    const grupoFornecedoresPOST = this.rowsGrupoFornecedores.map(row => {
+      if (this.addNovaRowGrupoFornecedores.includes(row)) {
+        return {
+          ...row,
+          definir_grupos_fornecedoresid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     // Clonar o objeto recuperado do GET
     const apiData = { ...this.infoBasica[0],
       definir_grupos_fornecedores: grupoFornecedoresPOST
      };
 
-    // Atualizar apenas o campo 'rowsGrupoFornecedores' com os novos valores
-    // apiData.definir_grupos_fornecedores = this.rowsGrupoFornecedores;
-
-    // Dados enviados para o back-end
-    const newGrupoFornecedores = {
-
-    }
+    this.isLoading = true;
 
     console.log(this.rowsGrupoFornecedores);
 
@@ -163,8 +163,10 @@ export class GrupoFornecedoresComponent implements OnInit {
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
       console.log('APIDATA:', apiData);
+      this.isLoading = false;
     }, error => {
       console.error('Erro ao enviar dados', error);
+      this.isLoading = false;
     });
   }
 

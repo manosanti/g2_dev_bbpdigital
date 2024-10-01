@@ -53,7 +53,7 @@
                           <th>Tam. Dimensão</th>
                           <th>Ativo?</th>
                           <th>Descrição:</th>
-                          <th>CK</th>
+                          <!-- <th>CK</th> -->
                         </tr>
                       </thead>
                       <tbody class="teste">
@@ -70,10 +70,10 @@
                               name="dimensao{{row.definir_Dimensoes_Centros_Custoid}}"
                               placeholder="Ex: Pequeno, Médio, Grande..." /></td>
                           <td>
-                            <select [(ngModel)]="row.ativo" name="ativo{{row.definir_Dimensoes_Centros_Custoid}}">
+                            <select [(ngModel)]="row.ativo" name="ativo{{row.definir_Dimensoes_Centros_Custoid}}" class="selectMenu">
                               <option value="" disabled>Selecione...</option>
-                              <option value="Sim" disabled>Sim</option>
-                              <option value="Não" disabled>Não</option>
+                              <option value="Sim">Sim</option>
+                              <option value="Não">Não</option>
                             </select>
                           </td>
                           <!-- <td><input type="text" [(ngModel)]="row.ativo"
@@ -81,8 +81,8 @@
                           <td><input type="text" [(ngModel)]="row.descricao"
                               name="descricao{{row.definir_Dimensoes_Centros_Custoid}}"
                               placeholder="Descrição da dimensão..." /></td>
-                          <td><input type="text" [(ngModel)]="row.ck" name="ck{{row.definir_Dimensoes_Centros_Custoid}}"
-                              placeholder="Ex: CK - Vendas, CK - Marketing..." /></td>
+                          <!-- <td><input type="text" [(ngModel)]="row.ck" name="ck{{row.definir_Dimensoes_Centros_Custoid}}"
+                              placeholder="Ex: CK - Vendas, CK - Marketing..." /></td> -->
                         </tr>
                       </tbody>
                     </table>

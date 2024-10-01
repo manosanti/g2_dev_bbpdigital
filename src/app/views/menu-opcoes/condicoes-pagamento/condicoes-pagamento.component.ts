@@ -114,10 +114,6 @@ export class CondicoesPagamentoComponent implements OnInit {
     };
     this.alertaAtividadeRows = [...this.alertaAtividadeRows, newRow];
     this.addNovaCondicoesPagamento.push(newRow);
-  }  
-
-  removeSelectedRowsAlertaAtividade() {
-    this.rowsAlertaAtividade = this.rowsAlertaAtividade.filter((row, index) => index === 0 || !row.selected);
   }
 
   // ToggleSelectAll
@@ -180,11 +176,11 @@ export class CondicoesPagamentoComponent implements OnInit {
 
     if (!bbP_id) {
       console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
-      return; // Interrompe a execução se o bbP_id não estiver presente
+      return;
     }
 
-    const condicoesPagamentoPOST = this.rowsAlertaAtividade.map(row => {
-      if (this.addNovaCondicoesPagamento) {
+    const condicoesPagamentoPOST = this.alertaAtividadeRows.map(row => {
+      if (this.addNovaCondicoesPagamento.includes(row)) {
         return {
           ...row,
           definir_condicoes_pagamentosid: '0',
@@ -194,15 +190,16 @@ export class CondicoesPagamentoComponent implements OnInit {
       }
     });
 
-    const apiData = { ...this.infoBasica[0],
+    const apiData = {
+      ...this.infoBasica[0],
       definir_condicoes_pagamentos: condicoesPagamentoPOST,
-     };
+    };
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
+        console.log('novo', apiData.definir_condicoes_pagamentos)
         console.log('Dados enviados com sucesso', response);
         console.log('Dados enviados:', apiData);
-        console.log('bbp>', bbP_id)
         this.isLoading = false;
       },
       error => {
@@ -215,7 +212,7 @@ export class CondicoesPagamentoComponent implements OnInit {
   deleteRow(row: definir_condicoes_pagamentos) {
     const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_condicoes_pagamentosid; // Use o valor apropriado de vcode
-    const vtabela = '%40G2_BBP_CONDPAG'; // ou algum valor dinâmico, caso necessário
+    const vtabela = '%40G2_BBP_DEFCONDPAG'; // ou algum valor dinâmico, caso necessário
     const token = sessionStorage.getItem('token')
 
     const httpOptions = {
@@ -230,7 +227,7 @@ export class CondicoesPagamentoComponent implements OnInit {
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
-        if (response) { 
+        if (response) {
           // Remover a linha da tabela localmente após sucesso
           this.alertaAtividadeRows = this.alertaAtividadeRows.filter(r => r !== row);
         }
@@ -238,6 +235,6 @@ export class CondicoesPagamentoComponent implements OnInit {
       (error) => {
         console.error('Erro ao deletar a linha', error);
       }
-    );    
+    );
   }
 }

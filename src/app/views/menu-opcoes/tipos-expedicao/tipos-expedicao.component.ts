@@ -122,6 +122,7 @@ export class TiposExpedicaoComponent implements OnInit {
 
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
+    this.isLoading = true;
     const token = sessionStorage.getItem('token');
     const bbP_id = sessionStorage.getItem('bbP_id');
 
@@ -137,26 +138,32 @@ export class TiposExpedicaoComponent implements OnInit {
       return;
     }
 
-    const tipo_expedicaoPOST = this.addNovasRows.map(row => ({
-      ...row,
-      definir_tipos_expedicaoid: '0',
-    }))
+    const tipo_expedicaoPOST = this.rowsTipoExpedicao.map(row => {
+      if (this.addNovasRows.includes(row)) {
+        return {
+          ...row,
+          definir_tipos_expedicaoid: '0',
+        }
+      } else {
+        return row;
+      }
+    });
 
     // Clonar o objeto recuperado do GET
-    const apiData = { ...this.infoBasica[0],
-      definir_tipos_expedicao: tipo_expedicaoPOST };
-
-    // Atualizar valor das tabelas
-    // apiData.definir_tipos_expedicao = this.rowsTipoExpedicao;
-    apiData.definir_tipos_expedicao = tipo_expedicaoPOST;
+    const apiData = {
+      ...this.infoBasica[0],
+      definir_tipos_expedicao: tipo_expedicaoPOST
+    };
 
     console.log(this.rowsTipoExpedicao)
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
       console.log('Dados enviados:', apiData);
+      this.isLoading = false;
     }, error => {
       console.error('Erro ao enviar dados', error);
+      this.isLoading = false;
     });
   }
 
