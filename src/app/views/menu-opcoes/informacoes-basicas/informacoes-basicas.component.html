@@ -11,8 +11,7 @@
       <section id="informacoesBasicas">
         <div class="boxMenuOptions">
           <div class="text-center">
-            <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações
-                básicas!</span></h2>
+            <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">informações básicas!</span></h2>
             <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
           </div>
           <div class="boxMenuContent">
@@ -88,8 +87,6 @@
                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
                               <i class="fa-solid fa-trash"></i> Remover</button>
                           </td>
-                          <!-- <td><input type="text" [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}"
-                              placeholder="F ou J" maxlength="1" required /></td> -->
                           <td>
                             <select [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}" class="selectMenu">
                               <option value="" disabled>Selecione...</option>

@@ -42,8 +42,8 @@ export class DefinicaoDespesasComponent implements OnInit {
   despesas_AdicionaisRows: despesas_Adicionais[] = [];
 
   modals = [
-    { id: 'definicao_Despesas', title: 'Definição Despesas', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-money-bill-transfer' },
-    { id: 'despesas_Adicionais', title: 'Despesas Adicionais', description: 'Preencher Dados Contábeis', isVisible: false, icon: 'fa-solid fa-money-bill-transfer' },
+    { id: 'definicao_Despesas', title: 'Definição Despesas', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-sliders' },
+    { id: 'despesas_Adicionais', title: 'Despesas Adicionais', description: 'Preencher Dados Contábeis', isVisible: false, icon: 'fa-solid fa-file-circle-plus' },
   ];
 
   constructor(private http: HttpClient, private fb: FormBuilder) {

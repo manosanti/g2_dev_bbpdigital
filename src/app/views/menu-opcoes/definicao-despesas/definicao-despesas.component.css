@@ -11,6 +11,10 @@
   display: none;
 }
 
+* {
+  text-wrap: inherit;
+}
+
 .boxMenuContent {
   width: 100%;
   max-width: 100%;

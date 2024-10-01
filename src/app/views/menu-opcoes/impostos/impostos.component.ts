@@ -234,8 +234,6 @@ export class ImpostosComponent implements OnInit {
       configuracao_Imposto_Retido_Fonte: configImpostoPOST,
      };
 
-    // apiData.configuracao_Imposto_Retido_Fonte = this.rows;
-
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados enviados com sucesso', response);

@@ -23,9 +23,6 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <!-- <th><input type="checkbox" (change)="toggleSelectAll($event)" />
-                                        </th> -->
-                                        <!-- <th>#</th> -->
                                         <th><button type="button" class="addRow" (click)="addRow()"><i
                                                     class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Nome Imposto</th>
@@ -45,46 +42,40 @@
                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.nome_imposto" name="nome_imposto"
+                                            <input type="text" [(ngModel)]="row.nome_imposto" name="nome_imposto{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira o nome do imposto..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.categoria" name="categoria"
+                                            <input type="text" [(ngModel)]="row.categoria" name="categoria{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira a categoria..." />
                                         </td>
                                         <td>
-                                            <input type="number" [(ngModel)]="row.taxa" name="taxa"
+                                            <input type="number" [(ngModel)]="row.taxa" name="taxa{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira a taxa..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.tipo_basico" name="tipo_basico"
+                                            <input type="text" [(ngModel)]="row.tipo_basico" name="tipo_basico{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira o tipo básico..." />
                                         </td>
                                         <td>
                                             <input type="number" [(ngModel)]="row.perc_valor_base"
-                                                name="perc_valor_base"
+                                                name="perc_valor_base{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira o percentual de valor base..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.codigo_oficial" name="codigo_oficial"
+                                            <input type="text" [(ngModel)]="row.codigo_oficial" name="codigo_oficial{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira o código oficial..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.conta" name="conta"
+                                            <input type="text" [(ngModel)]="row.conta" name="conta{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira a conta..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.tipo" name="tipo"
+                                            <input type="text" [(ngModel)]="row.tipo" name="tipo{{row.configuracao_Imposto_Retido_Fonteid}}"
                                                 placeholder="Insira o tipo..." />
                                         </td>
                                     </tr>
                                 </tbody>
-                                <!-- <div class="btnFuncionality">
-                                    <button type="button" (click)="addRow()"><i class="fa-solid fa-plus"></i> Adicionar
-                                        Linha</button>
-                                    <button type="button" (click)="removeSelectedRows()"><i
-                                            class="fa-solid fa-trash"></i> Remover Selecionadas</button>
-                                </div> -->
                             </table>
 
                             <div class="btnSave">
