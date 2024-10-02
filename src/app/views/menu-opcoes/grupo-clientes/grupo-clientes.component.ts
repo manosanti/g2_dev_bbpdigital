@@ -64,10 +64,6 @@ export class GrupoClientesComponent implements OnInit {
     this.addNovaRowGrupoClientes.push(newRow)
   }
 
-  removeSelectedRowsGrupoClientes() {
-    this.rowsGrupoClientes = this.rowsGrupoClientes.filter((row, index) => index === 0 || !row.selected);
-  }
-
   toggleSelectAllGrupoClientes(event: Event) {
     const isChecked = (event.target as HTMLInputElement).checked;
     this.rowsGrupoClientes.forEach((row, index) => {
@@ -164,6 +160,7 @@ export class GrupoClientesComponent implements OnInit {
   deleteRowGrupoClientes(row: definir_grupos_clientes) {
     const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_grupos_clientesid; // Use o valor apropriado de vcode
+    console.log('vcode', vcode);
     const vtabela = '%40G2_BBP_DEFGRCLI'; // ou algum valor dinâmico, caso necessário
     const token = sessionStorage.getItem('token')
 

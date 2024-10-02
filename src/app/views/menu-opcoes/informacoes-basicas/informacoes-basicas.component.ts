@@ -35,13 +35,13 @@ export class InformacoesBasicasComponent implements OnInit {
   currencies: any[] = [];
 
   modals = [
-    { id: 'nomeEmpresa', title: 'Nome da Empresa', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
-    { id: 'dadosContabeis', title: 'Dados Contábeis', description: 'Preencher Dados Contábeis', isVisible: false, icon: 'fa-solid fa-money-check-dollar' },
+    // { id: 'nomeEmpresa', title: 'Nome da Empresa', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
     // { id: 'endereco', title: 'Endereço', description: 'Preencha o Endereço Completo', isVisible: false, icon: 'fa-solid fa-location-dot' },
-    { id: 'camposLocalizacao', title: 'Campos de Localização', description: 'Preencha os Campos de Localização', isVisible: false, icon: 'fa-solid fa-map-location-dot' },
     { id: 'web', title: 'Web', description: 'Preencha os Campos de Web', isVisible: false, icon: 'fa-solid fa-earth-americas' },
-    { id: 'caminhoPastas', title: 'Caminho Para Pastas', description: 'Preencha o Caminho para Pastas', isVisible: false, icon: 'fa-solid fa-folder-tree' },
     { id: 'telefone', title: 'Telefone', description: 'Preencha as Informações de Contato', isVisible: false, icon: 'fa-solid fa-phone-flip' },
+    { id: 'camposLocalizacao', title: 'Campos de Localização', description: 'Preencha os Campos de Localização', isVisible: false, icon: 'fa-solid fa-map-location-dot' },
+    { id: 'caminhoPastas', title: 'Caminho Para Pastas', description: 'Preencha o Caminho para Pastas', isVisible: false, icon: 'fa-solid fa-folder-tree' },
+    { id: 'dadosContabeis', title: 'Dados Contábeis', description: 'Preencher Dados Contábeis', isVisible: false, icon: 'fa-solid fa-money-check-dollar' },
     { id: 'moedas', title: 'Moedas', description: 'Preencha as Informações Financeiras', isVisible: false, icon: 'fa-solid fa-dollar-sign' },
     { id: 'listarMoedas', title: 'Lista de Moedas', description: 'Preencha as Informações Financeiras', isVisible: false, icon: 'fa-solid fa-dollar-sign' }
   ]

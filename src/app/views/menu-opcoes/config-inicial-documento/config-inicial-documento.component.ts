@@ -22,6 +22,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
   isLoading: boolean = true;
   infoBasica: infoBasica[] = [];
+  formConfigInicial: FormGroup;
 
   private generatedIds: Set<string> = new Set();
 
@@ -29,9 +30,9 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     let newId: string;
     do {
       newId = Math.random().toString(36).substring(2, 15);
-    } while (this.generatedIds.has(newId)); // Verifica se o ID já foi gerado
-
+    } while (this.generatedIds.has(newId));
     this.generatedIds.add(newId);
+    console.log('Novo ID gerado:', newId);
     return newId;
   }
 
@@ -53,8 +54,6 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     })
   }
 
-  formConfigInicial: FormGroup;
-
   rowsConfigInicial: definir_configuracoes_iniciais_documento[] = [
     {
       definir_configuracoes_iniciais_documento_id: this.generateUniqueId(),
@@ -70,7 +69,6 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       exibir_observacao_arredondamento: '',
       bloquear_documentos_data_lancamento: '',
       permitir_data_lancamento_futuro: '',
-      selected: false,
     }
   ];
 
@@ -90,17 +88,15 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       exibir_observacao_arredondamento: '',
       bloquear_documentos_data_lancamento: '',
       permitir_data_lancamento_futuro: '',
-      selected: false
     };
     this.rowsConfigInicial = [...this.rowsConfigInicial, newRow];
-    this.novasRowsConfigInicial.push(newRow)
+    this.novasRowsConfigInicial.push(newRow);
     console.log(newRow)
   }
 
   trackByFnConfigInicial(index: number, item: definir_configuracoes_iniciais_documento) {
-    return item.definir_configuracoes_iniciais_documento_id;
-  }
-
+    return item.definir_configuracoes_iniciais_documento_id; // Garantir que sempre retorna algo
+  }  
 
   ngOnInit(): void {
     const token = sessionStorage.getItem('token');
@@ -108,7 +104,6 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
     setTimeout(() => {
       if (!token || !bbP_id) {
-        // Se token ou bbP_id não estão disponíveis, recarregar a página
         window.location.reload();
       }
     }, 2000);
@@ -122,14 +117,15 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
     this.isLoading = true;
 
+
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.rowsConfigInicial = this.infoBasica[0]?.definir_configuracoes_iniciais_documento;
-        // GET (isolado) dos campos a serem resgatados
         this.formInfoService.patchInfoBasicaForm(this.formConfigInicial, this.infoBasica);
-        this.isLoading = false;
         console.log('dados recuperados onInit: ', this.infoBasica);
+        // console.log(row.definir_configuracoes_iniciais_documento_id);
+        this.isLoading = false;
       },
       (error) => {
         console.error('Erro ao recuperar dados', error);
@@ -137,7 +133,6 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       }
     );
   }
-
 
   // Dicas
   tipsObj: Tip[] = [
@@ -239,12 +234,38 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       if (this.novasRowsConfigInicial.includes(row)) {
         return {
           ...row,
-          definir_configuracoes_iniciais_documento_id: '0',
-        }
+          definir_configuracoes_iniciais_documento_id: '0'
+        };
       } else {
         return row;
       }
-    });
+    });        
+
+    // const configInicialPOST = this.rowsConfigInicial.map((row => {
+    //   return {
+    //     ...row,
+    //     definir_configuracoes_iniciais_documento_id: '0'
+    //   }
+    //   console.log(apiData.definir_configuracoes_iniciais_documento)
+    // }))
+
+    // const novoObjeto = [
+    //   {
+    //     definir_configuracoes_iniciais_documentoid: "0",
+    //     calcular_lucro_bruto: "string",
+    //     observacoes_documento_compreendem: "string",
+    //     para_ema_EP_vendas_documentos: "string",
+    //     resposta_liberacao_entrada_estoque_abaixo_nivel: "string",
+    //     bloquear_estoque_negativo: "string",
+    //     bloquear_estoque_negativo_por: "string",
+    //     metodo_arredondamento: "string",
+    //     data_base_taxa_cambio: "string",
+    //     arredondar_valor_imposto_linhas: "string",
+    //     exibir_observacao_arredondamento: "string",
+    //     bloquear_documentos_data_lancamento: "string",
+    //     permitir_data_lancamento_futuro: "string"
+    //   }
+    // ]
 
     const apiData = {
       ...this.infoBasica[0],
@@ -255,6 +276,8 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     this.http.post(`/api/BBP`, apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
       console.log('Dados enviados:', apiData);
+      console.log('Rows antes do POST:', configInicialPOST);
+      console.log('dados rows',apiData.definir_configuracoes_iniciais_documento)
       this.isLoading = false;
     }, error => {
       console.error('Erro ao enviar dados', error);
@@ -264,9 +287,14 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   deleteRow(row: definir_configuracoes_iniciais_documento) {
     const bbpid = sessionStorage.getItem('bbP_id');
     const vcode = row.definir_configuracoes_iniciais_documento_id;
+    console.log(row.definir_configuracoes_iniciais_documento_id); // Verifique se a propriedade existe
     const vtabela = '%40G2_BBP_CONFINI';
     const token = sessionStorage.getItem('token')
-
+    
+    if (!vcode) {
+      console.error('vcode não definido');
+      return;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

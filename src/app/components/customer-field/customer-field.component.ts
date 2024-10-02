@@ -109,6 +109,6 @@ export class CustomerFieldComponent implements OnInit {
   // Método para formatar a data
   formatDate(dateString: string): string {
     const date = new Date(dateString);
-    return date.toLocaleDateString(); // ou outro formato
+    return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
 }

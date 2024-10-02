@@ -11,10 +11,8 @@
             <section id="configuracoesGerais" class="wrapper">
                 <form [formGroup]="formGrupoFornecedores" (submit)="onSubmit()" id="configuracoesGerais">
                     <div class="text-center">
-                        <h2 class="menusTitle">Preencha os campos abaixo para criar as <span
-                                class="purple-primary">Configurações Gerais!</span></h2>
-                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
-                            funcionamento da sua empresa.</p>
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar o <span class="purple-primary">Grupo de Fornecedores!</span></h2>
+                        <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
                     </div>
 
                     <div class="atvClienteBox">
@@ -22,7 +20,8 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <th><button type="button" class="addRow" (click)="addRowGrupoFornecedores()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                        <th><button type="button" class="addRow" (click)="addRowGrupoFornecedores()"><i
+                                                    class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Cód. Grupo</th>
                                         <th>Nome do Grupo</th>
                                     </tr>
@@ -31,15 +30,18 @@
                                     <tr *ngFor="let row of rowsGrupoFornecedores; trackBy: trackByFnGrupoFornecedores"
                                         class="trow">
                                         <td>
-                                            <button type="button" class="btnDelete" (click)="deleteRowGrupoFornecedores(row)">
-                                                                          <i class="fa-solid fa-trash"></i> Remover</button>
-                                                                      </td>
+                                            <button type="button" class="btnDelete"
+                                                (click)="deleteRowGrupoFornecedores(row)">
+                                                <i class="fa-solid fa-trash"></i> Remover</button>
+                                        </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.codgrupo" name="agenciafilial{{row.definir_grupos_fornecedoresid}}"
+                                            <input type="text" [(ngModel)]="row.codgrupo"
+                                                name="agenciafilial{{row.definir_grupos_fornecedoresid}}"
                                                 placeholder="Cód. do grupo" />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.nome_grupo" name="digitoagencia{{row.definir_grupos_fornecedoresid}}"
+                                            <input type="text" [(ngModel)]="row.nome_grupo"
+                                                name="digitoagencia{{row.definir_grupos_fornecedoresid}}"
                                                 placeholder="Nome do grupo" />
                                         </td>
                                     </tr>

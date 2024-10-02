@@ -1,10 +1,16 @@
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+// Variáveis Globais
+import { bbP_id } from '../../global/constants';
+import { cardCode } from '../../global/constants';
+import { httpOptions } from '../../global/constants';
+import { infoBasica } from '../../models/infobasica/infobasica.model';
 
 @Component({
   selector: 'app-menu-navigation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './menu-navigation.component.html',
   styleUrls: ['./menu-navigation.component.css']
 })
@@ -13,8 +19,8 @@ export class MenuNavigationComponent implements OnInit {
   activeBtnIndex: number | null = null;
   filter: string = 'all'; // Filtro atual
 
-  items: { label: string, link: string, category: string }[] = [
-    { label: 'Informações Básicas', link: '/informacoes-basicas', category: 'comercial' },
+  items: { label: string, link: string, category: string, status?: string }[] = [
+    { label: 'Informações Básicas', link: '/informacoes-basicas', category: 'comercial', status: 'preenchido' },
     { label: 'Configurações Gerais', link: '/configuracoes-gerais', category: 'financeiro' },
     { label: 'Plano de Contas', link: '/plano-de-contas', category: 'financeiro' },
     { label: 'Informações de Banco', link: '/informacoes-de-banco', category: 'financeiro' },
@@ -33,6 +39,11 @@ export class MenuNavigationComponent implements OnInit {
     { label: 'Tipos de Expedição', link: '/tipos-de-expedicao', category: 'comercial' },
     { label: 'Config. Iniciais de Documento', link: '/configuracoes-iniciais-de-documento', category: 'financeiro' },
   ];
+  // infoBasica: infoBasica[];
+
+  constructor(private http: HttpClient, ) {
+    
+  }
 
   get filteredItems() {
     if (this.filter === 'all') {
@@ -50,7 +61,15 @@ export class MenuNavigationComponent implements OnInit {
     }
 
     this.checkScreenSize();
+
+    // Método GET
+    this.http.get<infoBasica[]>(`/api/BBP/BBPCardCode?cardCode=${cardCode}&bbP_id=${bbP_id}`, httpOptions).subscribe(
+      response => {
+        console.log('menu:', response)
+      }
+    )
   }
+
 
   checkScreenSize() {
     const width = window.innerWidth;
