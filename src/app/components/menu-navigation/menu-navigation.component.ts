@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 // Variáveis Globais
-import { bbP_id } from '../../global/constants';
-import { cardCode } from '../../global/constants';
-import { httpOptions } from '../../global/constants';
+import { bbP_id, cardCode, httpOptions } from '../../global/constants';
 import { infoBasica } from '../../models/infobasica/infobasica.model';
 
 @Component({
@@ -12,7 +10,7 @@ import { infoBasica } from '../../models/infobasica/infobasica.model';
   standalone: true,
   imports: [CommonModule, HttpClientModule],
   templateUrl: './menu-navigation.component.html',
-  styleUrls: ['./menu-navigation.component.css']
+  styleUrls: ['./menu-navigation.component.css'],
 })
 export class MenuNavigationComponent implements OnInit {
 
@@ -39,11 +37,10 @@ export class MenuNavigationComponent implements OnInit {
     { label: 'Tipos de Expedição', link: '/tipos-de-expedicao', category: 'comercial' },
     { label: 'Config. Iniciais de Documento', link: '/configuracoes-iniciais-de-documento', category: 'financeiro' },
   ];
+  
   // infoBasica: infoBasica[];
 
-  constructor(private http: HttpClient, ) {
-    
-  }
+  constructor(private http: HttpClient, ) { }
 
   get filteredItems() {
     if (this.filter === 'all') {

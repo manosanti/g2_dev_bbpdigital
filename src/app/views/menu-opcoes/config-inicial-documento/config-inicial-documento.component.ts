@@ -10,6 +10,8 @@ import { Tip } from '../../../models/infobasica/tip.model';
 import { definir_configuracoes_iniciais_documento } from '../../../models/definir_configuracoes_iniciais_documento/definir_configuracoes_iniciais_documento.model';
 import { FormInfoService } from '../../../services/infobasica/form-info.service';
 import { infoBasica } from '../../../models/infobasica/infobasica.model';
+// Variáveis Globais
+import { bbP_id, token, httpOptions } from '../../../global/constants';
 
 @Component({
   selector: 'app-config-inicial-documento',
@@ -56,7 +58,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
   rowsConfigInicial: definir_configuracoes_iniciais_documento[] = [
     {
-      definir_configuracoes_iniciais_documento_id: this.generateUniqueId(),
+      definir_configuracoes_iniciais_documento_id: '0',
       calcular_lucro_bruto: '',
       observacoes_documento_compreendem: '',
       para_ema_EP_vendas_documentos: '',
@@ -75,7 +77,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   novasRowsConfigInicial: definir_configuracoes_iniciais_documento[] = [];
   addRowConfigInicial() {
     const newRow: definir_configuracoes_iniciais_documento = {
-      definir_configuracoes_iniciais_documento_id: this.generateUniqueId(),
+      definir_configuracoes_iniciais_documento_id: '0',
       calcular_lucro_bruto: '',
       observacoes_documento_compreendem: '',
       para_ema_EP_vendas_documentos: '',
@@ -99,8 +101,6 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   }  
 
   ngOnInit(): void {
-    const token = sessionStorage.getItem('token');
-    const bbP_id = sessionStorage.getItem('bbP_id');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -108,15 +108,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       }
     }, 2000);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
     this.isLoading = true;
-
 
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
@@ -215,64 +207,20 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
     this.isLoading = true;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    }
 
     if (!bbP_id) {
       console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return;
     }
 
-    const configInicialPOST = this.rowsConfigInicial.map(row => {
-      if (this.novasRowsConfigInicial.includes(row)) {
-        return {
-          ...row,
-          definir_configuracoes_iniciais_documento_id: '0'
-        };
-      } else {
-        return row;
-      }
-    });        
-
-    // const configInicialPOST = this.rowsConfigInicial.map((row => {
-    //   return {
-    //     ...row,
-    //     definir_configuracoes_iniciais_documento_id: '0'
-    //   }
-    //   console.log(apiData.definir_configuracoes_iniciais_documento)
-    // }))
-
-    // const novoObjeto = [
-    //   {
-    //     definir_configuracoes_iniciais_documentoid: "0",
-    //     calcular_lucro_bruto: "string",
-    //     observacoes_documento_compreendem: "string",
-    //     para_ema_EP_vendas_documentos: "string",
-    //     resposta_liberacao_entrada_estoque_abaixo_nivel: "string",
-    //     bloquear_estoque_negativo: "string",
-    //     bloquear_estoque_negativo_por: "string",
-    //     metodo_arredondamento: "string",
-    //     data_base_taxa_cambio: "string",
-    //     arredondar_valor_imposto_linhas: "string",
-    //     exibir_observacao_arredondamento: "string",
-    //     bloquear_documentos_data_lancamento: "string",
-    //     permitir_data_lancamento_futuro: "string"
-    //   }
-    // ]
+    const configInicialPOST = this.rowsConfigInicial;    
 
     const apiData = {
       ...this.infoBasica[0],
       definir_configuracoes_iniciais_documento: configInicialPOST,
     };
 
-    // Envio (POST) dados para o back-end
+    // Método POST
     this.http.post(`/api/BBP`, apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
       console.log('Dados enviados:', apiData);
@@ -285,24 +233,16 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   }
 
   deleteRow(row: definir_configuracoes_iniciais_documento) {
-    const bbpid = sessionStorage.getItem('bbP_id');
     const vcode = row.definir_configuracoes_iniciais_documento_id;
     console.log(row.definir_configuracoes_iniciais_documento_id); // Verifique se a propriedade existe
     const vtabela = '%40G2_BBP_CONFINI';
-    const token = sessionStorage.getItem('token')
     
     if (!vcode) {
       console.error('vcode não definido');
       return;
     }
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
