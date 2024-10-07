@@ -1,40 +1,33 @@
-#menuWrapper {
-    /* margin: 1rem 0; */
-    max-width: max-content;
-}
-
-.menuContent {
-    justify-content: start;
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    min-width: 13vw;
-    min-height: calc(100vh - 3.5625rem);
-    margin: 0 auto;
-    /* display: grid; */
-    gap: 0rem;
-    padding: .8rem;
-    /* border-right: 1px solid rgb(225, 225, 225); */
-    transition: all 0.3s ease;
-}
-
-.menuFilter>select {
-    background-color: #662E91;
-    padding: .3rem;
-    color: var(--white);
-    width: min-content;
-    border: transparent;
-}
-
-/* Menu de Navegação */
-
 .menuNavigation {
-    overflow-x: scroll;
+    overflow-y: auto;
+    /* Permite rolagem vertical */
     -ms-overflow-style: none;
-    /* IE and Edge */
+    /* IE e Edge */
     scrollbar-width: none;
     /* Firefox */
 }
+
+.menuNavigation>ul>li>a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.menuContent.collapsed .menuNavigation ul li a i {
+    font-size: 1.5rem;
+    /* Aumenta o tamanho dos ícones se necessário */
+    margin-right: 0;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.menuNavigation ul li a i {
+    font-size: 1.2rem;
+    /* Tamanho fixo para todos os ícones */
+}
+
 
 .menuNavigation::-webkit-scrollbar {
     display: none;
@@ -43,36 +36,49 @@
 .menuNavigation>ul {
     display: flex;
     flex-direction: column;
-    min-width: 100%;
     list-style-type: none;
-}
-
-.menuNavigation>ul>li:last-child {
-    border-width: 1px 1px 1px 1px;
+    width: 100%;
+    /* padding: 0; */
 }
 
 .active {
     font-weight: bold;
-    background-color: #fff;
+    background-color: var(--purple-primary-hover);
+}
+
+li {
+    border-left: 1px solid transparent;
+}
+
+li:hover {
+    background-color: #420e61c5;
+    border-left: 4px solid var(--white);
 }
 
 a,
 span,
 .lowNumber {
     text-decoration: none;
-    color: #150322;
+    color: #fff;
+}
+
+.statusIcon i::before {
+    border-right: 2px solid white;
+    padding: 0 .8rem 0 0;
+    margin-right: .4rem;
 }
 
 /* Variação Cor dos Botões */
 
 li {
-    border-width: 1px 1px 0px 1px;
-    /* border-color: #662E91; */
-    border-style: solid;
-    background-color: #F2F2F2;
-    color: var(--gray-primary);
+    color: #fff;
     text-decoration: transparent;
-    /* padding: .5rem 1rem; */
+    transition: all .3s;
+    height: 43px;
+    align-items: center;
+    display: flex;
+    /* padding: 0 1rem; */
+    width: 100%;
 
     &:focus-visible {
         border: none;
@@ -90,13 +96,18 @@ li {
 
 .menuToggle {
     cursor: pointer;
+    border: 1px solid;
     background-color: var(--purple-primary);
     color: white;
-    border: 1px solid white;
+    /* border: 1px solid white; */
     padding: 10px;
     margin-bottom: 10px;
     width: fit-content;
     height: min-content;
+    position: relative;
+    /* Adicionado para garantir que o botão tenha posição relativa */
+    z-index: 1001;
+    /* Para garantir que o botão fique acima de outros elementos */
 }
 
 .menuToggleInactive {
@@ -116,6 +127,7 @@ li {
     opacity: 0;
     overflow: hidden;
     height: 0;
+    transition: all .3s;
 }
 
 .menuNavigation ul {
@@ -123,23 +135,56 @@ li {
     padding: 0;
 }
 
-/* .menuNavigation li { */
-/* margin: 5px 0; */
-/* } */
-
 .menuNavigation a {
     text-decoration: none;
-    color: #202020;
+    color: #fff;
     display: block;
     padding: 5px;
+    text-wrap: nowrap;
 }
 
 .menuNavigation a.active {
-    background-color: #e9ecef;
+    background-color: var(--purple-hover);
 }
 
 .menu-no-bg {
     background-color: transparent !important;
+}
+
+.menuContent {
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.menuContent.menu-open {
+    max-height: 500px;
+    /* Define uma altura suficiente para o menu completo (ajuste conforme necessário) */
+    opacity: 1;
+    transition: all .3s;
+
+    /* Torna o conteúdo visível */
+}
+
+.menuToggle {
+    cursor: pointer;
+}
+
+.menuContent.menu-open {
+    background: var(--purple-primary);
+}
+
+.menuContent.collapsed {
+    background-color: var(--purple-primary);
+}
+
+.menuContent.collapsed > .menuNavigation > ul > li > a {
+    justify-content: center;
+    gap: 0;
+}
+
+.menuContent.collapsed > .menuNavigation > ul > li > i {
+    font-size: .8rem;
 }
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
@@ -155,7 +200,8 @@ li {
 
     .menuContent.collapsed {
         background: none;
-        height: 50px; /* Define o height para 50px quando colapsado */
+        height: 50px;
+        /* Define o height para 50px quando colapsado */
         /* z-index: -1; */
     }
 
@@ -170,7 +216,8 @@ li {
 
 @media screen and (min-width: 768px) {
     .menuToggle {
-        display: none;
+        display: block;
+        margin: 0.5rem;
     }
 
     .menuNavigation {
@@ -180,10 +227,6 @@ li {
 
     .menuContent.collapsed {
         background: flex;
-    }
-
-    .menuContent.menu-open {
-        background: transparent;
     }
 
     .menuContent.collapsed .menuNavigation {
@@ -199,4 +242,24 @@ li {
     .boxMenuContent {
         display: grid;
     }
+}
+
+/* Menu quando colapsado */
+.menuContent.collapsed .menuNavigation ul li a span {
+    display: none;
+    /* Esconde os textos quando o menu estiver colapsado */
+}
+
+.menuContent.collapsed .menuNavigation ul li a i {
+    font-size: 1.3rem;
+    /* Aumenta o tamanho dos ícones se necessário */
+    margin-right: 0;
+    /* Remove a margem direita para centralizar os ícones */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Menu quando expandido */
+.menuContent.menu-open .menuNavigation ul li a span {
+    display: inline;
+    /* Mostra o texto quando o menu estiver aberto */
 }

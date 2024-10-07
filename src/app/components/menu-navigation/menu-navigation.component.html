@@ -1,26 +1,23 @@
 <section id="menuWrapper">
   <div class="menuContent" [ngClass]="{'collapsed': isMenuCollapsed, 'menu-open': !isMenuCollapsed}">
-    <!-- Botão para expandir/recolher o menu -->
     <button class="menuToggle" (click)="toggleMenu()">
       <i class="fa" [ngClass]="{'fa-bars': isMenuCollapsed, 'fa-times': !isMenuCollapsed}"></i>
     </button>
 
-    <!-- Filtro do menu, visível apenas quando o menu não está colapsado -->
-    <div class="menuFilter" *ngIf="!isMenuCollapsed">
-      <select (change)="onFilterChange($event)">
-        <option value="all">Todos</option>
-        <option value="comercial">Comercial</option>
-        <option value="financeiro">Financeiro</option>
-        <option value="consultor">Consultor</option>
-      </select>
-    </div>
-
-    <!-- Menu de navegação, visível apenas quando o menu não está colapsado -->
-    <div class="menuNavigation" *ngIf="!isMenuCollapsed">
+    <div class="menuNavigation">
       <ul>
         <li *ngFor="let item of filteredItems; let i = index" [class.active]="activeBtnIndex === i">
           <a (click)="setActiveBtn(i, item.link)" [href]="item.link">
-            <span class="lowNumber">{{i + 1}}.</span>{{item.label}}
+            <span *ngIf="!isMenuCollapsed" style="margin-left: 10px;">
+              <ng-container *ngIf="item.isFilled === true; else incompleteStatus">
+                <span style="color: #56e279;" class="statusIcon" title="Campos Preenchidos"><i class="fa-solid fa-square-check"></i></span>
+              </ng-container>
+              <ng-template #incompleteStatus>
+                <span style="color: #ffc900;" class="statusIcon" title="Campos Incompletos"><i class="fa-solid fa-triangle-exclamation"></i></span>
+              </ng-template>
+            </span>
+            <i class="fa" [ngClass]="item.icon"></i>
+            <span *ngIf="!isMenuCollapsed">{{item.label}}</span>
           </a>
         </li>
       </ul>

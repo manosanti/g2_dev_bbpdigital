@@ -29,6 +29,7 @@ import { definir_controle_vendedor } from '../Territorios/definir_controle_vende
 import { definir_Estagios_Niveis_Vendas } from '../Territorios/definir_Estagios_Niveis_Vendas.model';
 
 export interface infoBasica {
+    label: string;
     cardName: string;
     // Web
     site: string;

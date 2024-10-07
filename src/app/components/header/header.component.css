@@ -3,6 +3,7 @@ header {
     background-color: #662E91;
     /* background: rgb(0, 145, 179);
     background: linear-gradient(90deg, rgba(0, 145, 179, 1) 0%, rgba(0, 20, 64, 1) 31%, rgba(9, 9, 121, 1) 47%, rgba(186, 5, 193, 1) 74%, rgba(102, 45, 145, 1) 100%); */
+    border-bottom: 1px solid black;
 }
 
 header>nav {

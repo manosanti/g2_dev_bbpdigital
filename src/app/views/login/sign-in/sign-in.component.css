@@ -8,12 +8,14 @@
 
 /* Card Field do Login */
 .cardLogin {
+    /* gap: 4rem; */
     background-color: var(--white);
     min-width: 20vw;
-    padding: 4rem;
+    /* padding: 4rem; */
     box-shadow: var(--shadow-card);
     border-radius: var(--rounded-card);
     display: flex;
+    border-radius: 10px;
 }
 
 .loginBtn {
@@ -23,6 +25,12 @@
     &:hover {
         background-color: var(--highlight-hover) !important;
     }
+}
+
+.imgHero {
+    padding: 4rem;
+    background-color: var(--purple-primary);
+    border-radius: 10px 0 0 10px;
 }
 
 .imgHero img {
@@ -36,7 +44,8 @@
 form {
     display: grid;
     gap: 1rem;
-    width: 20vw;
+    width: 25vw;
+    padding: 4rem;
 }
 
 form>div {
