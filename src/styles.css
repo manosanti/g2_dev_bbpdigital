@@ -405,6 +405,7 @@ table input {
     padding: 2rem 1rem;
     margin: 0 auto;
     min-height: calc(100vh - (3.5625rem + 13.5313rem));
+    max-width: calc(100vw - 23rem);
 }
 
 .no-max-width {
@@ -723,11 +724,25 @@ td:first-child {
     .nameDescription h3 {
         font-size: 1rem;
     }
+    .wrapper {
+        max-width: fit-content !important;
+    }
+    #bbpDigitalTitle {
+        display: none;
+    }
 }
 
-@media screen and (min-width: 375px) and (max-width: 424px) {}
+@media screen and (min-width: 375px) and (max-width: 424px) {
+    .wrapper {
+        max-width: fit-content !important;
+    }
+}
 
-@media screen and (min-width: 425px) and (max-width: 767px) {}
+@media screen and (min-width: 425px) and (max-width: 767px) {
+    .wrapper {
+        max-width: fit-content !important;
+    }
+}
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
     .boxMenuOptions {
@@ -747,6 +762,9 @@ td:first-child {
 
     .nameDescription h3 {
         font-size: 1rem;
+    }
+    .wrapper {
+        max-width: fit-content !important;
     }
 }
 

@@ -158,7 +158,7 @@ li {
 }
 
 .menuContent.menu-open {
-    max-height: 500px;
+    /* max-height: 500px; */
     /* Define uma altura suficiente para o menu completo (ajuste conforme necessário) */
     opacity: 1;
     transition: all .3s;
@@ -190,17 +190,18 @@ li {
 @media screen and (min-width: 320px) and (max-width: 767px) {
     .menuContent {
         position: fixed;
-        top: -5px;
+        top: 6px;
+        /* left: 6px; */
         background: #0000007d;
         width: 100%;
-        overflow-y: scroll;
+        overflow-y: hidden;
         max-height: 100vh;
         transition: background 0.3s ease;
     }
 
     .menuContent.collapsed {
         background: none;
-        height: 50px;
+        min-height: 1vh;
         /* Define o height para 50px quando colapsado */
         /* z-index: -1; */
     }
@@ -224,11 +225,7 @@ li {
         max-height: none;
         opacity: 1;
     }
-
-    .menuContent.collapsed {
-        background: flex;
-    }
-
+    
     .menuContent.collapsed .menuNavigation {
         display: flex;
     }

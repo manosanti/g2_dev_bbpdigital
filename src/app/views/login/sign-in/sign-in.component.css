@@ -8,10 +8,8 @@
 
 /* Card Field do Login */
 .cardLogin {
-    /* gap: 4rem; */
     background-color: var(--white);
     min-width: 20vw;
-    /* padding: 4rem; */
     box-shadow: var(--shadow-card);
     border-radius: var(--rounded-card);
     display: flex;
@@ -57,7 +55,8 @@ form>div {
     padding-left: .5rem;
     /* transition: .3s; */
 
-    &:focus-visible, &:hover {
+    &:focus-visible,
+    &:hover {
         border-radius: .2rem;
         border: 2px solid var(--highlight);
         outline: transparent;
@@ -129,9 +128,7 @@ form>div {
     }
 }
 
-@media screen and (min-width: 425px) and (max-width: 767px) {
-
-}
+@media screen and (min-width: 425px) and (max-width: 767px) {}
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
     .cardLogin {
@@ -142,7 +139,11 @@ form>div {
 @media screen and (min-width: 1024px) and (max-width: 1439px) {
     .cardLogin {
         width: fit-content;
-        gap: 4rem;
+        /* gap: 4rem; */
         align-items: center;
+    }
+
+    form {
+        width: 30vw;
     }
 }
