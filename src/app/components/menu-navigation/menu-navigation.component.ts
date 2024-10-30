@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 // Variáveis Globais
 import { bbP_id, httpOptions } from '../../global/constants';
 import { infoBasica } from '../../models/infobasica/infobasica.model';
@@ -18,6 +18,7 @@ export class MenuNavigationComponent implements OnInit {
   activeBtnIndex: number | null = null;
   filter: string = 'all';
   isMenuCollapsed: boolean = false;
+  @Output() menuStatusChanged = new EventEmitter<boolean>();
   items: { label: string, link: string, category: string, icon?: string, isFilled?: boolean }[] = [
     { label: 'Informações Básicas', link: '/informacoes-basicas', category: 'comercial', isFilled: false, icon: 'fa-list-check' },
     { label: 'Configurações Gerais', link: '/configuracoes-gerais', category: 'financeiro', isFilled: false, icon: 'fa-gear' },
@@ -192,7 +193,7 @@ export class MenuNavigationComponent implements OnInit {
                   item.isFilled = tiposExpedicao.length > 0;
                   break;
 
-                case 'Config. Inicial de Documento':
+                case 'Config. Iniciais de Documento':
                   const configInicialDoc = data.definir_configuracoes_iniciais_documento || [];
                   item.isFilled = configInicialDoc.length > 0;
                   break;
@@ -223,6 +224,7 @@ export class MenuNavigationComponent implements OnInit {
   toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed; // Alterna o estado do menu colapsado
     sessionStorage.setItem('menuStatus', this.isMenuCollapsed ? 'collapsed' : 'open'); // Salva o estado no sessionStorage
+    this.menuStatusChanged.emit(!this.isMenuCollapsed);
   }
 
   onFilterChange(event: Event) {

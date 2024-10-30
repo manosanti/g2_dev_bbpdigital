@@ -325,7 +325,7 @@ b {
     text-align: start;
     border-bottom: 1px solid #662E91;
 
-    white-space: nowrap;  
+    white-space: nowrap;
 
     &:first-child {
         border-radius: var(--rounded-card) 0 0 0;
@@ -454,7 +454,7 @@ td:first-child {
 }
 
 /* .atvClienteBox { */
-    /* margin: 0 0 2rem 0; */
+/* margin: 0 0 2rem 0; */
 /* } */
 
 .descriptionMenu {
@@ -692,6 +692,17 @@ td:first-child {
     }
 }
 
+.custom-width {
+    width: calc(100vw - 350px) !important;
+    /* Ajusta a largura quando o menu estiver aberto */
+}
+
+/* Adicione uma transição suave, se desejado */
+.w-full,
+.custom-width {
+    transition: width 0.3s ease;
+}
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -724,9 +735,11 @@ td:first-child {
     .nameDescription h3 {
         font-size: 1rem;
     }
+
     .wrapper {
         max-width: fit-content !important;
     }
+
     #bbpDigitalTitle {
         display: none;
     }
@@ -763,6 +776,7 @@ td:first-child {
     .nameDescription h3 {
         font-size: 1rem;
     }
+
     .wrapper {
         max-width: fit-content !important;
     }

@@ -5,8 +5,8 @@
 <div *ngIf="!isLoading">
     <app-header></app-header>
     <div class="menuContent">
-        <app-menu-navigation></app-menu-navigation>
-        <div class="w-full">
+        <app-menu-navigation (menuStatusChanged)="onMenuStatusChanged($event)"></app-menu-navigation>
+        <div [ngClass]="className">
             <app-customer-field></app-customer-field>
             <section id="configuracoesGerais" class="wrapper">
                 <form [formGroup]="formConfigInicial" (submit)="onSubmit()">

@@ -5,6 +5,7 @@ import { HeaderComponent } from "../../../components/header/header.component";
 import { NgFor, NgIf } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgClass } from '@angular/common';
 // Models
 import { Tip } from '../../../models/infobasica/tip.model';
 import { definir_configuracoes_iniciais_documento } from '../../../models/definir_configuracoes_iniciais_documento/definir_configuracoes_iniciais_documento.model';
@@ -16,12 +17,12 @@ import { bbP_id, token, httpOptions } from '../../../global/constants';
 @Component({
   selector: 'app-config-inicial-documento',
   standalone: true,
-  imports: [MenuNavigationComponent, CustomerFieldComponent, HeaderComponent, NgIf, HttpClientModule, ReactiveFormsModule, NgFor, FormsModule],
+  imports: [MenuNavigationComponent, CustomerFieldComponent, HeaderComponent, NgIf, HttpClientModule, ReactiveFormsModule, NgFor, FormsModule, NgClass],
   templateUrl: './config-inicial-documento.component.html',
   styleUrl: './config-inicial-documento.component.css'
 })
 export class ConfigInicialDocumentoComponent implements OnInit {
-
+  className: string = 'w-full';
   isLoading: boolean = true;
   infoBasica: infoBasica[] = [];
   formConfigInicial: FormGroup;
@@ -101,7 +102,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   }  
 
   ngOnInit(): void {
-
+    this.updateClass();
     setTimeout(() => {
       if (!token || !bbP_id) {
         window.location.reload();
@@ -124,6 +125,17 @@ export class ConfigInicialDocumentoComponent implements OnInit {
         this.isLoading = false;
       }
     );
+  }
+
+  updateClass() {
+    const menuStatus = sessionStorage.getItem('menuStatus');
+
+    // Verifica o status do menu e define a classe apropriada
+    this.className = menuStatus === 'open' ? 'custom-width' : 'w-full';
+  }
+
+  onMenuStatusChanged(isOpen: boolean) {
+    this.className = isOpen ? 'custom-width' : 'w-full'; // Atualiza a classe baseada no estado recebido
   }
 
   // Dicas
