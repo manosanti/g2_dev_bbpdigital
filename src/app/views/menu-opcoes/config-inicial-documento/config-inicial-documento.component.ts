@@ -58,7 +58,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
   rowsConfigInicial: definir_configuracoes_iniciais_documento[] = [
     {
-      definir_configuracoes_iniciais_documento_id: '0',
+      definir_configuracoes_iniciais_documentoid: this.generateUniqueId(),
       calcular_lucro_bruto: '',
       observacoes_documento_compreendem: '',
       para_ema_EP_vendas_documentos: '',
@@ -77,7 +77,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   novasRowsConfigInicial: definir_configuracoes_iniciais_documento[] = [];
   addRowConfigInicial() {
     const newRow: definir_configuracoes_iniciais_documento = {
-      definir_configuracoes_iniciais_documento_id: '0',
+      definir_configuracoes_iniciais_documentoid: this.generateUniqueId(),
       calcular_lucro_bruto: '',
       observacoes_documento_compreendem: '',
       para_ema_EP_vendas_documentos: '',
@@ -97,7 +97,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   }
 
   trackByFnConfigInicial(index: number, item: definir_configuracoes_iniciais_documento) {
-    return item.definir_configuracoes_iniciais_documento_id; // Garantir que sempre retorna algo
+    return item.definir_configuracoes_iniciais_documentoid; // Garantir que sempre retorna algo
   }  
 
   ngOnInit(): void {
@@ -113,10 +113,10 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
-        this.rowsConfigInicial = this.infoBasica[0]?.definir_configuracoes_iniciais_documento;
+        console.log('DATA:', this.infoBasica[0]?.definir_configuracoes_iniciais_documento[0]?.definir_configuracoes_iniciais_documentoid);
+        this.rowsConfigInicial = this.infoBasica[0]?.definir_configuracoes_iniciais_documento || [];
         this.formInfoService.patchInfoBasicaForm(this.formConfigInicial, this.infoBasica);
         console.log('dados recuperados onInit: ', this.infoBasica);
-        // console.log(row.definir_configuracoes_iniciais_documento_id);
         this.isLoading = false;
       },
       (error) => {
@@ -233,14 +233,8 @@ export class ConfigInicialDocumentoComponent implements OnInit {
   }
 
   deleteRow(row: definir_configuracoes_iniciais_documento) {
-    const vcode = row.definir_configuracoes_iniciais_documento_id;
-    console.log(row.definir_configuracoes_iniciais_documento_id); // Verifique se a propriedade existe
+    const vcode = row.definir_configuracoes_iniciais_documentoid;
     const vtabela = '%40G2_BBP_CONFINI';
-    
-    if (!vcode) {
-      console.error('vcode não definido');
-      return;
-    }
 
     const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${vcode}&vtabela=${vtabela}`;
 

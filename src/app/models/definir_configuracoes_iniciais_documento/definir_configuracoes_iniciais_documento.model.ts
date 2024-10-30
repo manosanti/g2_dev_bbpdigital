@@ -1,5 +1,5 @@
 export interface definir_configuracoes_iniciais_documento {
-    definir_configuracoes_iniciais_documento_id: string;
+    definir_configuracoes_iniciais_documentoid: string;
     calcular_lucro_bruto: string;
     observacoes_documento_compreendem: string;
     para_ema_EP_vendas_documentos: string;
