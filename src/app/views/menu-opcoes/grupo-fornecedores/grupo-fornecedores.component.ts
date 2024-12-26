@@ -169,23 +169,19 @@ export class GrupoFornecedoresComponent implements OnInit {
       this.isLoading = false;
     });
   }
+  
+  token = sessionStorage.getItem('token')
+  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}`}),};
 
   deleteRowGrupoFornecedores(row: definir_grupos_fornecedores) {
     const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_grupos_fornecedoresid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_DEFGRFOR';
-    const token = sessionStorage.getItem('token')
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
-
+    
     const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
-    this.http.delete(deleteUrl, httpOptions).subscribe(
+    this.http.delete(deleteUrl, this.httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
         if (response) {
@@ -194,6 +190,26 @@ export class GrupoFornecedoresComponent implements OnInit {
       },
       (error) => {
         console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  postGrupo(row: definir_grupos_fornecedores) {
+    // Estrutura do objeto de acordo com a solicitação
+    const payload = {
+      name: row.nome_grupo, // O nome do grupo vindo da linha
+      type: 'C'             // Tipo sempre "C"
+    };
+
+    // URL de teste (você pode substituir pela URL correta)
+    const postUrl = '/api/SAPSDK/GrupoClientes'; // Substitua pela URL real
+
+    this.http.post(postUrl, payload, this.httpOptions).subscribe(
+      (response) => {
+        console.log('POST bem-sucedido para o grupo:', row.nome_grupo, response);
+      },
+      (error) => {
+        console.error('Erro ao fazer POST para o grupo:', row.nome_grupo, error);
       }
     );
   }

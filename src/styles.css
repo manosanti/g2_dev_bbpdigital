@@ -1,13 +1,6 @@
 /* Google Fonts */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-/* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
-/** {
-  scrollbar-width: thin;
-  scrollbar-color: #833BBA #DFE9EB;
-}*/
-
-/* Chrome, Edge and Safari */
 *::-webkit-scrollbar {
     height: 10px;
     width: 10px;
@@ -39,7 +32,9 @@
     background-color: #8C3FC7;
 }
 
+
 /* Estilos Globais */
+
 * {
     margin: 0;
     padding: 0;
@@ -47,12 +42,13 @@
     font-family: "Poppins", sans-serif;
 }
 
+
 /* Variáveis */
+
 :root {
     /* Padrões */
     --white: #fff;
     --black: #000;
-
     /* Variações de Cinza */
     --gray-primary: #32363A;
     --gray-primary-hover: #1f2021;
@@ -63,41 +59,30 @@
     --gray-input: #f9f9f9;
     --gray-table-header: #ECECEC;
     --gray-description: #6B6B6B;
-
     /* Variações de Roxo */
     --purple-primary: #662E91;
     --purple-primary-hover: #480a78;
-
     /* Variações de Verde */
     --green-primary: #009b86;
-
     /* Variações de Amarelo */
     --yellow-primary: #FFC300;
-
     /* Variações de Vermelho */
     --red-primary: #EC685A;
     --red-primary-hover: #df3825;
-
     /* Cores do Projeto */
     --primary: #354A5F;
     --highlight: #0A6ED1;
     --highlight-hover: #0854A0;
-
     /* Variações de Border Radius */
     --rounded-card: .2rem;
-
     /* Variações de Sombras */
     --shadow-card: 0px 0px 37px -17px rgba(0, 0, 0, 0.44);
-
     /* Background Colors */
     --bg-login-color: #DFE3E4;
-
+    /* Break Points */
     --max-width-desktop: 95%;
 }
 
-/* * {
-    text-wrap: balance;
-} */
 
 /* Reutilizações */
 
@@ -132,7 +117,26 @@
     padding: .5rem 2rem;
     font-size: .9rem;
     transition: .3s;
+    &:hover {
+        background-color: var(--purple-primary-hover);
+    }
+}
 
+.px-1 {
+    padding: 0 .25rem;
+}
+
+.btnSAP {
+    cursor: pointer;
+    background-color: var(--purple-primary);
+    color: var(--white);
+    border: none;
+    border-radius: .3rem;
+    /* width: 100%; */
+    width: max-content;
+    padding: .3rem 2rem;
+    font-size: .9rem;
+    transition: .3s;
     &:hover {
         background-color: var(--purple-primary-hover);
     }
@@ -153,7 +157,6 @@
     padding: .5rem 2rem;
     font-size: .9rem;
     transition: .3s;
-
     &:hover {
         background-color: var(--purple-primary-hover);
         color: var(--white);
@@ -174,14 +177,12 @@ b {
     margin: 0 0 1.5rem 0;
 }
 
-/* Icon de Identificação dentro do card */
 .iconFlag {
     width: 100%;
     text-align: center;
     font-size: 4.875rem;
 }
 
-/* Botão Voltar */
 .btnBack>button,
 .btnBack>i {
     background-color: transparent;
@@ -189,7 +190,6 @@ b {
     cursor: pointer;
     color: var(--gray-primary);
     transition: .3s;
-
     &:hover {
         color: var(--red-primary);
         font-weight: 600;
@@ -224,7 +224,6 @@ b {
     right: 1%;
     cursor: pointer;
     z-index: 1;
-
     &:hover {
         background-color: #01647a;
     }
@@ -235,7 +234,6 @@ b {
     background-color: transparent;
     color: var(--black);
     font-size: 1rem;
-
     &:focus {
         outline: transparent;
     }
@@ -273,17 +271,14 @@ b {
     background-color: var(--gray-input);
     font-size: 1rem;
     color: var(--black);
-
     &::placeholder {
         color: var(--black);
     }
-
     &:focus-visible {
         outline: transparent;
     }
 }
 
-/* Botões de Adicionar/Remover Linha da Tabela */
 .btnFuncionality {
     display: flex;
     gap: 0 .5rem;
@@ -300,7 +295,6 @@ b {
     border: transparent;
     cursor: pointer;
     transition: .3s;
-
     &:hover {
         transform: scale(1.02);
     }
@@ -309,10 +303,6 @@ b {
 .btnFuncionality button:first-child {
     background-color: var(--highlight);
 }
-
-/* .btnFuncionality button:last-child {
-    background-color: var(--red-primary);
-} */
 
 .tableHeader {
     color: var(--gray-active);
@@ -324,14 +314,11 @@ b {
     padding: 1rem;
     text-align: start;
     border-bottom: 1px solid #662E91;
-
     white-space: nowrap;
-
     &:first-child {
         border-radius: var(--rounded-card) 0 0 0;
         width: fit-content;
     }
-
     &:last-child {
         border-radius: 0 var(--rounded-card) 0 0;
     }
@@ -342,9 +329,10 @@ b {
     min-height: calc(100vh - 3.5625rem);
 }
 
+
 /* Tabelas */
+
 .formComponent {
-    /* margin: 0 auto; */
     max-width: 100%;
     width: fit-content;
     justify-content: end;
@@ -373,7 +361,6 @@ table input {
     height: 2.5rem;
     background: transparent;
     width: max-content;
-
     &:focus-visible,
     &:focus {
         outline: transparent;
@@ -383,7 +370,6 @@ table input {
 .tableBody input {
     width: 100%;
     border: transparent;
-
     &:focus-visible {
         border: transparent;
         outline: transparent;
@@ -401,7 +387,6 @@ table input {
 
 .wrapper {
     overflow-x: auto;
-    /* max-width: var(--max-width-desktop); */
     padding: 2rem 1rem;
     margin: 0 auto;
     min-height: calc(100vh - (3.5625rem + 13.5313rem));
@@ -411,10 +396,6 @@ table input {
 .no-max-width {
     max-width: 100%;
 }
-
-/* .wrapper span { */
-/* color: black !important; */
-/* } */
 
 td:first-child {
     text-align: center;
@@ -427,10 +408,6 @@ td:first-child {
     padding: .5rem;
     border-radius: 1rem;
 }
-
-/* @media screen (min-width: 1024px) and (max-width: 1440px) {
-
-} */
 
 .gap-2 {
     gap: .9375rem;
@@ -453,16 +430,11 @@ td:first-child {
     flex-wrap: wrap;
 }
 
-/* .atvClienteBox { */
-/* margin: 0 0 2rem 0; */
-/* } */
-
 .descriptionMenu {
     color: var(--gray-primary);
     margin: 0 0 2rem 0;
 }
 
-/* Ícone/Imagem */
 .menuOptionImage i {
     padding: 1rem;
     background-color: white;
@@ -478,7 +450,6 @@ td:first-child {
 .addRow {
     background: var(--white);
     border: none;
-    /* color: var(--green-primary); */
     padding: .5rem;
     border-radius: .5rem;
     cursor: pointer;
@@ -488,7 +459,6 @@ td:first-child {
     .atvClienteBox h2 {
         font-size: 1rem;
     }
-
     .atvClienteBox {
         margin: 0 0 2rem 0;
     }
@@ -502,7 +472,6 @@ td:first-child {
     font-size: 1.5rem;
     cursor: pointer;
     transition: .3s;
-
     &:hover {
         transform: scale(1.1);
     }
@@ -532,11 +501,8 @@ td:first-child {
     max-height: 95vh;
 }
 
-
-
 .modal-content h2 {
     color: var(--gray-primary);
-    /* border-bottom: 1px solid var(--gray-primary); */
     font-size: 1.4rem;
     font-weight: 600;
     margin: 0 0 1rem 0;
@@ -557,11 +523,9 @@ td:first-child {
     background-color: var(--gray-input);
     font-size: 1rem;
     color: var(--black);
-
     &::placeholder {
         color: var(--gray-label);
     }
-
     &:focus-visible {
         outline: transparent;
     }
@@ -592,10 +556,8 @@ td:first-child {
 }
 
 .answerField button {
-    /* background: rgb(0, 145, 179); */
     background-color: #662E91 !important;
     transition: .3s;
-
     &:hover {
         background-color: #480a78 !important;
     }
@@ -635,7 +597,9 @@ td:first-child {
     max-width: 80% !important;
 }
 
+
 /* Animation Loading - Start */
+
 .loading-indicator {
     display: flex;
     justify-content: center;
@@ -657,6 +621,18 @@ td:first-child {
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Animation Loading - Ends */
 
 .switchCase {
     display: flex;
@@ -686,7 +662,6 @@ td:first-child {
 
 .selectMenu {
     border: transparent;
-
     &:focus-visible {
         border: transparent;
     }
@@ -694,28 +669,16 @@ td:first-child {
 
 .custom-width {
     width: calc(100vw - 350px) !important;
-    /* Ajusta a largura quando o menu estiver aberto */
 }
 
-/* Adicione uma transição suave, se desejado */
 .w-full,
 .custom-width {
     transition: width 0.3s ease;
 }
 
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Animation Loading - Ends */
 
 /* Media Query */
+
 @media screen and (min-width: 320px) and (max-width: 374px) {
     .boxMenuOptions {
         max-width: 100%;
@@ -723,23 +686,18 @@ td:first-child {
         margin: none;
         padding: .3rem;
     }
-
     .menusTitle {
         font-size: 1.2rem;
     }
-
     .boxMenuItem {
         flex: 100%;
     }
-
     .nameDescription h3 {
         font-size: 1rem;
     }
-
     .wrapper {
         max-width: fit-content !important;
     }
-
     #bbpDigitalTitle {
         display: none;
     }
@@ -764,19 +722,15 @@ td:first-child {
         margin: none;
         padding: .3rem;
     }
-
     .menusTitle {
         font-size: 1.2rem;
     }
-
     .boxMenuItem {
         flex: 100%;
     }
-
     .nameDescription h3 {
         font-size: 1rem;
     }
-
     .wrapper {
         max-width: fit-content !important;
     }
@@ -790,7 +744,6 @@ td:first-child {
     }
 }
 
-/*  */
 @media screen and (max-width: 767px) {
     .boxMenuContent {
         display: grid !important;

@@ -24,25 +24,23 @@
                                                     class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Cód. Grupo</th>
                                         <th>Nome do Grupo</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
-                                    <tr *ngFor="let row of rowsGrupoFornecedores; trackBy: trackByFnGrupoFornecedores"
-                                        class="trow">
+                                    <tr *ngFor="let row of rowsGrupoFornecedores; trackBy: trackByFnGrupoFornecedores" class="trow">
                                         <td>
-                                            <button type="button" class="btnDelete"
-                                                (click)="deleteRowGrupoFornecedores(row)">
+                                            <button type="button" class="btnDelete" (click)="deleteRowGrupoFornecedores(row)">
                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.codgrupo"
-                                                name="agenciafilial{{row.definir_grupos_fornecedoresid}}"
-                                                placeholder="Cód. do grupo" />
+                                            <input type="text" [(ngModel)]="row.codgrupo" name="agenciafilial{{row.definir_grupos_fornecedoresid}}" placeholder="Cód. do grupo" />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.nome_grupo"
-                                                name="digitoagencia{{row.definir_grupos_fornecedoresid}}"
-                                                placeholder="Nome do grupo" />
+                                            <input type="text" [(ngModel)]="row.nome_grupo" name="digitoagencia{{row.definir_grupos_fornecedoresid}}" placeholder="Nome do grupo" />
+                                        </td>
+                                        <td class="px-1">
+                                            <button type="button" class="btnSAP" (click)="postGrupo(row)">Enviar ao SAP <i class="fa-solid fa-paper-plane"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>

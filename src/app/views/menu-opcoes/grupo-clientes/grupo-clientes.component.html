@@ -11,8 +11,7 @@
             <section id="configuracoesGerais" class="wrapper">
                 <form [formGroup]="formGrupoClientes" (submit)="onSubmit()" id="configuracoesGerais">
                     <div class="text-center">
-                        <h2 class="menusTitle">Preencha os campos abaixo para criar o <span
-                                class="purple-primary">Grupo de Clientes!</span></h2>
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar o <span class="purple-primary">Grupo de Clientes!</span></h2>
                         <p><b>NOTA:</b> Insira as informações necessárias para concluir o cadastro no BBP Digital.</p>
                     </div>
 
@@ -28,21 +27,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
-                                    <tr *ngFor="let row of rowsGrupoClientes; trackBy: trackByFnGrupoClientes"
-                                        class="trow">
+                                    <tr *ngFor="let row of rowsGrupoClientes; trackBy: trackByFnGrupoClientes" class="trow">
                                         <td>
                                             <button type="button" class="btnDelete" (click)="deleteRowGrupoClientes(row)">
                                                                           <i class="fa-solid fa-trash"></i> Remover</button>
-                                                                      </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.codgrupo" name="codgrupo{{row.definir_grupos_clientesid}}"
-                                                placeholder="Cód. do grupo" />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.nome_grupo" name="nome_grupo{{row.definir_grupos_clientesid}}"
-                                                placeholder="Nome do grupo" />
+                                            <input type="text" [(ngModel)]="row.codgrupo" name="codgrupo{{row.definir_grupos_clientesid}}" placeholder="Cód. do grupo" />
                                         </td>
-                                        <button type="button" (click)="postGrupo(row)"><i class="fa-solid fa-file-export"></i> Enviar ao SAP</button>
+                                        <td>
+                                            <input type="text" [(ngModel)]="row.nome_grupo" name="nome_grupo{{row.definir_grupos_clientesid}}" placeholder="Nome do grupo" />
+                                        </td>
+                                        <td class="px-1">
+                                            <button type="button" class="btnSAP" (click)="postGrupo(row)">Enviar ao SAP <i class="fa-solid fa-paper-plane"></i></button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

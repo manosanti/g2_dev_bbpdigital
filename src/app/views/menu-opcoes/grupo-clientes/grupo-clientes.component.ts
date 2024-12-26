@@ -78,26 +78,19 @@ export class GrupoClientesComponent implements OnInit {
   }
 
   infoBasica: infoBasica[] = [];
+  token = sessionStorage.getItem('token');
 
   ngOnInit(): void {
     const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
 
     setTimeout(() => {
-      if (!token || !bbP_id) {
+      if (!this.token || !bbP_id) {
         // Se token ou bbP_id não estão disponíveis, recarregar a página
         window.location.reload();
       }
     }, 2000);
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      }),
-    }
-
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, this.httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.rowsGrupoClientes = this.infoBasica[0]?.definir_grupos_clientes;
@@ -115,12 +108,11 @@ export class GrupoClientesComponent implements OnInit {
   onSubmit(): void {
     this.isLoading = true;
     const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${this.token}`
       }),
     };
 
@@ -157,23 +149,15 @@ export class GrupoClientesComponent implements OnInit {
       }
     );
   }
+  bbpid = sessionStorage.getItem('bbP_id');
   deleteRowGrupoClientes(row: definir_grupos_clientes) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_grupos_clientesid; // Use o valor apropriado de vcode
     console.log('vcode', vcode);
     const vtabela = '%40G2_BBP_DEFGRCLI'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }),
-    };
+    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${this.bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
-
-    this.http.delete(deleteUrl, httpOptions).subscribe(
+    this.http.delete(deleteUrl, this.httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response); // Verifique o que a API está retornando
         if (response) {
@@ -186,18 +170,10 @@ export class GrupoClientesComponent implements OnInit {
     );
   }
 
+  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}`, }),};
+
   // Função para fazer o POST individual por linha
   postGrupo(row: definir_grupos_clientes) {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      }),
-    };
-
     // Estrutura do objeto de acordo com a solicitação
     const payload = {
       name: row.nome_grupo, // O nome do grupo vindo da linha
@@ -207,7 +183,7 @@ export class GrupoClientesComponent implements OnInit {
     // URL de teste (você pode substituir pela URL correta)
     const postUrl = '/api/SAPSDK/GrupoClientes'; // Substitua pela URL real
 
-    this.http.post(postUrl, payload, httpOptions).subscribe(
+    this.http.post(postUrl, payload, this.httpOptions).subscribe(
       (response) => {
         console.log('POST bem-sucedido para o grupo:', row.nome_grupo, response);
       },

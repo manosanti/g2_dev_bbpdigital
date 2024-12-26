@@ -67,6 +67,29 @@ export class TerritoriosComponent implements OnInit {
     });
   }
 
+  token = sessionStorage.getItem('token');
+  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}`, }), }
+
+  postGrupo(row: definir_grupo_comissoes) {
+    // Estrutura do objeto de acordo com a solicitação
+    const payload = {
+      commissionGroupName: row.nome_grupo, // O nome do grupo vindo da linha
+      commissionPercentage: row.perc_comissao             // Tipo sempre "C"
+    };
+
+    // URL de teste (você pode substituir pela URL correta)
+    const postUrl = '/api/SAPSDK/GrupoClientes'; // Substitua pela URL real
+
+    this.http.post(postUrl, payload, this.httpOptions).subscribe(
+      (response) => {
+        console.log('POST bem-sucedido para o grupo:', row.nome_grupo, response);
+      },
+      (error) => {
+        console.error('Erro ao fazer POST para o grupo:', row.nome_grupo, error);
+      }
+    );
+  }
+
   // Linhas da Tabela
   rowsTerritorios: definir_Territorios[] = [
     {

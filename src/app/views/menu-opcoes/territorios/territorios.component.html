@@ -11,11 +11,8 @@
             <section id="informacoesBasicas">
                 <div class="boxMenuOptions">
                     <div class="text-center">
-                        <h2 class="menusTitle">Preencha os campos abaixo para criar as <span
-                                class="purple-primary">Territórios!</span></h2>
-                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
-                            funcionamento da
-                            sua empresa. </p>
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">Territórios!</span></h2>
+                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da sua empresa. </p>
                     </div>
                     <div class="boxMenuContent">
                         <div class="boxMenuItem" *ngFor="let modal of modals">
@@ -52,8 +49,7 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <th><button type="button" class="addRow"
-                                                                (click)="addRowsTerritorios()"><i
+                                                        <th><button type="button" class="addRow" (click)="addRowsTerritorios()"><i
                                                                     class="fa-solid fa-plus"></i> Adicionar
                                                                 Linha</button></th>
                                                         <th>Posição</th>
@@ -61,28 +57,22 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
-                                                    <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios"
-                                                        class="trow">
+                                                    <tr *ngFor="let row of rowsTerritorios; trackBy: trackByFnTerritorios" class="trow">
                                                         <td>
                                                             <button type="button" class="btnDelete" (click)="deleteRowTerritorios(row)">
                                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
                                                         <td>
-                                                            <input type="text" [(ngModel)]="row.posicao"
-                                                                name="posicao{{row.definir_Territoriosid}}"
-                                                                placeholder="Ex: Gerente de Vendas, Coordenador..." />
+                                                            <input type="text" [(ngModel)]="row.posicao" name="posicao{{row.definir_Territoriosid}}" placeholder="Ex: Gerente de Vendas, Coordenador..." />
                                                         </td>
                                                         <td>
-                                                            <input type="text" [(ngModel)]="row.nome_territorio"
-                                                                name="nome_territorio{{row.definir_Territoriosid}}"
-                                                                placeholder="Ex: Região Sul, Leste..." />
+                                                            <input type="text" [(ngModel)]="row.nome_territorio" name="nome_territorio{{row.definir_Territoriosid}}" placeholder="Ex: Região Sul, Leste..." />
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button"
-                                            (click)="closeModal('definir_Territorios')">Fechar</button>
+                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_Territorios')">Fechar</button>
                                     </div>
                                 </div>
 
@@ -100,33 +90,25 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
-                                                    <tr *ngFor="let row of rowsdefinir_Estagios_Niveis_Vendas; trackBy: trackByFndefinir_Estagios_Niveis_Vendas"
-                                                        class="trow">
+                                                    <tr *ngFor="let row of rowsdefinir_Estagios_Niveis_Vendas; trackBy: trackByFndefinir_Estagios_Niveis_Vendas" class="trow">
                                                         <td>
                                                             <button type="button" class="btnDelete" (click)="deleteRowNiveisVendas(row)">
                                                                                           <i class="fa-solid fa-trash"></i> Remover</button>
-                                                                                      </td>
-                                                        <td>
-                                                            <input type="text" [(ngModel)]="row.nivel"
-                                                                name="nivel{{row.definir_Estagios_Niveis_Vendasid}}"
-                                                                placeholder="Nível de venda" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" [(ngModel)]="row.nome"
-                                                                name="nome{{row.definir_Estagios_Niveis_Vendasid}}"
-                                                                placeholder="Nome do estágio (nível) de vendas" />
+                                                            <input type="text" [(ngModel)]="row.nivel" name="nivel{{row.definir_Estagios_Niveis_Vendasid}}" placeholder="Nível de venda" />
                                                         </td>
                                                         <td>
-                                                            <input type="number" [(ngModel)]="row.perc_final"
-                                                                name="perc_final{{row.definir_Estagios_Niveis_Vendasid}}"
-                                                                placeholder="Porcentagem final" />
+                                                            <input type="text" [(ngModel)]="row.nome" name="nome{{row.definir_Estagios_Niveis_Vendasid}}" placeholder="Nome do estágio (nível) de vendas" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" [(ngModel)]="row.perc_final" name="perc_final{{row.definir_Estagios_Niveis_Vendasid}}" placeholder="Porcentagem final" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button"
-                                            (click)="closeModal('definir_Estagios_Niveis_Vendas')">Fechar</button>
+                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_Estagios_Niveis_Vendas')">Fechar</button>
                                     </div>
                                 </div>
 
@@ -144,11 +126,11 @@
                                                         <th><button type="button" class="addRow" (click)="addRowsdefinir_grupo_comissoes()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                                         <th>Nome do Grupo</th>
                                                         <th>Perc. Comissão</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
-                                                    <tr *ngFor="let row of rowsdefinir_grupo_comissoes; trackBy: trackByFndefinir_grupo_comissoes"
-                                                        class="trow">
+                                                    <tr *ngFor="let row of rowsdefinir_grupo_comissoes; trackBy: trackByFndefinir_grupo_comissoes" class="trow">
                                                         <!-- <td>
                                                             <input type="checkbox" [(ngModel)]="row.selected"
                                                                 name="selected" />
@@ -162,23 +144,21 @@
                                                         <td>
                                                             <button type="button" class="btnDelete" (click)="deleteRowGrupoComissoes(row)">
                                                                                           <i class="fa-solid fa-trash"></i> Remover</button>
-                                                                                      </td>
-                                                        <td>
-                                                            <input type="text" [(ngModel)]="row.nome_grupo"
-                                                                name="nome_grupo{{row.definir_grupo_comissoesid}}"
-                                                                placeholder="Nome do grupo de comissão" />
                                                         </td>
                                                         <td>
-                                                            <input type="number" [(ngModel)]="row.perc_comissao"
-                                                                name="perc_comissao{{row.definir_grupo_comissoesid}}"
-                                                                placeholder="Percentual de Comissão" />
+                                                            <input type="text" [(ngModel)]="row.nome_grupo" name="nome_grupo{{row.definir_grupo_comissoesid}}" placeholder="Nome do grupo de comissão" />
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" [(ngModel)]="row.perc_comissao" name="perc_comissao{{row.definir_grupo_comissoesid}}" placeholder="Percentual de Comissão" />
+                                                        </td>
+                                                        <td class="px-1">
+                                                            <button type="button" class="btnSAP" (click)="postGrupo(row)">Enviar ao SAP <i class="fa-solid fa-paper-plane"></i></button>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button"
-                                            (click)="closeModal('definir_grupo_comissoes')">Fechar</button>
+                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_grupo_comissoes')">Fechar</button>
                                     </div>
                                 </div>
 
@@ -196,35 +176,26 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
-                                                    <tr *ngFor="let row of rowsdefinir_controle_vendedor; trackBy: trackByFndefinir_controle_vendedor"
-                                                        class="trow">
-                                           
+                                                    <tr *ngFor="let row of rowsdefinir_controle_vendedor; trackBy: trackByFndefinir_controle_vendedor" class="trow">
+
                                                         <td>
-                                                            <button type="button" class="btnDelete"
-                                                                (click)="deleteRowControleVendedor(row)">
+                                                            <button type="button" class="btnDelete" (click)="deleteRowControleVendedor(row)">
                                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                                         </td>
                                                         <td>
-                                                            <input type="text" [(ngModel)]="row.nome_vendedor"
-                                                                name="nome_vendedor{{row.definir_controle_vendedorid}}"
-                                                                placeholder="Nome do vendedor" />
+                                                            <input type="text" [(ngModel)]="row.nome_vendedor" name="nome_vendedor{{row.definir_controle_vendedorid}}" placeholder="Nome do vendedor" />
                                                         </td>
                                                         <td>
-                                                            <input type="text" [(ngModel)]="row.observacoes"
-                                                                name="observacoes{{row.definir_controle_vendedorid}}"
-                                                                placeholder="Observações sobre o vendedor" />
+                                                            <input type="text" [(ngModel)]="row.observacoes" name="observacoes{{row.definir_controle_vendedorid}}" placeholder="Observações sobre o vendedor" />
                                                         </td>
                                                         <td>
-                                                            <input type="number" [(ngModel)]="row.grupo_comissoes"
-                                                                name="grupo_comissoes{{row.definir_controle_vendedorid}}"
-                                                                placeholder="Grupo de Comissões Pertencente" />
+                                                            <input type="number" [(ngModel)]="row.grupo_comissoes" name="grupo_comissoes{{row.definir_controle_vendedorid}}" placeholder="Grupo de Comissões Pertencente" />
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </form>
-                                        <button class="btn modal-save" type="button"
-                                            (click)="closeModal('definir_controle_vendedor')">Fechar</button>
+                                        <button class="btn modal-save" type="button" (click)="closeModal('definir_controle_vendedor')">Fechar</button>
                                     </div>
                                 </div>
                             </ng-container>

@@ -28,13 +28,11 @@
                 </div>
                 <div>
                     <label for="">Data Início</label>
-                    <input type="text"
-                        [value]="selectedCustomer ? formatDate(selectedCustomer.docDate || '') : 'Carregando...'"
-                        disabled>
+                    <input type="text" [value]="selectedCustomer ? formatDate(selectedCustomer.docDate || '') : 'Carregando...'" disabled>
                 </div>
-                <div>
+                <!-- <div>
                     <button type="submit" class="btn" [disabled]="isLoading">Enviar Contrato</button>
-                </div>
+                </div> -->
             </div>
         </form>
     </div>
