@@ -4,50 +4,73 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 // Variáveis Globais
 import { bbP_id, httpOptions } from '../../global/constants';
 import { infoBasica } from '../../models/infobasica/infobasica.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-menu-navigation',
   standalone: true,
-  imports: [CommonModule, HttpClientModule],
+  imports: [CommonModule, HttpClientModule, FormsModule],
   templateUrl: './menu-navigation.component.html',
   styleUrls: ['./menu-navigation.component.css'],
 })
 export class MenuNavigationComponent implements OnInit {
-
   isMenuOpen: boolean = true;
   activeBtnIndex: number | null = null;
   filter: string = 'all';
   isMenuCollapsed: boolean = false;
   @Output() menuStatusChanged = new EventEmitter<boolean>();
-  items: { label: string, link: string, category: string, icon?: string, isFilled?: boolean }[] = [
-    { label: 'Informações Básicas', link: '/informacoes-basicas', category: 'comercial', isFilled: false, icon: 'fa-list-check' },
-    { label: 'Configurações Gerais', link: '/configuracoes-gerais', category: 'financeiro', isFilled: false, icon: 'fa-gear' },
+  items: { label: string, link: string, category: string, icon?: string, isFilled?: boolean, submenu?: { label: string }[], }[] = [
+    { label: 'Informações Básicas', link: '/informacoes-basicas', category: 'comercial', isFilled: false, icon: 'fa-list-check', submenu: [
+      { label: 'Web', }, { label: 'Campos de Localização', }, { label: 'Dados Contábeis' }, { label: 'Lista de Moedas' }, { label: 'Telefone' }, { label: 'Caminho Para Pastas' }, { label: 'Moedas' }
+    ] },
+    { label: 'Configurações Gerais', link: '/configuracoes-gerais', category: 'financeiro', isFilled: false, icon: 'fa-gear', submenu: [
+      { label: 'Alerta de Atividade', }, {label: 'Casas Decimais'}, {label: 'Taxa de Comissão'}, {label: 'Formato Data e Hora'}
+    ] },
     { label: 'Plano de Contas', link: '/plano-de-contas', category: 'financeiro', isFilled: false, icon: 'fa-comments-dollar' },
     { label: 'Informações de Banco', link: '/informacoes-de-banco', category: 'financeiro', isFilled: false, icon: 'fa-building-columns' },
-    { label: 'Lançamentos de Transação', link: '/lancamentos-de-transacao', category: 'comercial', isFilled: false, icon: 'fa-file-invoice-dollar' },
-    { label: 'Centro de Custo', link: '/centro-de-custos', category: 'financeiro', isFilled: false, icon: 'fa-receipt' },
-    { label: 'Definição de Despesas', link: '/definicao-de-despesas', category: 'financeiro', isFilled: false, icon: 'fa-filter-circle-dollar' },
+    { label: 'Lançamentos de Transação', link: '/lancamentos-de-transacao', category: 'comercial', isFilled: false, icon: 'fa-file-invoice-dollar', submenu: [
+      {label: 'Determinação Contábil Vendas'}, {label: 'Determinação Contábil Estoque'}, {label: 'Determinação Contábil Geral'}, {label: 'Determinação Contábil Compras'}
+    ] },
+    { label: 'Centro de Custo', link: '/centro-de-custos', category: 'financeiro', isFilled: false, icon: 'fa-receipt', submenu: [
+      {label: 'Definir Dimensões Centro de Custo'}, {label: 'Definir Centro de Custo'}
+    ] },
+    { label: 'Definição de Despesas', link: '/definicao-de-despesas', category: 'financeiro', isFilled: false, icon: 'fa-filter-circle-dollar', submenu: [
+      {label: 'Definição Despesas'}, {label: 'Despesas Adicionais'}
+    ] },
     { label: 'Depósitos', link: '/depositos', category: 'comercial', isFilled: false, icon: 'fa-money-bill-transfer' },
     { label: 'Grupo de Itens', link: '/grupo-de-itens', category: 'comercial', isFilled: false, icon: 'fa-border-all' },
     { label: 'Imposto', link: '/imposto', category: 'financeiro', isFilled: false, icon: 'fa-solid fa-hand-holding-dollar' },
     { label: 'Condições de Pagamento', link: '/condicoes-de-pagamento', category: 'financeiro', isFilled: false, icon: 'fa-hand-holding-dollar' },
     { label: 'Informações de Cartões', link: '/informacoes-de-cartoes', category: 'financeiro', isFilled: false, icon: 'fa-scale-unbalanced-flip' },
     { label: 'Usuários SAP', link: '/usuarios-sap', category: 'consultor', isFilled: false, icon: 'fa-user-group' },
-    { label: 'Territórios', link: '/territorios', category: 'consultor', isFilled: false, icon: 'fa-map-location-dot' },
+    { label: 'Territórios', link: '/territorios', category: 'consultor', isFilled: false, icon: 'fa-map-location-dot', submenu: [
+      {label: 'Territórios'}, {label: 'Controlar Vendas'}, {label: 'Percentual de Comissão'}, {label: 'Estágios'}, {label: 'Niveis de Vendas'}
+    ] },
     { label: 'Grupo de Clientes', link: '/grupo-de-clientes', category: 'comercial', isFilled: false, icon: 'fa-users-viewfinder' },
     { label: 'Grupo de Fornecedores', link: '/grupo-de-fornecedores', category: 'comercial', isFilled: false, icon: 'fa-boxes-packing' },
     { label: 'Tipos de Expedição', link: '/tipos-de-expedicao', category: 'comercial', isFilled: false, icon: 'fa-file-export' },
     { label: 'Config. Iniciais de Documento', link: '/configuracoes-iniciais-de-documento', category: 'financeiro', isFilled: false, icon: 'fa-file-lines' },
   ];
 
+  searchQuery: string = '';
+
   constructor(private http: HttpClient) { }
 
   get filteredItems() {
-    if (this.filter === 'all') {
-      return this.items;
-    }
-    return this.items.filter(item => item.category === this.filter);
-  }
+    return this.items.filter(item => {
+      // Verifica o label do item principal
+      const itemMatches = item.label.toLowerCase().includes(this.searchQuery.toLowerCase());
+  
+      // Se o item tiver submenus, verifica também nos submenus
+      const submenuMatches = item.submenu?.some((submenu: any) => 
+        submenu.label.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+  
+      // O item será exibido se corresponder ao filtro principal ou se algum submenu corresponder
+      return (this.filter === 'all' || item.category === this.filter) && 
+             (itemMatches || submenuMatches);
+    });
+  }    
 
   ngOnInit(): void {
     const savedIndex = sessionStorage.getItem('activeBtnIndex');

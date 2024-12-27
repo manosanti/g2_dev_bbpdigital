@@ -28,7 +28,6 @@
     /* Tamanho fixo para todos os ícones */
 }
 
-
 .menuNavigation::-webkit-scrollbar {
     display: none;
 }
@@ -68,6 +67,7 @@ span,
     margin-right: .4rem;
 }
 
+
 /* Variação Cor dos Botões */
 
 li {
@@ -79,7 +79,6 @@ li {
     display: flex;
     /* padding: 0 1rem; */
     width: 100%;
-
     &:focus-visible {
         border: none;
     }
@@ -91,7 +90,10 @@ li {
     color: var(--gray-label);
 }
 
+
 /* Feature's Att */
+
+
 /* Menu inicial (expandido) */
 
 .menuToggle {
@@ -162,8 +164,30 @@ li {
     /* Define uma altura suficiente para o menu completo (ajuste conforme necessário) */
     opacity: 1;
     transition: all .3s;
-
     /* Torna o conteúdo visível */
+}
+
+.searchBar {
+    background: var(--purple-primary);
+    padding: 10px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 0px solid #ddd;
+    border-radius: 4px;
+    background: #9669b9;
+    color: #fff;
+    &:focus-visible {
+        border: none;
+        outline: none;
+    }
+}
+
+.searchInput::placeholder {
+    color: white;
 }
 
 .menuToggle {
@@ -178,12 +202,12 @@ li {
     background-color: var(--purple-primary);
 }
 
-.menuContent.collapsed > .menuNavigation > ul > li > a {
+.menuContent.collapsed>.menuNavigation>ul>li>a {
     justify-content: center;
     gap: 0;
 }
 
-.menuContent.collapsed > .menuNavigation > ul > li > i {
+.menuContent.collapsed>.menuNavigation>ul>li>i {
     font-size: .8rem;
 }
 
@@ -198,18 +222,15 @@ li {
         max-height: 100vh;
         transition: background 0.3s ease;
     }
-
     .menuContent.collapsed {
         background: none;
         min-height: 1vh;
         /* Define o height para 50px quando colapsado */
         /* z-index: -1; */
     }
-
     .menuContent.collapsed .menuNavigation {
         display: none;
     }
-
     .menuContent.collapsed .menuFilter {
         display: none;
     }
@@ -220,16 +241,13 @@ li {
         display: block;
         margin: 0.5rem;
     }
-
     .menuNavigation {
         max-height: none;
         opacity: 1;
     }
-    
     .menuContent.collapsed .menuNavigation {
         display: flex;
     }
-
     .menuContent.collapsed .menuFilter {
         display: flex;
     }
@@ -241,7 +259,9 @@ li {
     }
 }
 
+
 /* Menu quando colapsado */
+
 .menuContent.collapsed .menuNavigation ul li a span {
     display: none;
     /* Esconde os textos quando o menu estiver colapsado */
@@ -255,7 +275,9 @@ li {
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
+
 /* Menu quando expandido */
+
 .menuContent.menu-open .menuNavigation ul li a span {
     display: inline;
     /* Mostra o texto quando o menu estiver aberto */
