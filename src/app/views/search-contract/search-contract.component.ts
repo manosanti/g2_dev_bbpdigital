@@ -3,13 +3,12 @@ import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
-import { HeaderComponent } from '../../components/header/header.component';
 import { debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-search-contract',
   standalone: true,
-  imports: [NgIf, HeaderComponent, HttpClientModule, NgFor, ReactiveFormsModule],
+  imports: [NgIf, HttpClientModule, NgFor, ReactiveFormsModule],
   templateUrl: './search-contract.component.html',
   styleUrl: './search-contract.component.css'
 })

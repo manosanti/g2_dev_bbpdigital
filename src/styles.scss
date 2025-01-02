@@ -45,77 +45,106 @@
 
 /* Tema Escuro (Dark Theme) */
 
-body.dark .w-full {
-    transition: background-color 0.3s ease-in-out;
-    background-color: var(--dark-theme-bg);
-}
-
-body.dark label,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-.nameDescription h3,
-.menusTitle {
-    color: var(--dark-theme-title) !important;
-}
-
-
-/* Tema Escuro (Dark Theme) - Modal - Início */
-
-body.dark .modal-content {
-    /* important */
-    background-color: var(--dark-theme-bg) !important;
-}
-
-body.dark .modal-content {
-    background-color: var(--dark-theme-bg-secondary);
-}
-
-body.dark .modalInputField,
-input {
-    border: none;
-    /* important */
-    color: var(--gray-label) !important;
-    /* important */
-    background-color: var(--dark-theme-bg-secondary) !important;
-}
-
-body.dark .menuContent.menu-open,
-.collapsed {
-    /* important */
-    background: var(--dark-theme-bg-secondary) !important;
-}
-
-body.dark .searchBar {
-    background-color: var(--dark-theme-bg-secondary);
-}
-
-body.dark .searchInput {
-    background-color: var(--dark-theme-bg-tertiary);
-}
-
-body.dark .active,
-.menuToggle {
-    /* important */
-    background-color: var(--dark-theme-bg) !important;
-}
-
-body.dark header {
-    background-color: var(--dark-theme-bg);
-}
-
-body.dark #modalContent {
-    background-color: var(--dark-theme-bg);
-}
-
-body.dark .purple-primary,
-b {
-    /* important */
-    color: #D84DFF !important;
+body.dark {
+    .w-full {
+        transition: background-color 0.3s ease-in-out;
+        background-color: var(--dark-theme-bg);
+    }
+    label,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    .nameDescription h3,
+    .menusTitle {
+        color: var(--dark-theme-title) !important;
+    }
+    .modal-content {
+        background-color: var(--dark-theme-bg) !important;
+    }
+    .modal-content {
+        background-color: var(--dark-theme-bg-secondary);
+    }
+    .modalInputField,
+    input {
+        border: none;
+        color: var(--gray-label) !important;
+        background-color: var(--dark-theme-bg-secondary);
+    }
+    .menuContent.menu-open,
+    .collapsed {
+        background: var(--dark-theme-bg-secondary) !important;
+    }
+    .searchBar {
+        background-color: var(--dark-theme-bg-secondary);
+    }
+    .searchInput {
+        background-color: var(--dark-theme-bg-tertiary);
+    }
+    .active,
+    .menuToggle {
+        background-color: var(--dark-theme-bg) !important;
+    }
+    header {
+        background-color: var(--dark-theme-bg);
+    }
+    #modalContent {
+        background-color: var(--dark-theme-bg);
+    }
+    .purple-primary,
+    b {
+        color: #D84DFF !important;
+    }
+    select {
+        color: var(--dark-theme-title);
+        background-color: var(--dark-theme-bg);
+    }
+    td>input {
+        background-color: var(--dark-theme-bg);
+    }
+    .wrapperLogin {
+        background-color: var(--dark-theme-bg);
+    }
+    .cardLogin {
+        background-color: var(--dark-theme-bg-secondary);
+    }
+    .credentialsField input {
+        background: var(--dark-theme-bg-tertiary);
+    }
+    .developedByG2 span {
+        color: var(--dark-theme-title);
+    }
+    .developedByG2 a {
+        color: #D84DFF;
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px var(--dark-theme-bg-tertiary) inset !important;
+    }
+    input:-webkit-autofill {
+        -webkit-text-fill-color: var(--dark-theme-title) !important;
+    }
+    #modalSearch {
+        background-color: var(--dark-theme-bg-tertiary);
+        color: var(--dark-theme-title);
+        &:hover {
+            color: var(--dark-theme-bg);
+        }
+    }
+    #modalSearch tr {
+        background-color: var(--dark-theme-bg-tertiary);
+    }
+    #modalCard {
+        background-color: var(--dark-theme-bg);
+    }
+    #modalSearch tbody tr:nth-child(even) {
+        background-color: var(--dark-theme-bg-tertiary);
+    }
 }
 
 
@@ -163,7 +192,7 @@ b {
     /* Dark Theme */
     --dark-theme-bg: #1f2021;
     --dark-theme-bg-secondary: #262727;
-    --dark-theme-bg-secondary: #2c2c2c;
+    --dark-theme-bg-tertiary: #2c2c2c;
     --dark-theme-title: #fff;
 }
 
@@ -691,17 +720,19 @@ td:first-child {
     height: 100vh;
     flex-direction: column;
     gap: 1rem;
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .loading-indicator p {
     text-align: center;
+    color: var(--dark-theme-title);
 }
 
 .spinner {
     width: 50px;
     height: 50px;
     border: 5px solid rgba(0, 0, 0, 0.1);
-    border-top: 5px solid #000;
+    border-top: 5px solid var(--dark-theme-title);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }

@@ -140,6 +140,14 @@ nav>div {
     width: fit-content;
 }
 
+#toggleTheme {
+    background: none;
+    border: none;
+    color: #D1E8FF;
+    font-size: large;
+    cursor: pointer;
+}
+
 @media screen and (min-width: 320px) and (max-width: 767px) {
     header {
         display: flex;
