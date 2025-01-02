@@ -13,6 +13,7 @@ header>nav {
     margin: 0 auto;
 }
 
+
 /* Lado Esquerdo Header */
 
 nav>div {
@@ -88,7 +89,6 @@ nav>div {
     font-size: 1rem;
     cursor: pointer;
     transition: .3s;
-
     &:hover {
         transform: scale(1.04);
     }
@@ -106,7 +106,6 @@ nav>div {
     flex-direction: row;
     gap: .5rem;
     align-items: center;
-
     &:hover {
         transform: scale(1.04);
     }
@@ -125,6 +124,7 @@ nav>div {
 .searchField {
     display: flex;
     align-items: center;
+    gap: .625rem;
 }
 
 .searchField label {

@@ -12,8 +12,7 @@
                     <label for="searchContract">
                         Pesquisar:
                     </label>
-                    <input type="text" id="searchContract" autocomplete="off" placeholder="Insira o código do contrato"
-                        formControlName="cardCode">
+                    <input type="text" id="searchContract" autocomplete="off" placeholder="Insira o código do contrato" formControlName="cardCode">
                 </div>
 
                 <span *ngIf="errorMessage" class="error-message">{{ errorMessage }}</span>
@@ -34,6 +33,9 @@
         <div>
             <button (click)="showSearch()" id="headerSearch">
                 <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <button (click)="toggleTheme()">
+                <i class="fa-solid fa-sun"></i>
             </button>
             <button id="logout" (click)="logout()">
                 <i class="fa-solid fa-right-from-bracket"></i>

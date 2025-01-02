@@ -43,6 +43,85 @@
 }
 
 
+/* Tema Escuro (Dark Theme) */
+
+body.dark .w-full {
+    transition: background-color 0.3s ease-in-out;
+    background-color: var(--dark-theme-bg);
+}
+
+body.dark label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+.nameDescription h3,
+.menusTitle {
+    color: var(--dark-theme-title) !important;
+}
+
+
+/* Tema Escuro (Dark Theme) - Modal - Início */
+
+body.dark .modal-content {
+    /* important */
+    background-color: var(--dark-theme-bg) !important;
+}
+
+body.dark .modal-content {
+    background-color: var(--dark-theme-bg-secondary);
+}
+
+body.dark .modalInputField,
+input {
+    border: none;
+    /* important */
+    color: var(--gray-label) !important;
+    /* important */
+    background-color: var(--dark-theme-bg-secondary) !important;
+}
+
+body.dark .menuContent.menu-open,
+.collapsed {
+    /* important */
+    background: var(--dark-theme-bg-secondary) !important;
+}
+
+body.dark .searchBar {
+    background-color: var(--dark-theme-bg-secondary);
+}
+
+body.dark .searchInput {
+    background-color: var(--dark-theme-bg-tertiary);
+}
+
+body.dark .active,
+.menuToggle {
+    /* important */
+    background-color: var(--dark-theme-bg) !important;
+}
+
+body.dark header {
+    background-color: var(--dark-theme-bg);
+}
+
+body.dark #modalContent {
+    background-color: var(--dark-theme-bg);
+}
+
+body.dark .purple-primary,
+b {
+    /* important */
+    color: #D84DFF !important;
+}
+
+
+/* Tema Escuro (Dark Theme) - Modal - Fim */
+
+
 /* Variáveis */
 
 :root {
@@ -81,6 +160,11 @@
     --bg-login-color: #DFE3E4;
     /* Break Points */
     --max-width-desktop: 95%;
+    /* Dark Theme */
+    --dark-theme-bg: #1f2021;
+    --dark-theme-bg-secondary: #262727;
+    --dark-theme-bg-secondary: #2c2c2c;
+    --dark-theme-title: #fff;
 }
 
 
