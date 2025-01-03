@@ -496,4 +496,23 @@ export class TerritoriosComponent implements OnInit {
       }
     );
   }
+
+  postSDK(row: definir_Territorios) {
+    const payload = {
+      description: row.nome_territorio,
+      parent: row.posicao,
+    };
+
+    // URL de teste (você pode substituir pela URL correta)
+    const postUrl = '/api/SAPSDK/Territorios';
+
+    this.http.post(postUrl, payload, this.httpOptions).subscribe(
+      (response) => {
+        console.log('POST bem-sucedido:', response);
+      },
+      (error) => {
+        console.error('Erro ao fazer POST...', error);
+      }
+    );
+  }
 }

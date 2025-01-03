@@ -101,6 +101,8 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     return item.definir_configuracoes_iniciais_documentoid; // Garantir que sempre retorna algo
   }  
 
+  httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`, }), }
+
   ngOnInit(): void {
     this.updateClass();
     setTimeout(() => {
@@ -259,6 +261,25 @@ export class ConfigInicialDocumentoComponent implements OnInit {
       },
       (error) => {
         console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  postSDK(row: definir_configuracoes_iniciais_documento) {
+    // Estrutura do objeto de acordo com a solicitação
+    const payload = {
+      metodo_arredondamento: row.metodo_arredondamento, // O nome do grupo vindo da linha
+    };
+
+    // URL de teste (você pode substituir pela URL correta)
+    const postUrl = '/api/SAPSDK/GrupoClientes'; // Substitua pela URL real
+
+    this.http.post(postUrl, payload, this.httpOptions).subscribe(
+      (response) => {
+        console.log('POST bem-sucedido para o grupo:', row.metodo_arredondamento, response);
+      },
+      (error) => {
+        console.error('Erro ao fazer POST para o grupo:', row.metodo_arredondamento, error);
       }
     );
   }

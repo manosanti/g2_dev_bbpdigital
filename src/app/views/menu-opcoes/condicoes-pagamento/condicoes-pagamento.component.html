@@ -21,10 +21,6 @@
                             <table>
                                 <thead class="tableHeader">
                                     <tr>
-                                        <!-- <th></th>
-                                        <th><input type="checkbox" (change)="toggleSelectAllAlertaAtividade($event)" />
-                                        </th>
-                                        <th>#</th> -->
                                         <th><button type="button" class="addRow" (click)="addRowAlertaAtividade()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Cód. Condição</th>
                                         <th>Data Venc. Baseada</th>
@@ -32,6 +28,7 @@
                                         <th>Dias Venc. Prestação</th>
                                         <th>Abrir Contas a Receber</th>
                                         <th>Percen. Total Descontos</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody class="teste">
@@ -39,36 +36,27 @@
                                         <td>
                                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
                                                                           <i class="fa-solid fa-trash"></i> Remover</button>
-                                                                      </td>
-                                        <td>
-                                            <input type="text" [(ngModel)]="row.codigo_condicao"
-                                                name="codigo_condicao{{row.definir_condicoes_pagamentosid}}"
-                                                placeholder="Defina a condição de pagamento..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.data_vencimento_baseada"
-                                                name="data_vencimento_baseada{{row.definir_condicoes_pagamentosid}}"
-                                                placeholder="Insira a condição padrão de pagamento para cliente..." />
+                                            <input type="text" [(ngModel)]="row.codigo_condicao" name="codigo_condicao{{row.definir_condicoes_pagamentosid}}" placeholder="Defina a condição de pagamento..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.prestacao"
-                                                name="prestacao{{row.definir_condicoes_pagamentosid}}"
-                                                placeholder="Insira a condição padrão de pagamento para fornecedor..." />
+                                            <input type="text" [(ngModel)]="row.data_vencimento_baseada" name="data_vencimento_baseada{{row.definir_condicoes_pagamentosid}}" placeholder="Insira a condição padrão de pagamento para cliente..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.dias_vencimento_prestacao"
-                                                name="dias_vencimento_prestacao{{row.definir_condicoes_pagamentosid}}"
-                                                placeholder="Insira a condição padrão de pagamento para fornecedor..." />
+                                            <input type="text" [(ngModel)]="row.prestacao" name="prestacao{{row.definir_condicoes_pagamentosid}}" placeholder="Insira a condição padrão de pagamento para fornecedor..." />
                                         </td>
                                         <td>
-                                            <input type="text" [(ngModel)]="row.abrir_contas_receber"
-                                                name="abrir_contas_receber{{row.definir_condicoes_pagamentosid}}"
-                                                placeholder="Insira a condição padrão de pagamento para fornecedor..." />
+                                            <input type="text" [(ngModel)]="row.dias_vencimento_prestacao" name="dias_vencimento_prestacao{{row.definir_condicoes_pagamentosid}}" placeholder="Insira a condição padrão de pagamento para fornecedor..." />
                                         </td>
                                         <td>
-                                            <input type="number" [(ngModel)]="row.perc_total_desconto"
-                                                name="perc_total_desconto{{row.definir_condicoes_pagamentosid}}"
-                                                placeholder="Insira a condição padrão de pagamento para fornecedor..." />
+                                            <input type="text" [(ngModel)]="row.abrir_contas_receber" name="abrir_contas_receber{{row.definir_condicoes_pagamentosid}}" placeholder="Insira a condição padrão de pagamento para fornecedor..." />
+                                        </td>
+                                        <td>
+                                            <input type="number" [(ngModel)]="row.perc_total_desconto" name="perc_total_desconto{{row.definir_condicoes_pagamentosid}}" placeholder="Insira a condição padrão de pagamento para fornecedor..." />
+                                        </td>
+                                        <td class="px-1">
+                                            <button type="button" class="btnSAP" (click)="postSDK(row)">Enviar ao SAP <i class="fa-solid fa-paper-plane"></i></button>
                                         </td>
                                     </tr>
                                 </tbody>

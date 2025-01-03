@@ -54,6 +54,7 @@
                                                                 Linha</button></th>
                                                         <th>Posição</th>
                                                         <th>Nome do Território</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="teste">
@@ -67,6 +68,9 @@
                                                         </td>
                                                         <td>
                                                             <input type="text" [(ngModel)]="row.nome_territorio" name="nome_territorio{{row.definir_Territoriosid}}" placeholder="Ex: Região Sul, Leste..." />
+                                                        </td>
+                                                        <td class="px-1">
+                                                            <button type="button" class="btnSAP" (click)="postSDK(row)">Enviar ao SAP <i class="fa-solid fa-paper-plane"></i></button>
                                                         </td>
                                                     </tr>
                                                 </tbody>
@@ -119,10 +123,6 @@
                                             <table>
                                                 <thead class="tableHeader">
                                                     <tr>
-                                                        <!-- <th><input type="checkbox"
-                                                                (change)="toggleSelectedAlldefinir_grupo_comissoes($event)" />
-                                                        </th>
-                                                        <th>definir_grupo_comissoesid</th> -->
                                                         <th><button type="button" class="addRow" (click)="addRowsdefinir_grupo_comissoes()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                                         <th>Nome do Grupo</th>
                                                         <th>Perc. Comissão</th>
@@ -131,16 +131,6 @@
                                                 </thead>
                                                 <tbody class="teste">
                                                     <tr *ngFor="let row of rowsdefinir_grupo_comissoes; trackBy: trackByFndefinir_grupo_comissoes" class="trow">
-                                                        <!-- <td>
-                                                            <input type="checkbox" [(ngModel)]="row.selected"
-                                                                name="selected" />
-                                                        </td>
-                                                        <td>
-                                                            <input type="text"
-                                                                [(ngModel)]="row.definir_grupo_comissoesid"
-                                                                name="definir_grupo_comissoesid{{row.definir_grupo_comissoesid}}"
-                                                                placeholder="Insira o código do banco..." disabled />
-                                                        </td> -->
                                                         <td>
                                                             <button type="button" class="btnDelete" (click)="deleteRowGrupoComissoes(row)">
                                                                                           <i class="fa-solid fa-trash"></i> Remover</button>

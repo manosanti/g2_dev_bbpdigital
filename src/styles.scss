@@ -46,7 +46,8 @@
 /* Tema Escuro (Dark Theme) */
 
 body.dark {
-    .w-full {
+    .w-full,
+    .custom-width {
         transition: background-color 0.3s ease-in-out;
         background-color: var(--dark-theme-bg);
     }

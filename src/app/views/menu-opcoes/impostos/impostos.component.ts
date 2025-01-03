@@ -230,9 +230,10 @@ export class ImpostosComponent implements OnInit {
       }
     });
 
-    const apiData = { ...this.infoBasica[0],
+    const apiData = {
+      ...this.infoBasica[0],
       configuracao_Imposto_Retido_Fonte: configImpostoPOST,
-     };
+    };
 
     this.http.post('/api/BBP', apiData, httpOptions).subscribe(
       response => {
@@ -272,6 +273,36 @@ export class ImpostosComponent implements OnInit {
       },
       (error) => {
         console.error('Erro ao deletar a linha', error);
+      }
+    );
+  }
+
+  token = sessionStorage.getItem('token')
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    }),
+  };
+
+  postSDK(row: configuracao_Imposto_Retido_Fonte) {
+    const payload = {
+      nfTaxId: row.codigo_oficial,
+      name: row.nome_imposto,
+      vat: row.taxa,
+      taxCreditControl: row.tipo
+    };
+
+    // URL de teste (você pode substituir pela URL correta)
+    const postUrl = '/api/SAPSDK/TipodeImposto';
+
+    this.http.post(postUrl, payload, this.httpOptions).subscribe(
+      (response) => {
+        console.log('POST bem-sucedido:', response);
+      },
+      (error) => {
+        console.error('Erro ao fazer POST...', error);
       }
     );
   }

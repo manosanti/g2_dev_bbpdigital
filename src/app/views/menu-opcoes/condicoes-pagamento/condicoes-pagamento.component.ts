@@ -237,4 +237,32 @@ export class CondicoesPagamentoComponent implements OnInit {
       }
     );
   }
+  
+  token = sessionStorage.getItem('token')
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.token}`
+    }),
+  };
+
+  postSDK(row: definir_condicoes_pagamentos) {
+    // Estrutura do objeto de acordo com a solicitação
+    const payload = {
+      groupNumber: row.codigo_condicao,
+      paymentTermsGroupName: row.prestacao,
+    };
+
+    // URL de teste (você pode substituir pela URL correta)
+    const postUrl = '/api/SAPSDK/CondicaoPagamento';
+
+    this.http.post(postUrl, payload, this.httpOptions).subscribe(
+      (response) => {
+        console.log('POST bem-sucedido:', response);
+      },
+      (error) => {
+        console.error('Erro ao fazer POST...', error);
+      }
+    );
+  }
 }
