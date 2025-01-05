@@ -113,7 +113,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         console.log('DATA:', this.infoBasica[0]?.definir_configuracoes_iniciais_documento[0]?.definir_configuracoes_iniciais_documentoid);
@@ -235,7 +235,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     };
 
     // Método POST
-    this.http.post(`/api/BBP`, apiData, httpOptions).subscribe(response => {
+    this.http.post(`http://bbpdigital.g2tecnologia.com.br:8021/BBP`, apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
       console.log('Dados enviados:', apiData);
       console.log('Rows antes do POST:', configInicialPOST);
@@ -250,7 +250,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     const vcode = row.definir_configuracoes_iniciais_documentoid;
     const vtabela = '%40G2_BBP_CONFINI';
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
@@ -272,7 +272,7 @@ export class ConfigInicialDocumentoComponent implements OnInit {
     };
 
     // URL de teste (você pode substituir pela URL correta)
-    const postUrl = '/api/SAPSDK/GrupoClientes'; // Substitua pela URL real
+    const postUrl = 'http://bbpdigital.g2tecnologia.com.br:8021/SAPSDK/GrupoClientes'; // Substitua pela URL real
 
     this.http.post(postUrl, payload, this.httpOptions).subscribe(
       (response) => {

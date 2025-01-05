@@ -218,7 +218,7 @@ export class InformacoesBasicasComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
@@ -235,7 +235,7 @@ export class InformacoesBasicasComponent implements OnInit {
   }
 
   // selectCurrency() {
-  //   this.http.get('https://openexchangerates.org/api/currencies.json').subscribe(
+  //   this.http.get('https://openexchangerates.orghttp://bbpdigital.g2tecnologia.com.br:8021/currencies.json').subscribe(
   //     (data: any) => {
   //       this.currency = Object.entries(data); // Transformar o objeto retornado em um array de pares [key, value]
   //       console.log('resultado:', this.currency);
@@ -259,7 +259,7 @@ export class InformacoesBasicasComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
@@ -378,7 +378,7 @@ export class InformacoesBasicasComponent implements OnInit {
     // Defina isLoading como true antes de fazer a requisição
     this.isLoading = true;
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.dadosCTBRows = this.infoBasica[0]?.dadosCTB || [];
@@ -461,7 +461,7 @@ export class InformacoesBasicasComponent implements OnInit {
 
     console.log('Dados enviados:', apiData);
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados atualizados com sucesso:', response);
         console.log('Dados a serem enviados:', apiData);

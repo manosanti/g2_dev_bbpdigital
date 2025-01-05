@@ -133,9 +133,10 @@ body.dark {
     #modalSearch {
         background-color: var(--dark-theme-bg-tertiary);
         color: var(--dark-theme-title);
-        &:hover {
-            color: var(--dark-theme-bg);
-        }
+    }
+    #modalSearch table tbody tr:hover {
+        background-color: var(--dark-theme-bg-tertiary);
+        color: var(--dark-theme-bg);
     }
     #modalSearch tr {
         background-color: var(--dark-theme-bg-tertiary);

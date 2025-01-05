@@ -70,7 +70,7 @@ export class SearchContractComponent implements OnInit {
       }),
     };
 
-    return this.http.get<any[]>(`/api/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions);
+    return this.http.get<any[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions);
   }
 
   fetchBBPDetails(bbP_id: number) {
@@ -83,7 +83,7 @@ export class SearchContractComponent implements OnInit {
     };
 
     // Faz a requisição GET para o ID específico
-    return this.http.get(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions);
+    return this.http.get(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions);
   }
 
   onRowClick(bbP_id: number): void {
@@ -133,7 +133,7 @@ export class SearchContractComponent implements OnInit {
       }),
     };
 
-    this.http.get<any[]>(`/api/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions).subscribe({
+    this.http.get<any[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions).subscribe({
       next: (response: any[]) => {
         if (response && response.length > 0) {
           sessionStorage.setItem('cardCode', cardCode);

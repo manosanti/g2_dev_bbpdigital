@@ -90,7 +90,7 @@ export class GrupoClientesComponent implements OnInit {
       }
     }, 2000);
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, this.httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, this.httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.rowsGrupoClientes = this.infoBasica[0]?.definir_grupos_clientes;
@@ -137,7 +137,7 @@ export class GrupoClientesComponent implements OnInit {
       definir_grupos_clientes: grupoClientesPOST,
     };
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados enviados com sucesso', response);
         console.log('Dados enviados:', apiData);
@@ -155,7 +155,7 @@ export class GrupoClientesComponent implements OnInit {
     console.log('vcode', vcode);
     const vtabela = '%40G2_BBP_DEFGRCLI'; // ou algum valor dinâmico, caso necessário
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${this.bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${this.bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, this.httpOptions).subscribe(
       (response) => {
@@ -181,7 +181,7 @@ export class GrupoClientesComponent implements OnInit {
     };
 
     // URL de teste (você pode substituir pela URL correta)
-    const postUrl = '/api/SAPSDK/GrupoClientes'; // Substitua pela URL real
+    const postUrl = 'http://bbpdigital.g2tecnologia.com.br:8021/SAPSDK/GrupoClientes'; // Substitua pela URL real
 
     this.http.post(postUrl, payload, this.httpOptions).subscribe(
       (response) => {

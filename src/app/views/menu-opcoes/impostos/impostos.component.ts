@@ -187,7 +187,7 @@ export class ImpostosComponent implements OnInit {
       }),
     }
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.rowsImpostos = this.infoBasica[0]?.configuracao_Imposto_Retido_Fonte;
@@ -235,7 +235,7 @@ export class ImpostosComponent implements OnInit {
       configuracao_Imposto_Retido_Fonte: configImpostoPOST,
     };
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados enviados com sucesso', response);
         console.log('Dados enviados:', apiData);
@@ -262,7 +262,7 @@ export class ImpostosComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
@@ -295,7 +295,7 @@ export class ImpostosComponent implements OnInit {
     };
 
     // URL de teste (você pode substituir pela URL correta)
-    const postUrl = '/api/SAPSDK/TipodeImposto';
+    const postUrl = 'http://bbpdigital.g2tecnologia.com.br:8021/SAPSDK/TipodeImposto';
 
     this.http.post(postUrl, payload, this.httpOptions).subscribe(
       (response) => {

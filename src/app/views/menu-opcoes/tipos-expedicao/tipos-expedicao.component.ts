@@ -104,7 +104,7 @@ export class TiposExpedicaoComponent implements OnInit {
       }),
     };
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.rowsTipoExpedicao = this.infoBasica[0]?.definir_tipos_expedicao || [];
@@ -157,7 +157,7 @@ export class TiposExpedicaoComponent implements OnInit {
 
     console.log(this.rowsTipoExpedicao)
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(response => {
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(response => {
       console.log('Dados enviados com sucesso', response);
       console.log('Dados enviados:', apiData);
       this.isLoading = false;
@@ -180,7 +180,7 @@ export class TiposExpedicaoComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {

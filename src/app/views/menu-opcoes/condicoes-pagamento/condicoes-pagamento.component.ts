@@ -147,7 +147,7 @@ export class CondicoesPagamentoComponent implements OnInit {
       }),
     }
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.alertaAtividadeRows = this.infoBasica[0]?.definir_condicoes_pagamentos;
@@ -195,7 +195,7 @@ export class CondicoesPagamentoComponent implements OnInit {
       definir_condicoes_pagamentos: condicoesPagamentoPOST,
     };
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('novo', apiData.definir_condicoes_pagamentos)
         console.log('Dados enviados com sucesso', response);
@@ -222,7 +222,7 @@ export class CondicoesPagamentoComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
@@ -254,7 +254,7 @@ export class CondicoesPagamentoComponent implements OnInit {
     };
 
     // URL de teste (você pode substituir pela URL correta)
-    const postUrl = '/api/SAPSDK/CondicaoPagamento';
+    const postUrl = 'http://bbpdigital.g2tecnologia.com.br:8021/SAPSDK/CondicaoPagamento';
 
     this.http.post(postUrl, payload, this.httpOptions).subscribe(
       (response) => {

@@ -38,7 +38,7 @@ export class SignInComponent implements OnInit {
       "senha": "1234"
     };
   
-    this.http.post('/api/Seguranca', loginData).pipe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/Seguranca', loginData).pipe(
       switchMap((response: any) => {
         console.log('Login bem-sucedido!', response);
         sessionStorage.setItem('token', response.token);
@@ -51,7 +51,7 @@ export class SignInComponent implements OnInit {
           headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'bearer ' + getToken })
         };
   
-        return this.http.get(`/api/UsuarioPortal/UsuarioPortalLogin?vemail=${emailEncoded}&senha=${senha}`, httpOptions);
+        return this.http.get(`http://bbpdigital.g2tecnologia.com.br:8021/UsuarioPortal/UsuarioPortalLogin?vemail=${emailEncoded}&senha=${senha}`, httpOptions);
       })
     ).subscribe(
       (response: any) => {

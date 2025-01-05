@@ -295,7 +295,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       }),
     }
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.alertaAtividadeRows = this.infoBasica[0]?.alerta_Atividade;
@@ -378,7 +378,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
     apiData.qual_formato_hora_uitlizar_tela = this.formConfigsGerais.value.qual_formato_hora_uitlizar_tela;
     apiData.qual_formato_data_uitlizar_tela = this.formConfigsGerais.value.qual_formato_data_uitlizar_tela;
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados enviados com sucesso', response);
         console.log('Dados enviados:', apiData);
@@ -430,7 +430,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
@@ -459,7 +459,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {
@@ -488,7 +488,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {

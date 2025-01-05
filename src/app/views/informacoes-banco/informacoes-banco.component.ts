@@ -160,7 +160,7 @@ export class InformacoesBancoComponent implements OnInit {
       }),
     }
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.alertaAtividadeRows = this.infoBasica[0]?.definir_Informacoes_banco;
@@ -210,7 +210,7 @@ export class InformacoesBancoComponent implements OnInit {
 
     const apiData = { ...this.infoBasica[0], definir_Informacoes_banco: definir_Informacoes_bancoPOST };
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados enviados com sucesso', response);
         console.log('Dados enviados:', apiData);
@@ -237,7 +237,7 @@ export class InformacoesBancoComponent implements OnInit {
       }),
     };
 
-    const deleteUrl = `/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
+    const deleteUrl = `http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbpid}&vcode=${vcode}&vtabela=${vtabela}`;
 
     this.http.delete(deleteUrl, httpOptions).subscribe(
       (response) => {

@@ -84,7 +84,7 @@ export class MenuNavigationComponent implements OnInit {
       window.location.reload();
     }
     // Realiza a requisição GET
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       response => {
         if (Array.isArray(response) && response.length > 0) {
           response.forEach(data => {

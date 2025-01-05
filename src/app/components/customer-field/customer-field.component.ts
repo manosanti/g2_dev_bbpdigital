@@ -54,7 +54,7 @@ export class CustomerFieldComponent implements OnInit {
       }),
     };
 
-    this.http.get<Customer[]>(`/api/BBP/BBPCardCode?cardCode=${cardCode}&bbP_id=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<Customer[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPCardCode?cardCode=${cardCode}&bbP_id=${bbP_id}`, httpOptions).subscribe(
       (data: Customer[]) => {
         this.customerData = data;
         this.isLoading = false;

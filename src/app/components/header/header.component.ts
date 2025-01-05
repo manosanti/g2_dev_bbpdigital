@@ -76,8 +76,8 @@ export class HeaderComponent implements AfterViewInit {
       }),
     };
 
-    console.log('Making GET request to /api/BBP/BBPCardCode?cardcode=', cardCode);
-    this.http.get<any[]>(`/api/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions).subscribe({
+    console.log('Making GET request to http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPCardCode?cardcode=', cardCode);
+    this.http.get<any[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions).subscribe({
       next: (response: any[]) => {
         console.log('API Response:', response);
         if (response && response.length > 0) {

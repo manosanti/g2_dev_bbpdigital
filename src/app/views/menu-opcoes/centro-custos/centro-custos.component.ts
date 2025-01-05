@@ -118,7 +118,7 @@ export class CentroCustosComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.http.get<infoBasica[]>(`/api/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
+    this.http.get<infoBasica[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPID?bbpid=${bbP_id}`, httpOptions).subscribe(
       (data: infoBasica[]) => {
         this.infoBasica = data;
         this.isLoading = false;
@@ -168,7 +168,7 @@ export class CentroCustosComponent implements OnInit {
       definir_Dimensoes_Centros_Custo: dimensoesPOST,
      };
 
-    this.http.post('/api/BBP', apiData, httpOptions).subscribe(
+    this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/BBP', apiData, httpOptions).subscribe(
       response => {
         console.log('Dados atualizados com sucesso:', response);
         console.log('Dados a serem enviados:', apiData);
@@ -205,7 +205,7 @@ export class CentroCustosComponent implements OnInit {
   }
 
   deleteRowDimCC(row: definir_Dimensoes_Centros_Custo) {
-    this.http.delete(`/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${row.definir_Dimensoes_Centros_Custoid}&vtabela=%40${deleteCentroCustoDim}`, httpOptions).subscribe(
+    this.http.delete(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${row.definir_Dimensoes_Centros_Custoid}&vtabela=%40${deleteCentroCustoDim}`, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response);
         if (response) {
@@ -218,7 +218,7 @@ export class CentroCustosComponent implements OnInit {
   };
 
   deleteRowCentroCusto(row: definir_Centros_Custo) {
-    this.http.delete(`/api/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${row.definir_Centros_Custoid}&vtabela=%40${deleteCentroCusto}`, httpOptions).subscribe(
+    this.http.delete(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBP_DEL_SUBTAB?bbpid=${bbP_id}&vcode=${row.definir_Centros_Custoid}&vtabela=%40${deleteCentroCusto}`, httpOptions).subscribe(
       (response) => {
         console.log('Resposta da API:', response);
         if (response) {
