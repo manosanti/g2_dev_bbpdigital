@@ -67,7 +67,7 @@ export class TerritoriosComponent implements OnInit {
     });
   }
 
-  token = sessionStorage.getItem('token');
+  token = localStorage.getItem('token');
   httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': `Bearer ${this.token}`, }), }
 
   postGrupo(row: definir_grupo_comissoes) {
@@ -246,8 +246,8 @@ export class TerritoriosComponent implements OnInit {
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -283,8 +283,8 @@ export class TerritoriosComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -294,7 +294,7 @@ export class TerritoriosComponent implements OnInit {
     };
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
@@ -386,10 +386,10 @@ export class TerritoriosComponent implements OnInit {
   }
 
   deleteRowTerritorios(row: definir_Territorios) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_Territoriosid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_DEFTERRI'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -414,10 +414,10 @@ export class TerritoriosComponent implements OnInit {
   }
 
   deleteRowNiveisVendas(row: definir_Estagios_Niveis_Vendas) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_Estagios_Niveis_Vendasid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_DEFESTNVE'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -442,10 +442,10 @@ export class TerritoriosComponent implements OnInit {
   }
 
   deleteRowGrupoComissoes(row: definir_grupo_comissoes) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_grupo_comissoesid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_DEFGRUPO'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -470,10 +470,10 @@ export class TerritoriosComponent implements OnInit {
   }
 
   deleteRowControleVendedor(row: definir_controle_vendedor) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.definir_controle_vendedorid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_CONTRVEN'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({

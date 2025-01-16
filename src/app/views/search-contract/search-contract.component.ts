@@ -25,7 +25,7 @@ export class SearchContractComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const cardCode = sessionStorage.getItem('cardCode');
+    const cardCode = localStorage.getItem('cardCode');
     if (cardCode) {
       this.fetchContracts(cardCode).subscribe({
         next: (response) => {
@@ -62,7 +62,7 @@ export class SearchContractComponent implements OnInit {
       return of([]);
     }
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ export class SearchContractComponent implements OnInit {
   }
 
   fetchBBPDetails(bbP_id: number) {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -87,8 +87,8 @@ export class SearchContractComponent implements OnInit {
   }
 
   onRowClick(bbP_id: number): void {
-    // Salva o bbP_id no sessionStorage
-    sessionStorage.setItem('bbP_id', bbP_id.toString());
+    // Salva o bbP_id no localStorage
+    localStorage.setItem('bbP_id', bbP_id.toString());
   
     // Faz a requisição para buscar os detalhes do BBP com o ID
     this.fetchBBPDetails(bbP_id).subscribe({
@@ -106,7 +106,7 @@ export class SearchContractComponent implements OnInit {
 
   backToLogin(): void {
     this.router.navigate(['/sign-in']);
-    sessionStorage.clear();
+    localStorage.clear();
   }
 
   showList(): void {
@@ -125,7 +125,7 @@ export class SearchContractComponent implements OnInit {
       return;
     }
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ export class SearchContractComponent implements OnInit {
     this.http.get<any[]>(`http://bbpdigital.g2tecnologia.com.br:8021/BBP/BBPCardCode?cardcode=${cardCode}`, httpOptions).subscribe({
       next: (response: any[]) => {
         if (response && response.length > 0) {
-          sessionStorage.setItem('cardCode', cardCode);
+          localStorage.setItem('cardCode', cardCode);
           this.contractList = response;
           this.errorMessage = null;
         } else {

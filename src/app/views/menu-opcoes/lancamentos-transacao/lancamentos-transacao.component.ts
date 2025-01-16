@@ -218,8 +218,8 @@ export class LancamentosTransacaoComponent implements OnInit {
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
-    const token = sessionStorage.getItem('token');
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -259,7 +259,7 @@ export class LancamentosTransacaoComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -382,10 +382,10 @@ export class LancamentosTransacaoComponent implements OnInit {
   }
 
   deleteRowVendas(row: determinacao_contacontabil_vendas) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.determinacao_contacontabil_vendasid;
     const vtabela = '%40G2_BBP_DETCTBV';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -410,10 +410,10 @@ export class LancamentosTransacaoComponent implements OnInit {
   }
 
   deleteRowEstoque(row: determinacao_contacontabil_estoque) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.determinacao_contacontabil_estoqueid;
     const vtabela = '%40G2_BBP_DETCTBE';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -438,10 +438,10 @@ export class LancamentosTransacaoComponent implements OnInit {
   }
 
   deleteRowGeral(row: determinacao_contacontabil_geral) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.determinacao_contacontabil_geralid;
     const vtabela = '%40G2_BBP_DETCTBG';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -466,10 +466,10 @@ export class LancamentosTransacaoComponent implements OnInit {
   }
 
   deleteRowCompras(row: determinacao_contacontabil_compras) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.determinacao_contacontabil_comprasid;
     const vtabela = '%40G2_BBP_DETCTBC';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({

@@ -73,14 +73,14 @@ export class MenuNavigationComponent implements OnInit {
   }    
 
   ngOnInit(): void {
-    const savedIndex = sessionStorage.getItem('activeBtnIndex');
+    const savedIndex = localStorage.getItem('activeBtnIndex');
     this.activeBtnIndex = savedIndex !== null ? +savedIndex : 0;
 
-    const hasReloaded = sessionStorage.getItem('hasReloaded');
+    const hasReloaded = localStorage.getItem('hasReloaded');
 
     if (!hasReloaded) {
-      // Se o sessionStorage ainda não existir, cria e recarrega a página
-      sessionStorage.setItem('hasReloaded', 'true');
+      // Se o localStorage ainda não existir, cria e recarrega a página
+      localStorage.setItem('hasReloaded', 'true');
       window.location.reload();
     }
     // Realiza a requisição GET
@@ -235,18 +235,18 @@ export class MenuNavigationComponent implements OnInit {
         console.error('Erro ao buscar dados da API', error);
       }
     );
-    const savedStatus = sessionStorage.getItem('menuStatus');
+    const savedStatus = localStorage.getItem('menuStatus');
     this.isMenuCollapsed = savedStatus === 'collapsed'; // Define o estado com base no valor salvo  
   }
 
   setActiveBtn(index: number, link: string): void {
     this.activeBtnIndex = index;
-    sessionStorage.setItem('activeBtnIndex', index.toString());
+    localStorage.setItem('activeBtnIndex', index.toString());
   }
 
   toggleMenu() {
     this.isMenuCollapsed = !this.isMenuCollapsed; // Alterna o estado do menu colapsado
-    sessionStorage.setItem('menuStatus', this.isMenuCollapsed ? 'collapsed' : 'open'); // Salva o estado no sessionStorage
+    localStorage.setItem('menuStatus', this.isMenuCollapsed ? 'collapsed' : 'open'); // Salva o estado no localStorage
     this.menuStatusChanged.emit(!this.isMenuCollapsed);
   }
 

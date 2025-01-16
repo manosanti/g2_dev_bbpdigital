@@ -278,8 +278,8 @@ export class ConfiguracoesGeraisComponent implements OnInit {
   quantas_casas_decimais_utilizar: quantas_casas_decimais_utilizar[] = [];
 
   ngOnInit(): void {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -319,8 +319,8 @@ export class ConfiguracoesGeraisComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -330,7 +330,7 @@ export class ConfiguracoesGeraisComponent implements OnInit {
     };
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
@@ -418,10 +418,10 @@ export class ConfiguracoesGeraisComponent implements OnInit {
   }
 
   deleteRow(row: alerta_Atividade) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.bbP_Alerta_Atividadeid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_ALERTAAT'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -447,10 +447,10 @@ export class ConfiguracoesGeraisComponent implements OnInit {
   }
 
   deleteRowTaxaComissao(row: com_base_negocio_define_taxadecomiss) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.com_base_negocio_define_taxadecomissid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_CBNDTAX'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -476,10 +476,10 @@ export class ConfiguracoesGeraisComponent implements OnInit {
   }
 
   deleteRowCasasDecimais(row: quantas_casas_decimais_utilizar) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.quantas_casas_decimais_utilizarid;
     const vtabela = '%40G2_BBP_QCDU';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({

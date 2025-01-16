@@ -41,8 +41,8 @@ export class defina_Grupo_ItemComponent implements OnInit {
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -192,8 +192,8 @@ export class defina_Grupo_ItemComponent implements OnInit {
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
     this.isLoading = true;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -203,7 +203,7 @@ export class defina_Grupo_ItemComponent implements OnInit {
     };
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
@@ -239,10 +239,10 @@ export class defina_Grupo_ItemComponent implements OnInit {
   }
 
   deleteRow(row: defina_Grupo_Item) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.defina_Grupo_Itemid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_DEFGRITEM'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({

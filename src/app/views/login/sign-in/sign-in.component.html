@@ -1,45 +1,36 @@
 <div *ngIf="isLoading" class="loading-indicator">
-  <div class="spinner"></div>
-  <p>Carregando...</p>
+    <div class="spinner"></div>
+    <p>Carregando...</p>
 </div>
 <div *ngIf="!isLoading">
-  <div class="wrapperLogin">
-    <div class="cardLogin">
-      <div class="imgHero">
-        <img src="hero-image.png" alt="">
-      </div>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="wrapperLogin">
+        <div class="cardLogin">
+            <div class="imgHero">
+                <img src="hero-image.png" alt="">
+            </div>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-        <div class="imgField">
-          <img src="g2-degrade.png" width="100" height="auto" alt="">
+                <div class="imgField">
+                    <img src="g2-degrade.png" width="100" height="auto" alt="">
+                </div>
+
+                <div class="credentialsField">
+                    <div>
+                        <label for="vemail">E-mail</label>
+                        <input type="text" id="vemail" formControlName="vemail" placeholder="Insira o seu endereço de e-mail">
+                    </div>
+                    <div>
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" formControlName="senha" placeholder="Insira a sua senha">
+                        <p id="loginFailed" style="display: none; color: red;">Credenciais Inválidas!</p>
+                    </div>
+                </div>
+
+                <div id="btnLogin">
+                    <button type="submit" class="btn">Login</button>
+                </div>
+            </form>
         </div>
-
-        <div class="credentialsField">
-          <div>
-            <label for="vemail">E-mail</label>
-            <input type="text" id="vemail" formControlName="vemail" placeholder="Insira o seu endereço de e-mail">
-          </div>
-          <div>
-            <label for="senha">Senha</label>
-            <input type="password" id="senha" formControlName="senha" placeholder="Insira a sua senha">
-            <p id="loginFailed" style="display: none; color: red;">Credenciais Inválidas!</p>
-          </div>
-        </div>
-
-        <!-- <div id="checkKeepMeSignin">
-          <input type="checkbox" name="keepMeSignin" id="keepMeSignin">
-          <label for="keepMeSignin">Me mantenha conectado</label>
-        </div> -->
-
-        <!-- <div id="forgotPassword">
-          <a [routerLink]="['/forgot-password']">Esqueceu a senha?</a>
-        </div> -->
-
-        <div id="btnLogin">
-          <button type="submit" class="btn">Login</button>
-        </div>
-      </form>
     </div>
-  </div>
-  <app-footer-login></app-footer-login>
+    <app-footer-login></app-footer-login>
 </div>

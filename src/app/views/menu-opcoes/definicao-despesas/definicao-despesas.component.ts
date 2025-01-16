@@ -139,8 +139,8 @@ export class DefinicaoDespesasComponent implements OnInit {
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
-    const token = sessionStorage.getItem('token');
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -175,7 +175,7 @@ export class DefinicaoDespesasComponent implements OnInit {
 
   onSubmit() {
     this.isLoading = true;
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -251,10 +251,10 @@ export class DefinicaoDespesasComponent implements OnInit {
   }
 
   deleteRowDespesas(row: definicao_Despesas) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.definicao_Despesasid;
     const vtabela = '%40G2_BBP_DEFDESP';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -279,10 +279,10 @@ export class DefinicaoDespesasComponent implements OnInit {
   }
 
   deleteRowAdicionais(row: despesas_Adicionais) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.despesas_Adicionaisid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_DESPAD'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({

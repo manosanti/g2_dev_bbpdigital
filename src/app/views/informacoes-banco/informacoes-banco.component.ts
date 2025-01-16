@@ -143,8 +143,8 @@ export class InformacoesBancoComponent implements OnInit {
   infoBasica: infoBasica[] = [];
 
   ngOnInit(): void {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -177,8 +177,8 @@ export class InformacoesBancoComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -188,7 +188,7 @@ export class InformacoesBancoComponent implements OnInit {
     };
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return;
     }
 
@@ -225,10 +225,10 @@ export class InformacoesBancoComponent implements OnInit {
   }
 
   deleteRow(row: definir_Informacoes_banco) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.definir_Informacoes_bancoid;
     const vtabela = '%40G2_BBP_DINFB';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({

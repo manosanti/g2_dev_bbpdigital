@@ -35,8 +35,8 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'sign-in',
-        pathMatch: 'full'
+        redirectTo: 'informacoes-basicas',
+        pathMatch: 'full',
     },
     {
         path: 'sign-in',

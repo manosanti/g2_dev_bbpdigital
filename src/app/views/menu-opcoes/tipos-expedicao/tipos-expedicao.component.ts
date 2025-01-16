@@ -87,8 +87,8 @@ export class TiposExpedicaoComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    const token = sessionStorage.getItem('token');
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -123,8 +123,8 @@ export class TiposExpedicaoComponent implements OnInit {
   // Botão de envio dos dados do formulário para o back-end
   onSubmit(): void {
     this.isLoading = true;
-    const token = sessionStorage.getItem('token');
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -134,7 +134,7 @@ export class TiposExpedicaoComponent implements OnInit {
     };
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return;
     }
 
@@ -168,10 +168,10 @@ export class TiposExpedicaoComponent implements OnInit {
   }
 
   deleteRow(row: definir_tipos_expedicao) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.definir_tipos_expedicaoid;
     const vtabela = '%40G2_BBP_TPEXPE';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({

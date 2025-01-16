@@ -78,10 +78,10 @@ export class GrupoClientesComponent implements OnInit {
   }
 
   infoBasica: infoBasica[] = [];
-  token = sessionStorage.getItem('token');
+  token = localStorage.getItem('token');
 
   ngOnInit(): void {
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     setTimeout(() => {
       if (!this.token || !bbP_id) {
@@ -107,7 +107,7 @@ export class GrupoClientesComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -117,7 +117,7 @@ export class GrupoClientesComponent implements OnInit {
     };
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 
@@ -149,7 +149,7 @@ export class GrupoClientesComponent implements OnInit {
       }
     );
   }
-  bbpid = sessionStorage.getItem('bbP_id');
+  bbpid = localStorage.getItem('bbP_id');
   deleteRowGrupoClientes(row: definir_grupos_clientes) {
     const vcode = row.definir_grupos_clientesid; // Use o valor apropriado de vcode
     console.log('vcode', vcode);

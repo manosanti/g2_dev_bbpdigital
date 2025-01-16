@@ -32,7 +32,7 @@ export class PlanoDeContasComponent implements OnInit {
       formData.append('file', file);
 
       // Fazendo a requisição POST para o backend
-      this.http.post<{ filePath: string }>('/upload', formData).subscribe(
+      this.http.post<{ filePath: string }>('http://localhost:9032', formData).subscribe(
         (response) => {
           this.downloadLink = response.filePath; // Link para download
           console.log('Arquivo salvo com sucesso:', this.downloadLink);
@@ -106,17 +106,8 @@ export class PlanoDeContasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
-
-    this.http.get('/IIS').subscribe(
-      () => {
-        console.log('IIS está respondendo, prosseguindo com a chamada para o backend.')
-      });
-    this.http.get('/file/upload').subscribe(
-      () => {
-        console.log('IIS está respondendo, prosseguindo com a chamada para o backend.')
-      });
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     setTimeout(() => {
       if (!token || !bbP_id) {
@@ -148,10 +139,10 @@ export class PlanoDeContasComponent implements OnInit {
   }
 
   deleteRow(row: plano_Contas_Empresa_anexo) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.plano_Contas_Empresa_anexoid; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBP_PLANCEMPAN'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -177,9 +168,9 @@ export class PlanoDeContasComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const cardCode = sessionStorage.getItem('cardCode');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const cardCode = localStorage.getItem('cardCode');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -189,7 +180,7 @@ export class PlanoDeContasComponent implements OnInit {
     };
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return; // Interrompe a execução se o bbP_id não estiver presente
     }
 

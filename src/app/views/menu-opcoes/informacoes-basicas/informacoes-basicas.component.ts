@@ -8,7 +8,6 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { debounceTime } from 'rxjs';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 // Services
-// import { MetodosHttpService } from '../../../services/infobasica/metodos-http.service';
 import { FormInfoService } from '../../../services/infobasica/form-info.service';
 // Modelos de dados
 import { infoBasica } from '../../../models/infobasica/infobasica.model';
@@ -206,10 +205,10 @@ export class InformacoesBasicasComponent implements OnInit {
   }
 
   deleteRow(row: tableDadosCTB) {
-    const bbpid = sessionStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
+    const bbpid = localStorage.getItem('bbP_id'); // Supondo que bbP_DadosCTBID seja o valor de bbpid
     const vcode = row.bbP_DadosCTBID; // Use o valor apropriado de vcode
     const vtabela = '%40G2_BBPCTB'; // ou algum valor dinâmico, caso necessário
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -247,10 +246,10 @@ export class InformacoesBasicasComponent implements OnInit {
   // }
 
   deleteRowMoedas(row: moedas) {
-    const bbpid = sessionStorage.getItem('bbP_id');
+    const bbpid = localStorage.getItem('bbP_id');
     const vcode = row.bbP_MoedasID;
     const vtabela = '%40G2_BBP_MOEDAS';
-    const token = sessionStorage.getItem('token')
+    const token = localStorage.getItem('token')
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -345,8 +344,8 @@ export class InformacoesBasicasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const token = sessionStorage.getItem('token');
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     this.http.get<any[]>('currency.json').subscribe(data => {
       this.currencies = data;
@@ -398,11 +397,11 @@ export class InformacoesBasicasComponent implements OnInit {
 
   onSubmit(): void {
     this.isLoading = true;
-    const bbP_id = sessionStorage.getItem('bbP_id');
-    const token = sessionStorage.getItem('token');
+    const bbP_id = localStorage.getItem('bbP_id');
+    const token = localStorage.getItem('token');
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return;
     }
 

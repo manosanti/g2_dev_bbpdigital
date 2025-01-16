@@ -137,7 +137,7 @@ export class CentroCustosComponent implements OnInit {
     this.isLoading = true;
 
     if (!bbP_id) {
-      console.error('bbP_id não encontrado no sessionStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
+      console.error('bbP_id não encontrado no localStorage. Por favor, verifique se o valor está sendo armazenado corretamente.');
       return;
     }
     

@@ -41,12 +41,12 @@ export class SignInComponent implements OnInit {
     this.http.post('http://bbpdigital.g2tecnologia.com.br:8021/Seguranca', loginData).pipe(
       switchMap((response: any) => {
         console.log('Login bem-sucedido!', response);
-        sessionStorage.setItem('token', response.token);
+        localStorage.setItem('token', response.token);
   
         const email = this.loginForm.get('vemail')?.value;
         const emailEncoded = email.replace('@', '%40');
         const senha = this.loginForm.get('senha')?.value;
-        const getToken = sessionStorage.getItem('token');
+        const getToken = localStorage.getItem('token');
         const httpOptions = {
           headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'bearer ' + getToken })
         };
@@ -59,7 +59,8 @@ export class SignInComponent implements OnInit {
           console.log('Usuário ativo, redirecionando...');
           this.hideLoginFailedMessage();  // Esconde a mensagem de erro caso exista
           this.router.navigate(['/search-contract']);
-          sessionStorage.setItem('cardCode', response.cardCode);
+          localStorage.setItem('cardCode', response.cardCode);
+          localStorage.setItem('userRole', response.ativo);
         } else {
           console.error('Usuário inativo ou credenciais inválidas');
           this.showLoginFailedMessage();  // Mostra a mensagem de erro

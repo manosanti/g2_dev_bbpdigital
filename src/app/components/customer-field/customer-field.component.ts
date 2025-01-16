@@ -25,11 +25,11 @@ export class CustomerFieldComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    // Recupera o bbP_id do sessionStorage
-    this.selectedBbpId = sessionStorage.getItem('bbP_id');
+    // Recupera o bbP_id do localStorage
+    this.selectedBbpId = localStorage.getItem('bbP_id');
 
-    // Verifica se já há dados armazenados no sessionStorage
-    const storedData = sessionStorage.getItem('customerData');
+    // Verifica se já há dados armazenados no localStorage
+    const storedData = localStorage.getItem('customerData');
 
     if (storedData) {
       // Se houver dados armazenados, utiliza-os sem fazer um novo GET
@@ -44,13 +44,13 @@ export class CustomerFieldComponent implements OnInit {
 
   // Método para buscar dados do cliente
   fetchCustomerData(): void {
-    const cardCode = sessionStorage.getItem('cardCode');
-    const bbP_id = sessionStorage.getItem('bbP_id');
+    const cardCode = localStorage.getItem('cardCode');
+    const bbP_id = localStorage.getItem('bbP_id');
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'bearer ' + sessionStorage.getItem('token'),
+        'Authorization': 'bearer ' + localStorage.getItem('token'),
       }),
     };
 
@@ -59,16 +59,16 @@ export class CustomerFieldComponent implements OnInit {
         this.customerData = data;
         this.isLoading = false;
 
-        // Armazena os dados no sessionStorage para uso futuro
-        sessionStorage.setItem('customerData', JSON.stringify(this.customerData));
+        // Armazena os dados no localStorage para uso futuro
+        localStorage.setItem('customerData', JSON.stringify(this.customerData));
 
         // Define o cliente selecionado com base no bbP_id
         this.selectedCustomer = this.findSelectedCustomer();
 
-        // Se não houver bbP_id salvo, salva o primeiro da lista no sessionStorage
+        // Se não houver bbP_id salvo, salva o primeiro da lista no localStorage
         if (!bbP_id && this.customerData.length > 0) {
           const firstBbpId = this.customerData[0]?.bbP_id.toString();
-          sessionStorage.setItem('bbP_id', firstBbpId);
+          localStorage.setItem('bbP_id', firstBbpId);
           this.selectedBbpId = firstBbpId;
           this.selectedCustomer = this.customerData[0]; // Define o primeiro cliente como selecionado
         }
@@ -96,11 +96,11 @@ export class CustomerFieldComponent implements OnInit {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
 
-    // Atualiza o bbP_id no sessionStorage
-    sessionStorage.setItem('bbP_id', selectedValue);
+    // Atualiza o bbP_id no localStorage
+    localStorage.setItem('bbP_id', selectedValue);
 
     // Limpa os dados armazenados para forçar um novo GET após o reload
-    sessionStorage.removeItem('customerData');
+    localStorage.removeItem('customerData');
 
     // Recarrega a página para fazer o novo GET com o bbP_id atualizado
     window.location.reload();

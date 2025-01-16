@@ -24,7 +24,7 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   logout(){
-    sessionStorage.clear();
+    localStorage.clear();
     this.router.navigate(['/sign-in']);
     window.location.reload();
   }
@@ -67,7 +67,7 @@ export class HeaderComponent implements AfterViewInit {
       return;
     }
 
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -81,7 +81,7 @@ export class HeaderComponent implements AfterViewInit {
       next: (response: any[]) => {
         console.log('API Response:', response);
         if (response && response.length > 0) {
-          sessionStorage.setItem('cardCode', cardCode)
+          localStorage.setItem('cardCode', cardCode)
           this.router.navigate(['/informacoes-basicas']);
           this.errorMessage = null;
           window.location.reload();
