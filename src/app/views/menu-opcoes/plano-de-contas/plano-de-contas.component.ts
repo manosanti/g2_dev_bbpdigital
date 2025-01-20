@@ -9,9 +9,10 @@ import { NgFor, NgIf } from '@angular/common';
 // Models
 import { plano_Contas_Empresa_anexo } from '../../plano_Contas_Empresa_anexo/plano_Contas_Empresa_anexo.model';
 import { FormInfoService } from '../../../services/infobasica/form-info.service';
-// Excel Reader
-import * as XLSX from 'xlsx';
 
+interface UploadResponse {
+  filePath: string;
+}
 @Component({
   selector: 'app-plano-de-contas',
   standalone: true,
@@ -26,24 +27,33 @@ export class PlanoDeContasComponent implements OnInit {
   // Função para manipular a seleção do arquivo e gerar o link de download
   onFileSelected(event: any): void {
     const file = event.target.files[0];
-
+  
     if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-
-      // Fazendo a requisição POST para o backend
-      this.http.post<{ filePath: string }>('http://localhost:9032', formData).subscribe(
-        (response) => {
-          this.downloadLink = response.filePath; // Link para download
-          console.log('Arquivo salvo com sucesso:', this.downloadLink);
-          this.rowsPlanoContas[0].arquivo = this.downloadLink;
-        },
-        (error) => {
-          console.error('Erro ao enviar o arquivo:', error);
-        }
-      );
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        const base64String = reader.result as string; // Obter o conteúdo Base64
+        console.log('Arquivo convertido para Base64:', base64String);
+  
+        // Envia o arquivo convertido para o backend
+        this.http.post<UploadResponse>('http://localhost:9032/api/upload', { file: base64String }).subscribe(
+          (response) => {
+            console.log('Arquivo enviado com sucesso:', response);
+            this.rowsPlanoContas[0].arquivo = response.filePath; // Atualize o link com a resposta do backend
+          },
+          (error) => {
+            console.error('Erro ao enviar o arquivo:', error);
+          }
+        );
+      };
+  
+      reader.onerror = (error) => {
+        console.error('Erro ao ler o arquivo:', error);
+      };
+  
+      reader.readAsDataURL(file); // Converte o arquivo para Base64
     }
-  }
+  }  
 
   isLoading: boolean = true;
 
