@@ -8,6 +8,7 @@ import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http'
 import { debounceTime } from 'rxjs';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 // Services
+import { TokenService } from '../../../services/token-refresh.service';
 import { FormInfoService } from '../../../services/infobasica/form-info.service';
 // Modelos de dados
 import { infoBasica } from '../../../models/infobasica/infobasica.model';
@@ -97,7 +98,7 @@ export class InformacoesBasicasComponent implements OnInit {
 
   private generatedIds: Set<string> = new Set();
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService, private TokenService: TokenService) {
     this.formInfoBasica = this.fb.group({
       cardName: ['', Validators.required],
       site: ['', Validators.required],
@@ -346,6 +347,9 @@ export class InformacoesBasicasComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     const bbP_id = localStorage.getItem('bbP_id');
+
+    const credentials = { nomeUsuario: 'G2', senha: '1234' };
+    this.TokenService.startTokenRefresh(credentials);
 
     this.http.get<any[]>('currency.json').subscribe(data => {
       this.currencies = data;
