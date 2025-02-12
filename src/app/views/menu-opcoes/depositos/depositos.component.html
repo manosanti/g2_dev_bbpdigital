@@ -11,10 +11,8 @@
             <section id="configuracoesGerais" class="wrapper">
                 <form [formGroup]="formDepositos" (submit)="onSubmit()" id="configuracoesGerais">
                     <div class="text-center">
-                        <h2 class="menusTitle">Preencha os campos abaixo para criar as <span
-                                class="purple-primary">Informações de Depósito!</span></h2>
-                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e
-                            funcionamento da sua empresa.</p>
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">Informações de Depósito!</span></h2>
+                        <p><b>NOTA:</b> Insira as informações básicas essenciais necessárias para a configuração e funcionamento da sua empresa.</p>
                     </div>
 
                     <!-- Alerta de Atividade -->
@@ -28,7 +26,7 @@
                                         <th><button type="button" class="addRow" (click)="addRow()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
                                         <th>Cód. Depósito</th>
                                         <th>Nome</th>
-                                        <th>Conta Despesa</th>
+                                        <!-- <th>Conta Despesa</th> -->
                                         <th class="thActive">Proprietário
                                             <i class="fa-solid fa-circle-info" (click)="toggleTip(1)"></i>
                                             <p *ngIf="activeTipId === 1" class="tip" [innerHTML]="getTip(1)"></p>
@@ -49,18 +47,13 @@
                                         <td><input type="text" [(ngModel)]="row.defina_Depositosid" name="defina_Depositosid{{row.defina_Depositosid}}"
                                                 placeholder="Insira um Insira o valor..." disabled /></td> -->
                                         <td><button type="button" class="btnDelete" (click)="deleteRowDepositos(row)"> <i class="fa-solid fa-trash"></i> Remover</button></td>
-                                        <td><input type="text" [(ngModel)]="row.codigodeposito" name="codigodeposito{{row.defina_Depositosid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
-                                        <td><input type="text" [(ngModel)]="row.nome" name="nome{{row.defina_Depositosid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
-                                        <td><input type="text" [(ngModel)]="row.conta_despesa" name="conta_despesa{{row.defina_Depositosid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
-                                        <td><input type="text" [(ngModel)]="row.propriet" name="propriet{{row.defina_Depositosid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
-                                        <td><input type="text" [(ngModel)]="row.local" name="local{{row.defina_Depositosid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
-                                        <td><input type="text" [(ngModel)]="row.utilizado_mrp" name="utilizadoMRP{{row.defina_Depositosid}}"
-                                                placeholder="Insira um Insira o valor..." /></td>
+                                        <td><input type="text" [(ngModel)]="row.codigodeposito" name="codigodeposito{{row.defina_Depositosid}}" placeholder="Insira um Insira o valor..." /></td>
+                                        <td><input type="text" [(ngModel)]="row.nome" name="nome{{row.defina_Depositosid}}" placeholder="Insira um Insira o valor..." /></td>
+                                        <!-- <td><input type="text" [(ngModel)]="row.conta_despesa" name="conta_despesa{{row.defina_Depositosid}}"
+                                                placeholder="Insira um Insira o valor..." /></td> -->
+                                        <td><input type="text" [(ngModel)]="row.propriet" name="propriet{{row.defina_Depositosid}}" placeholder="Insira um Insira o valor..." /></td>
+                                        <td><input type="text" [(ngModel)]="row.local" name="local{{row.defina_Depositosid}}" placeholder="Insira um Insira o valor..." /></td>
+                                        <td><input type="text" [(ngModel)]="row.utilizado_mrp" name="utilizadoMRP{{row.defina_Depositosid}}" placeholder="Insira um Insira o valor..." /></td>
                                     </tr>
                                 </tbody>
                                 <!-- <div class="btnFuncionality">

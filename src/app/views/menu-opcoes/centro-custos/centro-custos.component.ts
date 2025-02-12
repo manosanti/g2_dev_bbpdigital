@@ -71,6 +71,13 @@ export class CentroCustosComponent implements OnInit {
 
   novasRowsDimensoesCentroCusto: definir_Dimensoes_Centros_Custo[] = [];
   addRowDimensaoCentroCustos() {
+    // Validação antes de adicionar a linha
+    if (this.definir_Dimensoes_Centros_CustoRows.length >= 5) {
+      alert('Você excedeu o número permitido de linhas!');
+      return; // Impede a execução do restante do código
+    }
+  
+    // Criação da nova linha
     const newRow: definir_Dimensoes_Centros_Custo = {
       definir_Dimensoes_Centros_Custoid: '',
       nome_Definir_Dimensoes_Centros_Custo: '',
@@ -79,10 +86,14 @@ export class CentroCustosComponent implements OnInit {
       descricao: '',
       ck: '',
       selected: false,
-    }
-    this.definir_Dimensoes_Centros_CustoRows = [...this.definir_Dimensoes_Centros_CustoRows, newRow];
+    };
+  
+    // Adiciona a nova linha no array
+    this.definir_Dimensoes_Centros_CustoRows.push(newRow);
+  
+    // Adiciona a nova linha na lista de novas linhas
     this.novasRowsDimensoesCentroCusto.push(newRow);
-  }
+  }  
 
   novasRowsDefinirCentroCustos: definir_Centros_Custo[] = [];
   addRowCentroCustos() {

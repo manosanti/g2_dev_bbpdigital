@@ -72,7 +72,9 @@ export class MenuNavigationComponent implements OnInit {
     });
   }    
 
+  userRole: string | null = '';
   ngOnInit(): void {
+    this.userRole = localStorage.getItem('userRole');
     const savedIndex = localStorage.getItem('activeBtnIndex');
     this.activeBtnIndex = savedIndex !== null ? +savedIndex : 0;
 

@@ -32,16 +32,14 @@
                                             <button type="button" class="btnDelete" (click)="deleteRow(row)">
                                                 <i class="fa-solid fa-trash"></i> Remover</button>
                                         </td>
-                                        <td><input type="text" [(ngModel)]="row.descricao"
-                                                name="descricao{{row.plano_Contas_Empresa_anexoid}}"
-                                                placeholder="Descrição do Plano de Contas" />
+                                        <td><input type="text" [(ngModel)]="row.descricao" name="descricao{{row.plano_Contas_Empresa_anexoid}}" placeholder="Descrição do Plano de Contas" />
                                         </td>
                                         <td>
-                                            <a [href]="row.arquivo" class="downloadLink" target="_blank">Baixar
+                                            <a [href]="row.u_arq64" class="downloadLink" target="_blank">Baixar
                                                 Arquivo</a>
                                         </td>
                                         <td>
-                                            <div class="fileUpload">
+                                            <div class="fileUpload" *ngIf="row.u_arq64.length <= 0">
                                                 <label for="fileUpload">Importe o arquivo</label>
                                                 <input type="file" id="fileUpload" (change)="onFileSelected($event)" />
                                             </div>

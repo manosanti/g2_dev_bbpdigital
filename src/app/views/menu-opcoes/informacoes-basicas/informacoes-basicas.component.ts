@@ -354,7 +354,7 @@ export class InformacoesBasicasComponent implements OnInit {
     setTimeout(() => {
       if (!token || !bbP_id) {
         // Se token ou bbP_id não estão disponíveis, recarregar a página
-        window.location.reload();
+        // window.location.reload();
       }
     }, 2000);
 

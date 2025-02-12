@@ -32,29 +32,22 @@ export class PlanoDeContasComponent implements OnInit {
       const reader = new FileReader();
   
       reader.onload = () => {
-        const base64String = reader.result as string; // Obter o conteúdo Base64
-        console.log('Arquivo convertido para Base64:', base64String);
+        const base64String = reader.result as string; // Isso já inclui o prefixo data:mimetype;base64,
   
-        // Envia o arquivo convertido para o backend
-        this.http.post<UploadResponse>('http://localhost:9032/api/upload', { file: base64String }).subscribe(
-          (response) => {
-            console.log('Arquivo enviado com sucesso:', response);
-            this.rowsPlanoContas[0].arquivo = response.filePath; // Atualize o link com a resposta do backend
-          },
-          (error) => {
-            console.error('Erro ao enviar o arquivo:', error);
-          }
-        );
+        // Atualiza a linha da tabela com o Base64 correto
+        this.rowsPlanoContas[0].u_arq64 = base64String;
+  
+        console.log('Arquivo convertido para Base64:', base64String);
       };
   
       reader.onerror = (error) => {
         console.error('Erro ao ler o arquivo:', error);
       };
   
-      reader.readAsDataURL(file); // Converte o arquivo para Base64
+      reader.readAsDataURL(file); // Garante que o Base64 gerado tem o mimetype correto
     }
-  }  
-
+  }
+  
   isLoading: boolean = true;
 
   infoBasica: infoBasica[] = [];
@@ -66,6 +59,7 @@ export class PlanoDeContasComponent implements OnInit {
     {
       plano_Contas_Empresa_anexoid: '1',
       descricao: '',
+      u_arq64: '',
       arquivo: '', // Aqui será armazenado o link de download
       selected: false
     }
@@ -77,6 +71,7 @@ export class PlanoDeContasComponent implements OnInit {
       const newRow: plano_Contas_Empresa_anexo = {
         plano_Contas_Empresa_anexoid: '0',
         descricao: '',
+        u_arq64: '',
         arquivo: '',
         selected: false,
       };
@@ -111,21 +106,14 @@ export class PlanoDeContasComponent implements OnInit {
   constructor(private http: HttpClient, private fb: FormBuilder, private formInfoService: FormInfoService) {
     this.formPlanoContas = this.fb.group({
       descricao: ['', Validators.required],
-      arquivo: ['', Validators.required]
+      arquivo: ['', Validators.required],
+      u_arq64: ['', Validators.required]
     })
   }
 
   ngOnInit(): void {
     const bbP_id = localStorage.getItem('bbP_id');
     const token = localStorage.getItem('token');
-
-    setTimeout(() => {
-      if (!token || !bbP_id) {
-        // Se token ou bbP_id não estão disponíveis, recarregar a página
-        window.location.reload();
-      }
-    }, 2000);
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -179,7 +167,6 @@ export class PlanoDeContasComponent implements OnInit {
 
   onSubmit(): void {
     const bbP_id = localStorage.getItem('bbP_id');
-    const cardCode = localStorage.getItem('cardCode');
     const token = localStorage.getItem('token');
 
     const httpOptions = {

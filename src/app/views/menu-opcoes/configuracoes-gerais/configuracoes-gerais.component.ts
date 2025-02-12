@@ -24,7 +24,7 @@ import { infoBasica } from '../../../models/infobasica/infobasica.model';
 export class ConfiguracoesGeraisComponent implements OnInit {
   modals = [
     { id: 'alerta_Atividade', title: 'Alerta de Atividade', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
-    { id: 'taxaComissao', title: 'Taxa de Comissão', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
+    // { id: 'taxaComissao', title: 'Taxa de Comissão', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
     { id: 'casasDecimais', title: 'Casas Decimais', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
     { id: 'formatoDataHora', title: 'Formato Data e Hora', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-regular fa-calendar-days' },
   ]

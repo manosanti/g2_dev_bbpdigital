@@ -1,138 +1,126 @@
 <div *ngIf="isLoading" class="loading-indicator">
-  <div class="spinner"></div>
-  <p>Carregando...</p>
+    <div class="spinner"></div>
+    <p>Carregando...</p>
 </div>
 <div *ngIf="!isLoading">
-  <app-header></app-header>
-  <div class="menuContent">
-    <app-menu-navigation></app-menu-navigation>
-    <div class="w-full">
-      <app-customer-field></app-customer-field>
-      <section id="informacoesBasicas">
-        <div class="boxMenuOptions">
-          <div class="text-center">
-            <h2 class="menusTitle">Preencha os campos abaixo para criar o <span class="purple-primary">Centro de Custo!</span></h2>
-            <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
-          </div>
-          <div class="boxMenuContent">
-            <div class="boxMenuItem" *ngFor="let modal of modals">
-              <div class="imageAndText">
-                <div class="menuOptionImage">
-                  <i [class]="modal.icon"></i>
-                </div>
-                <div class="nameDescription">
-                  <h3>{{ modal.title }}</h3>
-                </div>
-              </div>
-              <div class="answerField">
-                <button type="button" (click)="openModal(modal.id)"><i class="fa-solid fa-pen-to-square"></i>
+    <app-header></app-header>
+    <div class="menuContent">
+        <app-menu-navigation></app-menu-navigation>
+        <div class="w-full">
+            <app-customer-field></app-customer-field>
+            <section id="informacoesBasicas">
+                <div class="boxMenuOptions">
+                    <div class="text-center">
+                        <h2 class="menusTitle">Preencha os campos abaixo para criar o <span class="purple-primary">Centro de Custo!</span></h2>
+                        <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
+                    </div>
+                    <div class="boxMenuContent">
+                        <div class="boxMenuItem" *ngFor="let modal of modals">
+                            <div class="imageAndText">
+                                <div class="menuOptionImage">
+                                    <i [class]="modal.icon"></i>
+                                </div>
+                                <div class="nameDescription">
+                                    <h3>{{ modal.title }}</h3>
+                                </div>
+                            </div>
+                            <div class="answerField">
+                                <button type="button" (click)="openModal(modal.id)"><i class="fa-solid fa-pen-to-square"></i>
                   Editar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-      <!-- Modals -->
-      <form [formGroup]="formCentroCusto" (ngSubmit)="onSubmit()">
-        <div *ngFor="let modal of modals">
-          <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
-            <div class="modal-content" (click)="$event.stopPropagation()">
-              <span class="close" (click)="closeModal(modal.id)">&times;</span>
-              <h2>{{ modal.title }}</h2>
+            <!-- Modals -->
+            <form [formGroup]="formCentroCusto" (ngSubmit)="onSubmit()">
+                <div *ngFor="let modal of modals">
+                    <div class="modal" [ngClass]="{'show': modal.isVisible}" (click)="onClickOutside($event, modal.id)">
+                        <div class="modal-content" (click)="$event.stopPropagation()">
+                            <span class="close" (click)="closeModal(modal.id)">&times;</span>
+                            <h2>{{ modal.title }}</h2>
 
-              <ng-container [ngSwitch]="modal.id">
-                <!-- definir_Dimensoes_Centros_Custo -->
-                <div *ngSwitchCase="'definir_Dimensoes_Centros_Custo'">
-                  <form class="formComponent" (submit)="onSubmit()">
-                    <table>
-                      <thead class="tableHeader">
-                        <tr>
-                          <th><button type="button" class="addRow" (click)="addRowDimensaoCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
-                          <th>Nome da Dimensão</th>
-                          <th>Tam. Dimensão</th>
-                          <th>Ativo?</th>
-                          <th>Descrição:</th>
-                          <!-- <th>CK</th> -->
-                        </tr>
-                      </thead>
-                      <tbody class="teste">
-                        <tr *ngFor="let row of definir_Dimensoes_Centros_CustoRows; trackBy: trackByFnDimensoes"
-                          class="trow">
-                              <td>
-                                <button type="button" class="btnDelete" (click)="deleteRowDimCC(row)">
+                            <ng-container [ngSwitch]="modal.id">
+                                <!-- definir_Dimensoes_Centros_Custo -->
+                                <div *ngSwitchCase="'definir_Dimensoes_Centros_Custo'">
+                                    <form class="formComponent" (submit)="onSubmit()">
+                                        <table>
+                                            <thead class="tableHeader">
+                                                <tr>
+                                                    <th><button type="button" class="addRow" (click)="addRowDimensaoCentroCustos()" [disabled]="definir_Dimensoes_Centros_CustoRows.length >= 5"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                                    <th>Nome da Dimensão</th>
+                                                    <th>Tam. Dimensão</th>
+                                                    <th>Ativo?</th>
+                                                    <th>Descrição:</th>
+                                                    <!-- <th>CK</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody class="teste">
+                                                <tr *ngFor="let row of definir_Dimensoes_Centros_CustoRows; trackBy: trackByFnDimensoes" class="trow">
+                                                    <td>
+                                                        <button type="button" class="btnDelete" (click)="deleteRowDimCC(row)">
                                   <i class="fa-solid fa-trash"></i> Remover</button>
-                              </td>
-                          <td><input type="text" [(ngModel)]="row.nome_Definir_Dimensoes_Centros_Custo"
-                              name="nome_Definir_Dimensoes_Centros_Custo{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Nome da Dimensão" />
-                          </td>
-                          <td><input type="text" [(ngModel)]="row.dimensao"
-                              name="dimensao{{row.definir_Dimensoes_Centros_Custoid}}"
-                              placeholder="Ex: Pequeno, Médio, Grande..." /></td>
-                          <td>
-                            <select [(ngModel)]="row.ativo" name="ativo{{row.definir_Dimensoes_Centros_Custoid}}" class="selectMenu">
+                                                    </td>
+                                                    <td><input type="text" [(ngModel)]="row.nome_Definir_Dimensoes_Centros_Custo" name="nome_Definir_Dimensoes_Centros_Custo{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Nome da Dimensão" />
+                                                    </td>
+                                                    <td><input type="text" [(ngModel)]="row.dimensao" name="dimensao{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Ex: Pequeno, Médio, Grande..." /></td>
+                                                    <td>
+                                                        <select [(ngModel)]="row.ativo" name="ativo{{row.definir_Dimensoes_Centros_Custoid}}" class="selectMenu">
                               <option value="" disabled>Selecione...</option>
                               <option value="Sim">Sim</option>
                               <option value="Não">Não</option>
                             </select>
-                          </td>
-                          <!-- <td><input type="text" [(ngModel)]="row.ativo"
+                                                    </td>
+                                                    <!-- <td><input type="text" [(ngModel)]="row.ativo"
                               name="ativo{{row.definir_Dimensoes_Centros_Custoid}}" /></td> -->
-                          <td><input type="text" [(ngModel)]="row.descricao"
-                              name="descricao{{row.definir_Dimensoes_Centros_Custoid}}"
-                              placeholder="Descrição da dimensão..." /></td>
-                          <!-- <td><input type="text" [(ngModel)]="row.ck" name="ck{{row.definir_Dimensoes_Centros_Custoid}}"
+                                                    <td><input type="text" [(ngModel)]="row.descricao" name="descricao{{row.definir_Dimensoes_Centros_Custoid}}" placeholder="Descrição da dimensão..." /></td>
+                                                    <!-- <td><input type="text" [(ngModel)]="row.ck" name="ck{{row.definir_Dimensoes_Centros_Custoid}}"
                               placeholder="Ex: CK - Vendas, CK - Marketing..." /></td> -->
-                        </tr>
-                      </tbody>
-                    </table>
-                  </form>
-                  <button class="btn modal-save" type="button"
-                    (click)="closeModal('definir_Dimensoes_Centros_Custo')">Fechar</button>
-                </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                    <button class="btn modal-save" type="button" (click)="closeModal('definir_Dimensoes_Centros_Custo')">Fechar</button>
+                                </div>
 
-                <!-- definir_Centros_Custos -->
-                <div *ngSwitchCase="'definir_Centros_Custos'">
-                  <form class="formComponent" (submit)="onSubmit()">
-                    <table>
-                      <thead class="tableHeader">
-                        <tr>
-                           <th><button type="button" class="addRow" (click)="addRowCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
-                          <th>Cód. Centro de Custos</th>
-                          <th>Nome Centro de Custos</th>
-                          <th>Cód. Ordenação</th>
-                          <th>Dimensão</th>
-                        </tr>
-                      </thead>
-                      <tbody class="teste">
-                        <tr *ngFor="let row of definir_Centros_CustoRows; trackBy: trackByFnCentroCustos" class="trow">
-                          <td>
-                            <button type="button" class="btnDelete" (click)="deleteRowCentroCusto(row)"><i class="fa-solid fa-trash"></i> Remover</button>
-                          </td>
-                          <td><input type="text" [(ngModel)]="row.codigocentrocusto"
-                              name="codigocentrocusto{{row.definir_Centros_Custoid}}" placeholder="Ex: CC-001 (Vendas), CC-002 (RH)..." /></td>
-                          <td><input type="text" [(ngModel)]="row.nome_Definir_Centros_Custo"
-                              name="nome_Definir_Centros_Custo{{row.definir_Centros_Custoid}}" placeholder="Nome do Centro de Custo" /></td>
-                          <td><input type="text" [(ngModel)]="row.codigoordenacao"
-                              name="codigoordenacao{{row.definir_Centros_Custoid}}" placeholder="Código de Ordenação" /></td>
-                          <td><input type="text" [(ngModel)]="row.dimensao"
-                              name="dimensao{{row.definir_Centros_Custoid}}" placeholder="Ex: Departamento..." /></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </form>
-                  <button class="btn modal-save" type="button"
-                    (click)="closeModal('definir_Centros_Custos')">Fechar</button>
-                </div>
+                                <!-- definir_Centros_Custos -->
+                                <div *ngSwitchCase="'definir_Centros_Custos'">
+                                    <form class="formComponent" (submit)="onSubmit()">
+                                        <table>
+                                            <thead class="tableHeader">
+                                                <tr>
+                                                    <th><button type="button" class="addRow" (click)="addRowCentroCustos()"><i class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                                    <th>Cód. Centro de Custos</th>
+                                                    <th>Nome Centro de Custos</th>
+                                                    <th>Cód. Ordenação</th>
+                                                    <th>Dimensão</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="teste">
+                                                <tr *ngFor="let row of definir_Centros_CustoRows; trackBy: trackByFnCentroCustos" class="trow">
+                                                    <td>
+                                                        <button type="button" class="btnDelete" (click)="deleteRowCentroCusto(row)"><i class="fa-solid fa-trash"></i> Remover</button>
+                                                    </td>
+                                                    <td><input type="text" [(ngModel)]="row.codigocentrocusto" name="codigocentrocusto{{row.definir_Centros_Custoid}}" placeholder="Ex: CC-001 (Vendas), CC-002 (RH)..." /></td>
+                                                    <td><input type="text" [(ngModel)]="row.nome_Definir_Centros_Custo" name="nome_Definir_Centros_Custo{{row.definir_Centros_Custoid}}" placeholder="Nome do Centro de Custo" /></td>
+                                                    <td><input type="text" [(ngModel)]="row.codigoordenacao" name="codigoordenacao{{row.definir_Centros_Custoid}}" placeholder="Código de Ordenação" /></td>
+                                                    <td><input type="text" [(ngModel)]="row.dimensao" name="dimensao{{row.definir_Centros_Custoid}}" placeholder="Ex: Departamento..." /></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </form>
+                                    <button class="btn modal-save" type="button" (click)="closeModal('definir_Centros_Custos')">Fechar</button>
+                                </div>
 
-              </ng-container>
-            </div>
-          </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <div class="btnSave">
+                    <button type="submit">Salvar</button>
+                </div>
+            </form>
         </div>
-        <div class="btnSave">
-          <button type="submit">Salvar</button>
-        </div>
-      </form>
     </div>
-  </div>
 </div>
