@@ -1,4 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, NgSwitchCase } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
@@ -12,7 +12,7 @@ interface Customer {
 @Component({
   selector: 'app-customer-field',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor],
   templateUrl: './customer-field.component.html',
   styleUrls: ['./customer-field.component.css']
 })
@@ -21,6 +21,7 @@ export class CustomerFieldComponent implements OnInit {
   selectedCustomer: Customer | null = null;
   selectedBbpId: string | null = null;
   isLoading: boolean = true;
+  isAdmin = localStorage.getItem('userRole') === "Ativo";
 
   constructor(private http: HttpClient) {}
 
@@ -39,6 +40,20 @@ export class CustomerFieldComponent implements OnInit {
     } else {
       // Se não houver dados, faz o GET
       this.fetchCustomerData();
+    }
+  }
+
+  generateAndDownloadJSON(): void {
+    if (this.selectedCustomer) {
+      const jsonData = JSON.stringify(this.selectedCustomer, null, 2); // Formatação do JSON
+      const blob = new Blob([jsonData], { type: 'application/json' });
+      const fileName = `customer_${this.selectedCustomer.bbP_id}.json`;
+
+      // Cria um link temporário para iniciar o download
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      link.click();
     }
   }
 

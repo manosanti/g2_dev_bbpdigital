@@ -33,6 +33,9 @@
                 <!-- <div>
                     <button type="submit" class="btn" [disabled]="isLoading">Enviar Contrato</button>
                 </div> -->
+                <div>
+                    <button type="button" class="btn" (click)="generateAndDownloadJSON()" [disabled]="!isAdmin">Gerar Documento</button>
+                </div>
             </div>
         </form>
     </div>

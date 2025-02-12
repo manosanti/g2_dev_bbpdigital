@@ -236,6 +236,10 @@ body.dark {
     &:hover {
         background-color: var(--purple-primary-hover);
     }
+    &:disabled {
+        background-color: #d1d1d1;
+        color: var(--dark-theme-bg);
+    }
 }
 
 .px-1 {
