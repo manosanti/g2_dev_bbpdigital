@@ -4,6 +4,8 @@
     -ms-overflow-style: none;
     /* IE e Edge */
     scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
     /* Firefox */
 }
 
@@ -145,6 +147,11 @@ li {
     text-wrap: nowrap;
     gap: 0 10px;
     align-items: center;
+}
+
+.menuContent.collapsed a {
+    width: 100%;
+    justify-content: center;
 }
 
 .menuNavigation a.active {
