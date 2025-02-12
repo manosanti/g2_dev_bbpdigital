@@ -72,7 +72,8 @@ body.dark {
     .modalInputField,
     input {
         border: none;
-        color: var(--gray-label) !important;
+        // color: var(--gray-label) !important;
+        color: #e3e3e3;
         background-color: var(--dark-theme-bg-secondary);
     }
     .menuContent.menu-open,

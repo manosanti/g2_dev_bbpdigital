@@ -1,13 +1,13 @@
-<div id="modalCard">
+<div id="modalHeaderCard">
     <form id="formSearchContract" [formGroup]="formSearchContract" (ngSubmit)="onSubmit()">
         <div id="modalContent">
             <div class="modalTitle">
-                <h3>Contrato BBP - Pesquisar</h3>
+                <h3>Pesquisar por <strong>Código de PN</strong></h3>
                 <button id="closeModal" (click)="toCloseModal()">
                     &times;
                 </button>
             </div>
-            <div id="modalSearch">
+            <div id="modalHeaderSearch">
                 <div class="searchField">
                     <label for="searchContract">
                         Pesquisar:

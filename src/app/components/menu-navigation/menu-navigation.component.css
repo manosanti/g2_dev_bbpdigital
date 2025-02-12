@@ -140,9 +140,11 @@ li {
 .menuNavigation a {
     text-decoration: none;
     color: #fff;
-    display: block;
+    display: flex;
     padding: 5px;
     text-wrap: nowrap;
+    gap: 0 10px;
+    align-items: center;
 }
 
 .menuNavigation a.active {

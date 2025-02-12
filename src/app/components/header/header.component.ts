@@ -33,7 +33,7 @@ export class HeaderComponent implements AfterViewInit {
     // Aplica o tema armazenado no localStorage ao carregar a página
     document.body.classList.toggle('dark', this.isDarkTheme);
 
-    const modalCard = this.renderer.selectRootElement('#modalCard', true)
+    const modalCard = this.renderer.selectRootElement('#modalHeaderCard', true)
     this.renderer.setStyle(modalCard, 'display', 'none')
   }
 
@@ -50,12 +50,12 @@ export class HeaderComponent implements AfterViewInit {
   }
 
   showSearch(): void {
-    const modalCard = this.renderer.selectRootElement('#modalCard', true);
+    const modalCard = this.renderer.selectRootElement('#modalHeaderCard', true);
     this.renderer.setStyle(modalCard, 'display', 'flex');
   }
 
   toCloseModal(): void {
-    const modalCard = this.renderer.selectRootElement('#modalCard', true);
+    const modalCard = this.renderer.selectRootElement('#modalHeaderCard', true);
     this.renderer.setStyle(modalCard, 'display', 'none')
   }
 

@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { HeaderComponent } from "../../../components/header/header.component";
 import { CustomerFieldComponent } from "../../../components/customer-field/customer-field.component";
 import { MenuNavigationComponent } from "../../../components/menu-navigation/menu-navigation.component";
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule, NgIf, NgSwitchCase } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { debounceTime } from 'rxjs';
@@ -18,7 +18,7 @@ import { moedas } from '../../../models/infobasica/moedas.model';
 @Component({
   selector: 'app-informacoes-basicas',
   standalone: true,
-  imports: [HeaderComponent, CustomerFieldComponent, MenuNavigationComponent, CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule, NgIf, NgxMaskDirective],
+  imports: [HeaderComponent, CustomerFieldComponent, MenuNavigationComponent, CommonModule, FormsModule, HttpClientModule, ReactiveFormsModule, NgIf, NgxMaskDirective, NgSwitchCase],
   templateUrl: './informacoes-basicas.component.html',
   providers: [provideNgxMask({})],
   styleUrls: ['./informacoes-basicas.component.css']
@@ -32,6 +32,7 @@ export class InformacoesBasicasComponent implements OnInit {
   dadosCTBRows: tableDadosCTB[] = [];
   moedasRows: moedas[] = [];
   currencies: any[] = [];
+  isAdmin = localStorage.getItem('userRole') === "Ativo";
 
   modals = [
     // { id: 'nomeEmpresa', title: 'Nome da Empresa', description: 'Preencher informações pendentes', isVisible: false, icon: 'fa-solid fa-address-card' },
@@ -39,7 +40,7 @@ export class InformacoesBasicasComponent implements OnInit {
     { id: 'web', title: 'Web', description: 'Preencha os Campos de Web', isVisible: false, icon: 'fa-solid fa-earth-americas' },
     { id: 'telefone', title: 'Telefone', description: 'Preencha as Informações de Contato', isVisible: false, icon: 'fa-solid fa-phone-flip' },
     { id: 'camposLocalizacao', title: 'Campos de Localização', description: 'Preencha os Campos de Localização', isVisible: false, icon: 'fa-solid fa-map-location-dot' },
-    { id: 'caminhoPastas', title: 'Caminho Para Pastas', description: 'Preencha o Caminho para Pastas', isVisible: false, icon: 'fa-solid fa-folder-tree' },
+    // { id: 'caminhoPastas', title: 'Caminho Para Pastas', description: 'Preencha o Caminho para Pastas', isVisible: false, icon: 'fa-solid fa-folder-tree', hidden: !this.isAdmin},
     { id: 'dadosContabeis', title: 'Dados Contábeis', description: 'Preencher Dados Contábeis', isVisible: false, icon: 'fa-solid fa-money-check-dollar' },
     { id: 'moedas', title: 'Moedas', description: 'Preencha as Informações Financeiras', isVisible: false, icon: 'fa-solid fa-dollar-sign' },
     { id: 'listarMoedas', title: 'Lista de Moedas', description: 'Preencha as Informações Financeiras', isVisible: false, icon: 'fa-solid fa-dollar-sign' }
@@ -343,9 +344,16 @@ export class InformacoesBasicasComponent implements OnInit {
     return newId;
   }
 
+  filteredModals: any[] = [];
+  
   ngOnInit(): void {
     const token = localStorage.getItem('token');
     const bbP_id = localStorage.getItem('bbP_id');
+    
+    
+    // this.filteredModals = this.modals.filter(item => item.hidden !== true)
+    // console.log('filtrados:',this.filteredModals)
+    // console.log('não filtrados:',this.modals)
 
     this.http.get<any[]>('currency.json').subscribe(data => {
       this.currencies = data;

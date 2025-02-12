@@ -12,7 +12,7 @@
                 <div class="boxMenuOptions">
                     <div class="text-center">
                         <h2 class="menusTitle">Preencha os campos abaixo para criar as <span class="purple-primary">Informações
-                Básicas!</span></h2>
+                                Básicas!</span></h2>
                         <p><b>NOTA:</b> Insira as informações essenciais para concluir o cadastro no BBP Digital.</p>
                     </div>
                     <div class="boxMenuContent">
@@ -26,8 +26,9 @@
                                 </div>
                             </div>
                             <div class="answerField">
-                                <button type="button" (click)="openModal(modal.id)"><i class="fa-solid fa-pen-to-square"></i>
-                  Editar</button>
+                                <button type="button" (click)="openModal(modal.id)"><i
+                                        class="fa-solid fa-pen-to-square"></i>
+                                    Editar</button>
                             </div>
                         </div>
                     </div>
@@ -58,15 +59,15 @@
                                         <table>
                                             <thead class="tableHeader">
                                                 <tr>
-                                                    <th><button type="button" class="addRow" (click)="addRowDadosCTB()"><i
-                                class="fa-solid fa-plus"></i>
-                              Adicionar
-                              Linha</button></th>
+                                                    <th><button type="button" class="addRow" (click)="addRowDadosCTB()"><i class="fa-solid fa-plus"></i>
+                                                            Adicionar
+                                                            Linha</button></th>
                                                     <th title="Pessoa Física ou Jurídica?">Tipo FJ</th>
                                                     <th>CPF</th>
                                                     <th>CNPJ</th>
                                                     <th>Código CNAE</th>
-                                                    <th title="Caso não possua Inscrição Estadual preencher com ISENTO">Inscrição Estadual</th>
+                                                    <th title="Caso não possua Inscrição Estadual preencher com ISENTO">
+                                                        Inscrição Estadual</th>
                                                     <th>Inscrição Estadual Sub. Tributário</th>
                                                     <th>Inscrição Municipal</th>
                                                     <th>Indicador Natureza PJ</th>
@@ -86,14 +87,14 @@
                                                 <tr *ngFor="let row of dadosCTBRows; trackBy: trackByFnDadosCTB" class="trow">
                                                     <td>
                                                         <button type="button" class="btnDelete" (click)="deleteRow(row)">
-                              <i class="fa-solid fa-trash"></i> Remover</button>
+                                                            <i class="fa-solid fa-trash"></i> Remover</button>
                                                     </td>
                                                     <td>
                                                         <select [(ngModel)]="row.tipoFJ" name="tipoFJ{{row.bbP_DadosCTBID}}" class="selectMenu">
-                              <option value="" disabled>Selecione...</option>
-                              <option value="F">Pessoa Física</option>
-                              <option value="J">Pessoa Jurídica</option>
-                            </select>
+                                                            <option value="" disabled>Selecione...</option>
+                                                            <option value="F">Pessoa Física</option>
+                                                            <option value="J">Pessoa Jurídica</option>
+                                                        </select>
                                                     </td>
                                                     <td><input type="text" [(ngModel)]="row.cpf" name="cpf{{row.bbP_DadosCTBID}}" mask="000.000.000-00" placeholder="000.000.000-00" required /></td>
                                                     <td><input type="text" [(ngModel)]="row.cnpj" name="cnpj{{row.bbP_DadosCTBID}}" placeholder="00.000.000/0000-00" mask="00.000.000/0000-00" required /></td>
@@ -205,7 +206,8 @@
                                 <!-- Campos de Localização -->
                                 <div *ngSwitchCase="'camposLocalizacao'">
                                     <div class="modalInputField" [formGroup]="formInfoBasica">
-                                        <label for="campos_Loca_Registro_Comercial" class="required">Registro Comercial:</label>
+                                        <label for="campos_Loca_Registro_Comercial" class="required">Registro
+                                            Comercial:</label>
                                         <input type="text" id="campos_Loca_Registro_Comercial" maxlength="18" mask="00.000.000/0000-00" formControlName="campos_Loca_Registro_Comercial" placeholder="00.000.000/0000-00" required>
                                     </div>
 
@@ -222,57 +224,59 @@
                                     <div class="grid-cols-3 gap-2">
                                         <div class="modalInputField" [formGroup]="formInfoBasica">
                                             <label for="caminho_Pasta_Word" class="required">Arquivos do Microsoft Word:
-                        <i class="fa-solid fa-circle-info" (click)="toggleTip(4)"></i>
-                        <p *ngIf="activeTipId === 4" class="tip">
-                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
-                          {{ getTip(4) }}
-                        </p>
-                      </label>
+                                                <i class="fa-solid fa-circle-info" (click)="toggleTip(4)"></i>
+                                                <p *ngIf="activeTipId === 4" class="tip">
+                                                    <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                                                    {{ getTip(4) }}
+                                                </p>
+                                            </label>
                                             <input type="text" id="caminho_Pasta_Word" formControlName="caminho_Pasta_Word" placeholder="Ex: \\VM-Nome\Documents\arquivo.xlsx" required>
                                         </div>
 
                                         <div class="modalInputField" [formGroup]="formInfoBasica">
-                                            <label for="caminho_Pasta_Excel" class="required">Arquivos do Microsoft Excel:
-                        <i class="fa-solid fa-circle-info" (click)="toggleTip(5)"></i>
-                        <p *ngIf="activeTipId === 5" class="tip">
-                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
-                          {{ getTip(5) }}
-                        </p>
-                      </label>
+                                            <label for="caminho_Pasta_Excel" class="required">Arquivos do Microsoft
+                                                Excel:
+                                                <i class="fa-solid fa-circle-info" (click)="toggleTip(5)"></i>
+                                                <p *ngIf="activeTipId === 5" class="tip">
+                                                    <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                                                    {{ getTip(5) }}
+                                                </p>
+                                            </label>
                                             <input type="text" id="caminho_Pasta_Excel" formControlName="caminho_Pasta_Excel" required>
                                         </div>
 
                                         <div class="modalInputField" [formGroup]="formInfoBasica">
                                             <label for="caminho_Pasta_Imagens" class="required">Arquivos de imagens:
-                        <i class="fa-solid fa-circle-info" (click)="toggleTip(6)"></i>
-                        <p *ngIf="activeTipId === 6" class="tip">
-                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
-                          {{ getTip(6) }}
-                        </p>
-                      </label>
+                                                <i class="fa-solid fa-circle-info" (click)="toggleTip(6)"></i>
+                                                <p *ngIf="activeTipId === 6" class="tip">
+                                                    <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                                                    {{ getTip(6) }}
+                                                </p>
+                                            </label>
                                             <input type="text" id="caminho_Pasta_Imagens" formControlName="caminho_Pasta_Imagens" placeholder="Ex: \\VM-Nome\Documents\arquivo.png" required>
                                         </div>
 
                                         <div class="modalInputField" [formGroup]="formInfoBasica">
-                                            <label for="caminho_Pasta_Licencas" class="required">Pasta p/ licenças dos add-ons
-                        (ampliações):
-                        <i class="fa-solid fa-circle-info" (click)="toggleTip(8)"></i>
-                        <p *ngIf="activeTipId === 8" class="tip">
-                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
-                          {{ getTip(8) }}
-                        </p>
-                      </label>
+                                            <label for="caminho_Pasta_Licencas" class="required">Pasta p/ licenças dos
+                                                add-ons
+                                                (ampliações):
+                                                <i class="fa-solid fa-circle-info" (click)="toggleTip(8)"></i>
+                                                <p *ngIf="activeTipId === 8" class="tip">
+                                                    <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                                                    {{ getTip(8) }}
+                                                </p>
+                                            </label>
                                             <input type="text" id="caminho_Pasta_Licencas" formControlName="caminho_Pasta_Licencas" placeholder="Ex: \\VM-Nome\Documents\Pasta_Licencas" required>
                                         </div>
 
                                         <div class="modalInputField" [formGroup]="formInfoBasica">
                                             <label for="caminho_Pasta_XML" class="required">Pasta arquivo XML:
-                        <i class="fa-solid fa-circle-info" (click)="toggleTip(9)"></i>
-                        <p *ngIf="activeTipId === 9" class="tip">
-                          <span class="tip-close" (click)="closeTip()">&#x2715;</span>
-                          {{ getTip(9) }}
-                        </p>
-                      </label>
+                                                <i class="fa-solid fa-circle-info" (click)="toggleTip(9)"></i>
+                                                <p *ngIf="activeTipId === 9" class="tip">
+                                                    <span class="tip-close" (click)="closeTip()">&#x2715;</span>
+                                                    {{ getTip(9) }}
+                                                </p>
+                                            </label>
                                             <input type="text" id="caminho_Pasta_XML" formControlName="caminho_Pasta_XML" placeholder="Ex: \\VM-Nome\Documents\Pasta_Arquivo_XML" required>
                                         </div>
 
@@ -304,7 +308,8 @@
                                             <thead class="tableHeader">
                                                 <tr>
                                                     <th><button type="button" class="addRow" (click)="addRowMoeda()"><i
-                                class="fa-solid fa-plus"></i> Adicionar Linha</button></th>
+                                                                class="fa-solid fa-plus"></i> Adicionar Linha</button>
+                                                    </th>
                                                     <th>Nome da Moeda</th>
                                                     <th>Código Internacional</th>
                                                 </tr>
@@ -313,7 +318,7 @@
                                                 <tr *ngFor="let row of moedasRows; trackBy: trackByFnMoeda" class="trow">
                                                     <td>
                                                         <button type="button" class="btnDelete" (click)="deleteRowMoedas(row)">
-                              <i class="fa-solid fa-trash"></i> Remover</button>
+                                                            <i class="fa-solid fa-trash"></i> Remover</button>
                                                     </td>
                                                     <td><input type="text" [(ngModel)]="row.nomeMoeda" name="nomeMoeda{{row.bbP_MoedasID}}" placeholder="Real Brasileiro" maxlength="3" /></td>
 

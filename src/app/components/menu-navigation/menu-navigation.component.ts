@@ -14,12 +14,13 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./menu-navigation.component.css'],
 })
 export class MenuNavigationComponent implements OnInit {
+  isAdmin = localStorage.getItem("userRole") != "Ativo";
   isMenuOpen: boolean = true;
   activeBtnIndex: number | null = null;
   filter: string = 'all';
   isMenuCollapsed: boolean = false;
   @Output() menuStatusChanged = new EventEmitter<boolean>();
-  items: { label: string, link: string, category: string, icon?: string, isFilled?: boolean, submenu?: { label: string }[], }[] = [
+  items: { label: string, link: string, category: string, icon?: string, isFilled?: boolean, visible?: boolean, submenu?: { label: string }[], }[] = [
     { label: 'Informações Básicas', link: '/informacoes-basicas', category: 'comercial', isFilled: false, icon: 'fa-list-check', submenu: [
       { label: 'Web', }, { label: 'Campos de Localização', }, { label: 'Dados Contábeis' }, { label: 'Lista de Moedas' }, { label: 'Telefone' }, { label: 'Caminho Para Pastas' }, { label: 'Moedas' }
     ] },
@@ -43,13 +44,13 @@ export class MenuNavigationComponent implements OnInit {
     { label: 'Condições de Pagamento', link: '/condicoes-de-pagamento', category: 'financeiro', isFilled: false, icon: 'fa-hand-holding-dollar' },
     { label: 'Informações de Cartões', link: '/informacoes-de-cartoes', category: 'financeiro', isFilled: false, icon: 'fa-scale-unbalanced-flip' },
     { label: 'Usuários SAP', link: '/usuarios-sap', category: 'consultor', isFilled: false, icon: 'fa-user-group' },
-    { label: 'Territórios', link: '/territorios', category: 'consultor', isFilled: false, icon: 'fa-map-location-dot', submenu: [
+    { label: 'Territórios', link: '/territorios', category: 'consultor', isFilled: false, icon: 'fa-map-location-dot', visible: this.isAdmin, submenu: [
       {label: 'Territórios'}, {label: 'Controlar Vendas'}, {label: 'Percentual de Comissão'}, {label: 'Estágios'}, {label: 'Niveis de Vendas'}
     ] },
     { label: 'Grupo de Clientes', link: '/grupo-de-clientes', category: 'comercial', isFilled: false, icon: 'fa-users-viewfinder' },
     { label: 'Grupo de Fornecedores', link: '/grupo-de-fornecedores', category: 'comercial', isFilled: false, icon: 'fa-boxes-packing' },
     { label: 'Tipos de Expedição', link: '/tipos-de-expedicao', category: 'comercial', isFilled: false, icon: 'fa-file-export' },
-    { label: 'Config. Iniciais de Documento', link: '/configuracoes-iniciais-de-documento', category: 'financeiro', isFilled: false, icon: 'fa-file-lines' },
+    { label: 'Config. Iniciais de Documento', link: '/configuracoes-iniciais-de-documento', category: 'financeiro', isFilled: false, icon: 'fa-file-lines', visible: this.isAdmin },
   ];
 
   searchQuery: string = '';
